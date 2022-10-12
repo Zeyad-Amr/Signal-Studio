@@ -1,3 +1,3 @@
 # Sampling-Studio
 
-# Diaa Kamel
+# Diaa Kamel Zeyad
