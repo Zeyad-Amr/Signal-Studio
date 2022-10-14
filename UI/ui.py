@@ -2,11 +2,12 @@ import os
 from pathlib import Path
 import streamlit as st
 from werkzeug.utils import secure_filename
-from data_processing.files_handling import reading_signal
+from data_processing import files_handling, processing
 
 
 class AppUi:
     def __init__(self):
+        self.signalObject = processing.SignalProcessing()
         st.set_page_config(page_title='Sampling Studio')
 
         # Removing Streamlit hamburger and footer.
@@ -37,14 +38,15 @@ class AppUi:
 
         with open(filePath, "wb") as file: 
             file.write(csvFile.getbuffer())
-
+            
         return filePath
 
     def start_signal_drawing(self, filePath):
-        self.signalDataFrame = reading_signal(filePath)
-        # TODO: Signal Sampling and Signal Drawing.
+        self.signalDataFrame = files_handling.reading_signal(filePath)
+        self.signalObject.initialize_signal(self.signalDataFrame)
+        self.sampledSignal = self.signalObject.sample_signal()
+        # TODO: Signal Drawing.
         
     def change_sampling_rate(self):
-        # TODO: Sampling Controll.
-        print(st.session_state.signalSlider)
-
+        self.sampledSignal = self.signalObject.sample_signal(st.session_state.signalSlider)
+        # TODO: Signal Drawing.
