@@ -19,8 +19,8 @@ def reading_signal(filePath):
         outputFileName = os.path.basename(filePath)
         signalDataFrame = pd.read_csv(filePath)
         return signalDataFrame
-    except:
-        raise ValueError("An Error Occur while Reading the file, please try again.")
+    except Exception:
+        raise ValueError("An Error Occur While Reading the file, please try again.")
 
 
 def saving_signal(signalDataFrame, savingPath):
