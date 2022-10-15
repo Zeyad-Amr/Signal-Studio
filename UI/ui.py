@@ -1,8 +1,8 @@
-import dis
+from logging import PlaceHolder
 import os
 from pathlib import Path
 import streamlit as st
-import plotly.figure_factory as ff
+from matplotlib import pyplot as plt
 from werkzeug.utils import secure_filename
 from data_processing import processing
 
@@ -30,17 +30,17 @@ class AppUi:
         st.slider(label="Change your samlping rate: ", min_value= 0, max_value=100,
             on_change=self.change_sampling_rate, key="signalSlider")
 
-    def show_error(self, errorMessage):
-        st.error(errorMessage)
         
 
     def change_signal_upload(self):
-        filePath = self.save_file(st.session_state.signalUploader)
-        self.start_signal_drawing(filePath)
-
-        st.download_button(label="Save Signal", on_click=self.signalObject.saving_signal, data = self.signalObject.outputFile, 
-            file_name=self.signalObject.outputFileName, mime = 'csv', key="downloadButton")
-    
+        try:
+            filePath = self.save_file(st.session_state.signalUploader)
+            self.start_signal_drawing(filePath)
+        except Exception as errorMessage:
+            self.show_error(errorMessage)
+            
+        # st.download_button(label="Save Signal", data = st.session_state.signal.outputFile, file_name=self.signalObject.outputFileName,
+        #     mime = 'csv', key="downloadButton")    
        
 
     def save_file(self, csvFile):
@@ -52,18 +52,39 @@ class AppUi:
 
         return filePath
 
+
     def start_signal_drawing(self, filePath):
         try:
             self.signalObject.reading_signal(filePath)
-            # self.sampledSignal = self.signalObject.sample_signal()
-            # TODO: Signal Drawing. 
-        except Exception as exceptionMessage:
-            self.show_error(exceptionMessage)
-        
-    def change_sampling_rate(self):
-        self.sampledSignal = self.signalObject.sample_signal(st.session_state.signalSlider)
-        # TODO: Signal Drawing.
+            self.draw_signal(self.signalObject.signal)
+            st.session_state.signal = self.signalObject
+        except Exception as errorMessage:
+            self.show_error(errorMessage)
 
-    def draw_signal(self, signalDataFrame):
-        fig = ff.create_distplot(signalDataFrame, bin_size=[.1, .25, .5])
-        st.plotly_chart(fig, use_container_width=True)
+
+    def change_sampling_rate(self):
+        try:
+            # st.session_state.signal.sample_signal()
+            # TODO: Sampling then Drawing
+            self.draw_signal(st.session_state.signal.signal)
+        except Exception as errorMessage:
+            self.show_error(errorMessage)
+
+
+    def draw_signal(self, signal):
+        try:
+            fig, ax = plt.subplots()
+        
+            ax.plot(signal.iloc[:, 0], signal.iloc[:, 1])
+
+            ax.set_title("Signal Digram.")
+            ax.set_xlabel("time")
+            ax.set_ylabel("Amplitude")
+            ax.grid(True)
+            st.pyplot(fig)
+        except:
+            raise ValueError("The Input Data isn't a signal, and Can't be plotted.")
+
+
+    def show_error(self, errorMessage):
+        st.error(errorMessage)
