@@ -5,6 +5,9 @@ import streamlit as st
 from matplotlib import pyplot as plt
 from werkzeug.utils import secure_filename
 from data_processing import processing
+import streamlit as st
+import numpy as np
+import pandas as pd
 
 
 class AppUi:
@@ -24,13 +27,11 @@ class AppUi:
         </style>
         """, unsafe_allow_html=True)
 
-        st.file_uploader(label = "Upload Your Signal File:", type=['csv'],
-            on_change=self.change_signal_upload, key="signalUploader")
+        st.file_uploader(label="Upload Your Signal File:", type=['csv'],
+                         on_change=self.change_signal_upload, key="signalUploader")
 
-        st.slider(label="Change your samlping rate: ", min_value= 0, max_value=100,
-            on_change=self.change_sampling_rate, key="signalSlider")
-
-        
+        st.slider(label="Change your samlping rate: ", min_value=0, max_value=100,
+                  on_change=self.change_sampling_rate, key="signalSlider")
 
     def change_signal_upload(self):
         try:
@@ -38,53 +39,66 @@ class AppUi:
             self.start_signal_drawing(filePath)
         except Exception as errorMessage:
             self.show_error(errorMessage)
-            
+
         # st.download_button(label="Save Signal", data = st.session_state.signal.outputFile, file_name=self.signalObject.outputFileName,
-        #     mime = 'csv', key="downloadButton")    
-       
+        #     mime = 'csv', key="downloadButton")
 
     def save_file(self, csvFile):
         filePath = os.path.join(
             Path(__file__).parent.parent, 'uploads', secure_filename(csvFile.name))
 
-        with open(filePath, "wb") as file: 
+        with open(filePath, "wb") as file:
             file.write(csvFile.getbuffer())
 
         return filePath
-
 
     def start_signal_drawing(self, filePath):
         try:
             self.signalObject.reading_signal(filePath)
             self.draw_signal(self.signalObject.signal)
             st.session_state.signal = self.signalObject
+
         except Exception as errorMessage:
             self.show_error(errorMessage)
 
-
     def change_sampling_rate(self):
         try:
+            self.reconstruct_signal()
             # st.session_state.signal.sample_signal()
             # TODO: Sampling then Drawing
+           # st.write(st.session_state.signal.signal)
+
             self.draw_signal(st.session_state.signal.signal)
         except Exception as errorMessage:
             self.show_error(errorMessage)
 
+    def reconstruct_signal(self):
+        f = 20
+        t = st.session_state.signal.signal.iloc[:, 0]
+        x1 = np.sinc(2 * np.pi * f * t)
+        sampleRate = st.session_state.signalSlider
+        T = 1/sampleRate
+        n = np.arange(0, 0.5 / T)
+        nT = n * T
+        d = {'t': t, 'x1': x1}
+
+        signal = pd.DataFrame(data=d)
+        self.draw_signal(signal)
 
     def draw_signal(self, signal):
         try:
-            fig, ax = plt.subplots()
-        
-            ax.plot(signal.iloc[:, 0], signal.iloc[:, 1])
 
+            fig, ax = plt.subplots()
+
+            ax.plot(signal.iloc[:, 0], signal.iloc[:, 1])
             ax.set_title("Signal Digram.")
             ax.set_xlabel("time")
             ax.set_ylabel("Amplitude")
             ax.grid(True)
             st.pyplot(fig)
         except:
-            raise ValueError("The Input Data isn't a signal, and Can't be plotted.")
-
+            raise ValueError(
+                "The Input Data isn't a signal, and Can't be plotted.")
 
     def show_error(self, errorMessage):
         st.error(errorMessage)
