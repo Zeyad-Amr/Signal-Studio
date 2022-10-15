@@ -26,21 +26,12 @@ class SignalProcessing:
             self.signal = pd.read_csv(filePath)
             # TODO: Change Sample Rate
             self.sampleRate = 0
+            self.outputFile = pd.DataFrame(self.signal).to_csv().encode('utf-8')
         except Exception:
             raise ValueError("An Error Occur While Reading the file, please try again.")
 
     def sample_signal(self, sampleRate = None):
-        if sampleRate == None:
-            sampleRate = self.sampleRate
-
-        # Process the signal
-        values = np.array(self.values)
-
-        factor = (self.Freq_rate_slider.value()/10)
-        sampling_freq =factor*self.max_freq
-        sampled_time_points = np.arange(self.time[0],self.time[-1],1/sampling_freq)
-        sampled_values_points= values[np.searchsorted(self.time,sampled_time_points)]
-
+        print(self.signal)
 
     def saving_signal(self):
         """
@@ -50,4 +41,4 @@ class SignalProcessing:
             signalDataFrame (pandas DataFrame): a dataframe of a specific signal.
             savingPath (str): a path of the file that wanted to save.
         """
-        self.outputFile = pd.DataFrame(self.signal).to_csv().encode('utf-8')
+        return pd.DataFrame(self.signal).to_csv().encode('utf-8')
