@@ -1,6 +1,7 @@
 from logging import PlaceHolder
 import os
 from pathlib import Path
+from typing_extensions import Self
 import streamlit as st
 from matplotlib import pyplot as plt
 from werkzeug.utils import secure_filename
@@ -102,3 +103,18 @@ class AppUi:
 
     def show_error(self, errorMessage):
         st.error(errorMessage)
+    
+    def generate_signal(self):
+        amplitude=1
+        frequency=1
+        phase=0
+        sampleRate=100 
+        # st.session_state.signalSlider
+        time=np.arange(0, 10, 1/sampleRate)
+        y=amplitude* np.sin(2*np.pi*frequency*time+ phase)
+        d = {'time': time, 'y': y}
+
+        signal = pd.DataFrame(data=d)
+        self.draw_signal(signal)
+    
+    st.button("Generate", on_click=generate_signal(Self))
