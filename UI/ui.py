@@ -1,6 +1,8 @@
 from logging import PlaceHolder
 import os
 from pathlib import Path
+from time import time
+from requests import session
 import streamlit as st
 from matplotlib import pyplot as plt
 from werkzeug.utils import secure_filename
@@ -63,14 +65,45 @@ class AppUi:
 
     def change_sampling_rate(self):
         try:
-            self.reconstruct_signal()
+            # self.reconstruct_signal()
             # st.session_state.signal.sample_signal()
             # TODO: Sampling then Drawing
+            self.sample_signal()
            # st.write(st.session_state.signal.signal)
 
             self.draw_signal(st.session_state.signal.signal)
         except Exception as errorMessage:
             self.show_error(errorMessage)
+
+    def sample_signal(self):
+        try:
+            sampleRate = st.session_state.signalSlider
+            t = st.session_state.signal.signal.iloc[:, 0]
+            y = st.session_state.signal.signal.iloc[:, 1]
+
+            freqs = np.fft.fftfreq(len(t))
+            maxFrequency = 2
+
+            # guard class for freq
+           # BUG  # error catch should be handled to catch this message instead of throw (can't sample the function)
+            if sampleRate < (2*maxFrequency) or sampleRate > t.shape[0]:
+                raise ValueError('Sample Rate isn''t enough')
+
+            step = t.shape[0]//sampleRate
+            timeArray = []
+            amplitudeArray = []
+            i = 0
+
+            while (i < t.shape[0]):
+                timeArray.append(t[i])
+                amplitudeArray.append(y[i])
+                i += step
+                i = int(i)
+            d = {'t': timeArray, 'y': amplitudeArray}
+            signal = pd.DataFrame(data=d)
+            self.draw_sampled_signal(signal)
+        except:
+            raise ValueError("Can't sample the function")
 
     def reconstruct_signal(self):
         f = 20
@@ -91,6 +124,21 @@ class AppUi:
             fig, ax = plt.subplots()
 
             ax.plot(signal.iloc[:, 0], signal.iloc[:, 1])
+            ax.set_title("Signal Digram.")
+            ax.set_xlabel("time")
+            ax.set_ylabel("Amplitude")
+            ax.grid(True)
+            st.pyplot(fig)
+        except:
+            raise ValueError(
+                "The Input Data isn't a signal, and Can't be plotted.")
+
+    def draw_sampled_signal(self, signal):
+        try:
+
+            fig, ax = plt.subplots()
+
+            ax.scatter(signal.iloc[:, 0], signal.iloc[:, 1])
             ax.set_title("Signal Digram.")
             ax.set_xlabel("time")
             ax.set_ylabel("Amplitude")
