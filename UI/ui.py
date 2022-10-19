@@ -82,7 +82,7 @@ class AppUi:
             y = st.session_state.signal.signal.iloc[:, 1]
 
             freqs = np.fft.fftfreq(len(t))
-            maxFrequency = 2
+            maxFrequency = np.max(freqs)
 
             # guard class for freq
            # BUG  # error catch should be handled to catch this message instead of throw (can't sample the function)
@@ -101,23 +101,33 @@ class AppUi:
                 i = int(i)
             d = {'t': timeArray, 'y': amplitudeArray}
             signal = pd.DataFrame(data=d)
-            self.draw_sampled_signal(signal)
+            self.reconstruct_signal(signal)
         except:
             raise ValueError("Can't sample the function")
 
-    def reconstruct_signal(self):
-        f = 20
-        t = st.session_state.signal.signal.iloc[:, 0]
-        x1 = np.sinc(2 * np.pi * f * t)
-        sampleRate = st.session_state.signalSlider
-        T = 1/sampleRate
-        n = np.arange(0, 0.5 / T)
-        nT = n * T
-        d = {'t': t, 'x1': x1}
-
-        signal = pd.DataFrame(data=d)
+    def reconstruct_signal(self,signal):
+        t=signal.iloc[:,0]
+        y=signal.iloc[:,1]
+        for i in range(t.shape[0]):
+            if t[i]<0:
+                y[i]=0
+        y=self.yRe(t,y)        
+        d={'t':t,'y':y}
+        signal=pd.DataFrame(data=d)
         self.draw_signal(signal)
-
+        
+        
+    def yRe(self,t,y):
+        Ts = t[2] - t[1]
+        fs=1/Ts
+        st.write(fs)
+        z = 0
+        for i in range(-int((t.shape[0]-1)/2), int((t.shape[0]-1)/2), 1):
+             n = int(i + (t.shape[0]-1)/2 + 1)
+             z += y[n]*np.sin(np.pi*fs*(t - i*Ts))/(np.pi*fs*(t - i*Ts))
+        return z
+        
+    
     def draw_signal(self, signal):
         try:
 
@@ -138,7 +148,7 @@ class AppUi:
 
             fig, ax = plt.subplots()
 
-            ax.scatter(signal.iloc[:, 0], signal.iloc[:, 1])
+            ax.plot(signal.iloc[:, 0], signal.iloc[:, 1],'r-')
             ax.set_title("Signal Digram.")
             ax.set_xlabel("time")
             ax.set_ylabel("Amplitude")
