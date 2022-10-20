@@ -7,33 +7,60 @@ import streamlit as st
 from matplotlib import pyplot as plt
 from werkzeug.utils import secure_filename
 from data_processing import processing
-import streamlit as st
 import numpy as np
 import pandas as pd
 
 
 class AppUi:
     def __init__(self):
+        with open("./styles/style.css") as source:
+            style = source.read()
         self.signalObject = processing.SignalProcessing()
-        st.set_page_config(page_title='Sampling Studio')
+        st.set_page_config(page_title='Sampling Studio', )
 
         # Removing Streamlit hamburger and footer.
-        st.markdown("""
+        st.markdown(f"""
         <style>
-            .css-9s5bis.edgvbvh3 {
-                visibility : hidden;
-            }
-            .css-1q1n0ol.egzxvld0 {
-                visibility : hidden;
-            }
+        {style}
         </style>
         """, unsafe_allow_html=True)
+        # bar
+        col1, col2, col3, col4, col5= st.columns([1,1,1,1,30])
 
-        st.file_uploader(label="Upload Your Signal File:", type=['csv'],
-                         on_change=self.change_signal_upload, key="signalUploader")
+        with col1:
+            st.button('1')
+        with col2:
+            st.button('2')
+        with col3:
+            st.button('3')
+        with col4:
+            st.button('4')
+        st.write("---")
 
-        st.slider(label="Change your samlping rate: ", min_value=0, max_value=100,
-                  on_change=self.change_sampling_rate, key="signalSlider")
+        col1, col2, col3, col4, col5 = st.columns([1, 0.1, 2, 0.1, 1])
+        with col1.container():
+            st.write("This is inside the container")
+            st.bar_chart(np.random.randn(0, 0))
+            st.write("This is inside the container")
+            st.write("This is inside the container")
+            st.write("This is inside the container")
+
+        with col3.container():
+            st.write("This is inside the container")
+            fig = plt.figure()
+            plt.style.use(
+                "https://raw.githubusercontent.com/dhaitz/matplotlib-stylesheets/master/pitayasmoothie-dark.mplstyle")
+            x = np.linspace(0, 10, 50)
+
+            plt.plot(x, np.sin(x), color="#5891C7")
+            plt.scatter(x, np.sin(x), color="#ED0000")
+            st.write(fig)
+        with col5.container():
+            st.write("This is inside the container")
+            st.bar_chart(np.random.randn(0, 0))
+            st.write("This is inside the container")
+            st.write("This is inside the container")
+            st.write("This is inside the container")
 
     def change_signal_upload(self):
         try:
@@ -69,7 +96,7 @@ class AppUi:
             # st.session_state.signal.sample_signal()
             # TODO: Sampling then Drawing
             self.sample_signal()
-           # st.write(st.session_state.signal.signal)
+            # st.write(st.session_state.signal.signal)
 
             self.draw_signal(st.session_state.signal.signal)
         except Exception as errorMessage:
@@ -85,11 +112,11 @@ class AppUi:
             maxFrequency = np.max(freqs)
 
             # guard class for freq
-           # BUG  # error catch should be handled to catch this message instead of throw (can't sample the function)
-            if sampleRate < (2*maxFrequency) or sampleRate > t.shape[0]:
+            # BUG  # error catch should be handled to catch this message instead of throw (can't sample the function)
+            if sampleRate < (2 * maxFrequency) or sampleRate > t.shape[0]:
                 raise ValueError('Sample Rate isn''t enough')
 
-            step = t.shape[0]//sampleRate
+            step = t.shape[0] // sampleRate
             timeArray = []
             amplitudeArray = []
             i = 0
@@ -105,29 +132,27 @@ class AppUi:
         except:
             raise ValueError("Can't sample the function")
 
-    def reconstruct_signal(self,signal):
-        t=signal.iloc[:,0]
-        y=signal.iloc[:,1]
+    def reconstruct_signal(self, signal):
+        t = signal.iloc[:, 0]
+        y = signal.iloc[:, 1]
         for i in range(t.shape[0]):
-            if t[i]<0:
-                y[i]=0
-        y=self.yRe(t,y)        
-        d={'t':t,'y':y}
-        signal=pd.DataFrame(data=d)
+            if t[i] < 0:
+                y[i] = 0
+        y = self.yRe(t, y)
+        d = {'t': t, 'y': y}
+        signal = pd.DataFrame(data=d)
         self.draw_signal(signal)
-        
-        
-    def yRe(self,t,y):
+
+    def yRe(self, t, y):
         Ts = t[2] - t[1]
-        fs=1/Ts
+        fs = 1 / Ts
         st.write(fs)
         z = 0
-        for i in range(-int((t.shape[0]-1)/2), int((t.shape[0]-1)/2), 1):
-             n = int(i + (t.shape[0]-1)/2 + 1)
-             z += y[n]*np.sin(np.pi*fs*(t - i*Ts))/(np.pi*fs*(t - i*Ts))
+        for i in range(-int((t.shape[0] - 1) / 2), int((t.shape[0] - 1) / 2), 1):
+            n = int(i + (t.shape[0] - 1) / 2 + 1)
+            z += y[n] * np.sin(np.pi * fs * (t - i * Ts)) / (np.pi * fs * (t - i * Ts))
         return z
-        
-    
+
     def draw_signal(self, signal):
         try:
 
@@ -148,7 +173,7 @@ class AppUi:
 
             fig, ax = plt.subplots()
 
-            ax.plot(signal.iloc[:, 0], signal.iloc[:, 1],'r-')
+            ax.plot(signal.iloc[:, 0], signal.iloc[:, 1], 'r-')
             ax.set_title("Signal Digram.")
             ax.set_xlabel("time")
             ax.set_ylabel("Amplitude")
