@@ -24,9 +24,10 @@ class SignalProcessing:
         try:
             self.outputFileName = os.path.basename(filePath)
             self.signal = pd.read_csv(filePath)
-            # TODO: Change Sample Rate
-            self.sampleRate = 0
-            self.outputFile = pd.DataFrame(self.signal).to_csv().encode('utf-8')
+            return({
+                "name":os.path.basename(filePath),
+                "signal":self.signal
+            })
         except Exception:
             raise ValueError("An Error Occur While Reading the file, please try again.")
 
