@@ -7,60 +7,45 @@ import streamlit as st
 from matplotlib import pyplot as plt
 from werkzeug.utils import secure_filename
 from data_processing import processing
+from UI.header import headerUI
+from UI.left_navbar import leftNavBar
+from UI.right_navbar import rightNavBar
+from UI.center_signal_view import centerSignalView
 import numpy as np
 import pandas as pd
+import sys
 
 
 class AppUi:
     def __init__(self):
+
+        self.signalObject = processing.SignalProcessing()
+
+        # config
+        st.set_page_config(page_title='Sampling Studio')
+
+        # styling injection
         with open("./styles/style.css") as source:
             style = source.read()
-        self.signalObject = processing.SignalProcessing()
-        st.set_page_config(page_title='Sampling Studio', )
-
-        # Removing Streamlit hamburger and footer.
         st.markdown(f"""
         <style>
         {style}
         </style>
         """, unsafe_allow_html=True)
-        # bar
-        col1, col2, col3, col4, col5= st.columns([1,1,1,1,30])
 
-        with col1:
-            st.button('1')
-        with col2:
-            st.button('2')
-        with col3:
-            st.button('3')
-        with col4:
-            st.button('4')
+        # header
+        x = headerUI()
+
         st.write("---")
 
-        col1, col2, col3, col4, col5 = st.columns([1, 0.1, 2, 0.1, 1])
-        with col1.container():
-            st.write("This is inside the container")
-            st.bar_chart(np.random.randn(0, 0))
-            st.write("This is inside the container")
-            st.write("This is inside the container")
-            st.write("This is inside the container")
-
-        with col3.container():
-            st.write("This is inside the container")
-            fig = plt.figure()
-            plt.style.use(
-                "https://raw.githubusercontent.com/dhaitz/matplotlib-stylesheets/master/pitayasmoothie-dark.mplstyle")
-            x = np.linspace(0, 10, 50)
-
-            plt.plot(x, np.sin(x), color="#5891C7")
-            plt.scatter(x, np.sin(x), color="#ED0000")
-            st.write(fig)
-        with col5.container():
-            st.write("This is inside the container")
-            st.bar_chart(np.random.randn(0, 0))
-            st.write("This is inside the container")
-            st.write("This is inside the container")
-            st.write("This is inside the container")
+        # layout
+        cols = st.columns([0.1, 1, 0.1, 2, 0.1, 1, 0.1])
+        with cols[1].container():
+            leftNavBar()
+        with cols[3].container():
+            centerSignalView()
+        with cols[5].container():
+            rightNavBar()
 
     def change_signal_upload(self):
         try:
