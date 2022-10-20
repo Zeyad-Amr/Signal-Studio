@@ -13,9 +13,6 @@ class leftNavBar:
 
         with st.form("signals"):
             submitted = st.form_submit_button("Add")
-            if submitted:
-                # TO-DO add signals
-                print('Add checked signals')
 
             st.checkbox("Signal 1")
             st.checkbox("Signal 2")
@@ -25,5 +22,3 @@ class leftNavBar:
             st.checkbox("Signal 6")
             st.checkbox("Signal 7")
             st.checkbox("Signal 8")
-
-
