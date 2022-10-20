@@ -2,8 +2,9 @@
 .color1 {color: #97DFFC;}
 .color2 {color: #5891C7;}
 .color3 {color: #161818;}
-.color4 {color: #ED0000;}
-.color5 {color: #F7F4EA;}
+.color4 {color: #424344;}
+.color5 {color: #ED0000;}
+.color6 {color: #F7F4EA;}
 
 
 /* header & footer*/
@@ -29,10 +30,15 @@
 hr{
     margin: 0;
 }
-/*.row-widget.stRadio{*/
-/*    padding: 2rem;*/
-/*}*/
+.row-widget.stRadio{
+    padding: 2rem;
+    border: 1px solid #424344;
+    border-radius:5px;
+}
 
 /*.css-1p05t8e.epcbefy1{*/
 /*    padding: 2rem;*/
 /*}*/
+.st-bp {
+    padding: 5px 0;
+}

@@ -11,14 +11,5 @@ class leftNavBar:
         </style>
         """, unsafe_allow_html=True)
 
-        with st.form("signals"):
-            submitted = st.form_submit_button("Add")
-
-            st.checkbox("Signal 1")
-            st.checkbox("Signal 2")
-            st.checkbox("Signal 3")
-            st.checkbox("Signal 4")
-            st.checkbox("Signal 5")
-            st.checkbox("Signal 6")
-            st.checkbox("Signal 7")
-            st.checkbox("Signal 8")
+        st.radio("Signals", ("Signal 1", "Signal 2", "Signal 3", "Signal 4", "Signal 5", "Signal 6"))
+        st.radio("Noises", ("Noise 1","Noise 2", "Noise 3","Noise 4","Noise 5","Noise 6"))
