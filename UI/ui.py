@@ -8,9 +8,13 @@ import streamlit as st
 from matplotlib import pyplot as plt
 from werkzeug.utils import secure_filename
 from data_processing import processing
-import streamlit as st
+from UI.header import headerUI
+from UI.left_navbar import leftNavBar
+from UI.right_navbar import rightNavBar
+from UI.center_signal_view import centerSignalView
 import numpy as np
 import pandas as pd
+import sys
 
 
 class AppUi:
@@ -20,25 +24,33 @@ class AppUi:
         st.session_state.sampledSignal = pd.DataFrame()
 
         self.signalObject = processing.SignalProcessing()
+
+        # config
         st.set_page_config(page_title='Sampling Studio')
 
-        # Removing Streamlit hamburger and footer.
-        st.markdown("""
+        # styling injection
+        with open("./styles/style.css") as source:
+            style = source.read()
+        st.markdown(f"""
         <style>
-            .css-9s5bis.edgvbvh3 {
-                visibility : hidden;
-            }
-            .css-1q1n0ol.egzxvld0 {
-                visibility : hidden;
-            }
+        {style}
         </style>
         """, unsafe_allow_html=True)
 
-        st.file_uploader(label="Upload Your Signal File:", type=['csv'],
-                         on_change=self.upload_signal, key="signalUploader")
 
-        st.slider(label="Change your samlping rate: ", min_value=0, max_value=100,
-                  on_change=self.sample_signal, key="signalSlider")
+        # header
+        x = headerUI()
+
+        st.write("---")
+
+        # layout
+        cols = st.columns([0.1, 1, 0.1, 2, 0.1, 1, 0.1])
+        with cols[1].container():
+            leftNavBar()
+        with cols[3].container():
+            centerSignalView()
+        with cols[5].container():
+            rightNavBar()
 
     def upload_signal(self):
         try:
@@ -84,6 +96,7 @@ class AppUi:
             selectButtonValue = st.session_state.checkbox
             # TODO: get the specified signal from the file.
 
+
             st.session_state.sampledSignal = self.signalObject.sample_signal(st.session_state.signal[0], sampleRate)
             self.draw_sampled_signal(st.session_state.sampledSignal)
         except:
@@ -108,12 +121,11 @@ class AppUi:
         Ts = t[2] - t[1]
         fs=1/Ts
         z = 0
-        for i in range(-int((t.shape[0]-1)/2), int((t.shape[0]-1)/2), 1):
-             n = int(i + (t.shape[0]-1)/2 + 1)
-             z += y[n]*np.sin(np.pi*fs*(t - i*Ts))/(np.pi*fs*(t - i*Ts))
+        for i in range(-int((t.shape[0] - 1) / 2), int((t.shape[0] - 1) / 2), 1):
+            n = int(i + (t.shape[0] - 1) / 2 + 1)
+            z += y[n] * np.sin(np.pi * fs * (t - i * Ts)) / (np.pi * fs * (t - i * Ts))
         return z
-        
-    
+
     def draw_signal(self, signal):
         try:
             fig, ax = plt.subplots()
@@ -133,7 +145,7 @@ class AppUi:
 
             fig, ax = plt.subplots()
 
-            ax.plot(signal.iloc[:, 0], signal.iloc[:, 1],'r-')
+            ax.plot(signal.iloc[:, 0], signal.iloc[:, 1], 'r-')
             ax.set_title("Signal Digram.")
             ax.set_xlabel("time")
             ax.set_ylabel("Amplitude")
