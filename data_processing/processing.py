@@ -31,8 +31,34 @@ class SignalProcessing:
         except Exception:
             raise ValueError("An Error Occur While Reading the file, please try again.")
 
-    def sample_signal(self, sampleRate = None):
-        print(self.signal)
+    def sample_signal(self, signal, sampleRate):
+        t = signal.iloc[:, 0]
+        x1 = np.sinc(2 * np.pi * f * t)
+        T = 1/sampleRate
+        n = np.arange(0, 0.5 / T)
+        nT = n * T
+        d = {'t': t, 'x1': x1}
+
+        freqs = np.fft.fftfreq(len(t))
+        maxFrequency = np.max(freqs)
+
+        # guard class for freq
+        # BUG  # error catch should be handled to catch this message instead of throw (can't sample the function)
+        if sampleRate < (2*maxFrequency) or sampleRate > t.shape[0]:
+            raise ValueError('Sample Rate isn''t enough')
+
+        step = t.shape[0]//sampleRate
+        timeArray = []
+        amplitudeArray = []
+        i = 0
+
+        while (i < t.shape[0]):
+            timeArray.append(t[i])
+            amplitudeArray.append(y[i])
+            i += step
+            i = int(i)
+        sampledSignal = {'t': timeArray, 'y': amplitudeArray}
+        return pd.DataFrame(sampledSignal)
 
     def saving_signal(self):
         """
