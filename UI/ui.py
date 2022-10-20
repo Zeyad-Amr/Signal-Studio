@@ -7,33 +7,45 @@ import streamlit as st
 from matplotlib import pyplot as plt
 from werkzeug.utils import secure_filename
 from data_processing import processing
-import streamlit as st
+from UI.header import headerUI
+from UI.left_navbar import leftNavBar
+from UI.right_navbar import rightNavBar
+from UI.center_signal_view import centerSignalView
 import numpy as np
 import pandas as pd
+import sys
 
 
 class AppUi:
     def __init__(self):
+
         self.signalObject = processing.SignalProcessing()
+
+        # config
         st.set_page_config(page_title='Sampling Studio')
 
-        # Removing Streamlit hamburger and footer.
-        st.markdown("""
+        # styling injection
+        with open("./styles/style.css") as source:
+            style = source.read()
+        st.markdown(f"""
         <style>
-            .css-9s5bis.edgvbvh3 {
-                visibility : hidden;
-            }
-            .css-1q1n0ol.egzxvld0 {
-                visibility : hidden;
-            }
+        {style}
         </style>
         """, unsafe_allow_html=True)
 
-        st.file_uploader(label="Upload Your Signal File:", type=['csv'],
-                         on_change=self.change_signal_upload, key="signalUploader")
+        # header
+        x = headerUI()
 
-        st.slider(label="Change your samlping rate: ", min_value=0, max_value=100,
-                  on_change=self.change_sampling_rate, key="signalSlider")
+        st.write("---")
+
+        # layout
+        cols = st.columns([0.1, 1, 0.1, 2, 0.1, 1, 0.1])
+        with cols[1].container():
+            leftNavBar()
+        with cols[3].container():
+            centerSignalView()
+        with cols[5].container():
+            rightNavBar()
 
     def change_signal_upload(self):
         try:
@@ -69,7 +81,7 @@ class AppUi:
             # st.session_state.signal.sample_signal()
             # TODO: Sampling then Drawing
             self.sample_signal()
-           # st.write(st.session_state.signal.signal)
+            # st.write(st.session_state.signal.signal)
 
             self.draw_signal(st.session_state.signal.signal)
         except Exception as errorMessage:
@@ -85,11 +97,11 @@ class AppUi:
             maxFrequency = np.max(freqs)
 
             # guard class for freq
-           # BUG  # error catch should be handled to catch this message instead of throw (can't sample the function)
-            if sampleRate < (2*maxFrequency) or sampleRate > t.shape[0]:
+            # BUG  # error catch should be handled to catch this message instead of throw (can't sample the function)
+            if sampleRate < (2 * maxFrequency) or sampleRate > t.shape[0]:
                 raise ValueError('Sample Rate isn''t enough')
 
-            step = t.shape[0]//sampleRate
+            step = t.shape[0] // sampleRate
             timeArray = []
             amplitudeArray = []
             i = 0
@@ -105,29 +117,27 @@ class AppUi:
         except:
             raise ValueError("Can't sample the function")
 
-    def reconstruct_signal(self,signal):
-        t=signal.iloc[:,0]
-        y=signal.iloc[:,1]
+    def reconstruct_signal(self, signal):
+        t = signal.iloc[:, 0]
+        y = signal.iloc[:, 1]
         for i in range(t.shape[0]):
-            if t[i]<0:
-                y[i]=0
-        y=self.yRe(t,y)        
-        d={'t':t,'y':y}
-        signal=pd.DataFrame(data=d)
+            if t[i] < 0:
+                y[i] = 0
+        y = self.yRe(t, y)
+        d = {'t': t, 'y': y}
+        signal = pd.DataFrame(data=d)
         self.draw_signal(signal)
-        
-        
-    def yRe(self,t,y):
+
+    def yRe(self, t, y):
         Ts = t[2] - t[1]
-        fs=1/Ts
+        fs = 1 / Ts
         st.write(fs)
         z = 0
-        for i in range(-int((t.shape[0]-1)/2), int((t.shape[0]-1)/2), 1):
-             n = int(i + (t.shape[0]-1)/2 + 1)
-             z += y[n]*np.sin(np.pi*fs*(t - i*Ts))/(np.pi*fs*(t - i*Ts))
+        for i in range(-int((t.shape[0] - 1) / 2), int((t.shape[0] - 1) / 2), 1):
+            n = int(i + (t.shape[0] - 1) / 2 + 1)
+            z += y[n] * np.sin(np.pi * fs * (t - i * Ts)) / (np.pi * fs * (t - i * Ts))
         return z
-        
-    
+
     def draw_signal(self, signal):
         try:
 
@@ -148,7 +158,7 @@ class AppUi:
 
             fig, ax = plt.subplots()
 
-            ax.plot(signal.iloc[:, 0], signal.iloc[:, 1],'r-')
+            ax.plot(signal.iloc[:, 0], signal.iloc[:, 1], 'r-')
             ax.set_title("Signal Digram.")
             ax.set_xlabel("time")
             ax.set_ylabel("Amplitude")

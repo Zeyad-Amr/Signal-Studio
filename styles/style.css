@@ -1,0 +1,44 @@
+/* color palette */
+.color1 {color: #97DFFC;}
+.color2 {color: #5891C7;}
+.color3 {color: #161818;}
+.color4 {color: #424344;}
+.color5 {color: #ED0000;}
+.color6 {color: #F7F4EA;}
+
+
+/* header & footer*/
+.css-14xtw13.e8zbici0 {
+    visibility : hidden;
+}
+.css-1lsmgbg.egzxvld0 {
+    visibility : hidden;
+}
+.css-1avcm0n.e8zbici2{
+    visibility : hidden;
+}
+
+/* body*/
+.css-ffhzg2{
+    background: #161818;
+}
+.css-12oz5g7 {
+    padding: 0;
+    max-width: inherit;
+}
+
+hr{
+    margin: 0;
+}
+.row-widget.stRadio{
+    padding: 2rem;
+    border: 1px solid #424344;
+    border-radius:5px;
+}
+
+/*.css-1p05t8e.epcbefy1{*/
+/*    padding: 2rem;*/
+/*}*/
+.st-bp {
+    padding: 5px 0;
+}
