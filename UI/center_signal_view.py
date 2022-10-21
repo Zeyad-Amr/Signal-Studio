@@ -1,3 +1,4 @@
+from signal import signal
 import streamlit as st
 from matplotlib import pyplot as plt
 import numpy as np
@@ -14,11 +15,30 @@ class centerSignalView:
         </style>
         """, unsafe_allow_html=True)
 
-        fig = plt.figure()
+        self.fig, self.ax = plt.subplots()
+
+        if 'figureSpot' not in st.session_state:
+            self.figureSpot = st.pyplot(self.fig)
+            st.session_state.figureSpot = self.figureSpot
+
+    def draw_signal(self):
+        signal = st.session_state.signal
         plt.style.use(
             "https://raw.githubusercontent.com/dhaitz/matplotlib-stylesheets/master/pitayasmoothie-dark.mplstyle")
-        x = np.linspace(0, 10, 50)
+        self.ax.plot(signal.iloc[:, 0], signal.iloc[:, 1], color="#5891C7")
 
-        plt.plot(x, np.sin(x), color="#5891C7")
-        plt.scatter(x, np.sin(x), color="#ED0000")
-        st.write(fig)
+        self.ax.set_title("Signal Digram.")
+        self.ax.set_xlabel("time")
+        self.ax.set_ylabel("Amplitude")
+
+        with st.session_state.figureSpot:
+            st.pyplot(self.fig)
+
+
+    def draw_sampled_signal(self):
+        sampledSignal = st.session_state.sampledSignal
+
+        self.ax.scatter(sampledSignal.iloc[:, 0], sampledSignal.iloc[:, 1])
+        
+        with st.session_state.figureSpot:
+            st.pyplot(self.fig)

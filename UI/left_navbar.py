@@ -1,4 +1,10 @@
+import os
+from pathlib import Path
+from click import clear
+from werkzeug.utils import secure_filename
 import streamlit as st
+import os
+from asyncio.windows_events import NULL
 
 
 class leftNavBar:
@@ -15,10 +21,11 @@ class leftNavBar:
 
         with tab1:
             # signal file upload
-            uploadSignal = st.file_uploader("Upload Signal", type=["csv"])
+            uploadSignal = st.file_uploader("Upload Signal", type=["csv"], key='uploadButton')
             if uploadSignal:
-                # TODO: Browse signal function
-                print("Browse signal function: ", uploadSignal)
+                path = self.save_file(uploadSignal)
+                siganlDict = st.session_state.signalObject.reading_signal(path)
+                st.session_state.header.add_button(siganlDict)
 
         with tab2:
             # generate signal
@@ -36,5 +43,30 @@ class leftNavBar:
                     print(signalTitle, ", ", freqVal, ", ", ampVal, ", ", phaseVal)
                     st.success("Generated Successfully")
 
-        st.radio("Signals", ("Signal 1", "Signal 2", "Signal 3", "Signal 4", "Signal 5", "Signal 6"))
-        # st.radio("Noises", ("Noise 1","Noise 2", "Noise 3","Noise 4","Noise 5","Noise 6"))
+        signalsLst = []
+        for signal in st.session_state.signals:
+            signalsLst.append(signal['name'])
+
+
+        st.radio("Signals", signalsLst, key="selectedSignal")
+
+        if st.session_state.selectedSignal:
+            self.on_change()
+
+    def on_change(self):
+        for signal in st.session_state.signals:
+            if signal['name'] == st.session_state.selectedSignal:
+                st.session_state.signal = signal['signal']
+                st.session_state.graphWidget.draw_signal()
+
+    def save_file(self, csvFile):
+        try:
+            filePath = os.path.join(
+                Path(__file__).parent.parent, 'uploads', secure_filename(csvFile.name))
+
+            with open(filePath, "wb") as file:
+                file.write(csvFile.getbuffer())
+
+            return filePath
+        except:
+            raise ValueError("Can't Upload this file, please try again...")

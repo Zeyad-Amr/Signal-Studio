@@ -1,12 +1,7 @@
 from asyncio.windows_events import NULL
 from logging import PlaceHolder
-import os
-from pathlib import Path
-from time import time
-from requests import session
 import streamlit as st
 from matplotlib import pyplot as plt
-from werkzeug.utils import secure_filename
 from data_processing import processing
 from UI.header import headerUI
 from UI.left_navbar import leftNavBar
@@ -14,16 +9,19 @@ from UI.right_navbar import rightNavBar
 from UI.center_signal_view import centerSignalView
 import numpy as np
 import pandas as pd
-import sys
 
 
 class AppUi:
     def __init__(self):
-        st.session_state.signals = []
-        st.session_state.noises = []
-        st.session_state.sampledSignal = pd.DataFrame()
-
-        self.signalObject = processing.SignalProcessing()
+        if 'signals' not in st.session_state:
+            st.session_state.signals = []
+        if 'noises' not in st.session_state:
+            st.session_state.noises = []
+        if 'sampledSignal' not in st.session_state:
+            st.session_state.sampledSignal = pd.DataFrame()
+        if 'signalObject' not in st.session_state:
+            self.signalObject = processing.SignalProcessing()
+            st.session_state.signalObject = self.signalObject
 
         # config
         st.set_page_config(page_title='Sampling Studio')
@@ -38,18 +36,16 @@ class AppUi:
         """, unsafe_allow_html=True)
 
         # header
-        x = headerUI()
-
-        st.write("---")
+        st.session_state.header = headerUI()
 
         # layout
         cols = st.columns([0.1, 2, 0.1, 3, 0.1, 2, 0.1])
         with cols[1].container():
-            leftNavBar()
+            st.session_state.leftNav = leftNavBar()
         with cols[3].container():
-            centerSignalView()
+            st.session_state.graphWidget = centerSignalView()
         with cols[5].container():
-            rightNavBar()
+            st.session_state.rightNav = rightNavBar()
 
     def upload_signal(self):
         try:
@@ -58,17 +54,7 @@ class AppUi:
         except Exception as errorMessage:
             self.show_error(errorMessage)
 
-    def save_file(self, csvFile):
-        try:
-            filePath = os.path.join(
-                Path(__file__).parent.parent, 'uploads', secure_filename(csvFile.name))
-
-            with open(filePath, "wb") as file:
-                file.write(csvFile.getbuffer())
-
-            return filePath
-        except:
-            raise ValueError("Can't Upload this file, please try again...")
+    
 
     def delete_signal(self, signalName):
         try:
@@ -124,30 +110,13 @@ class AppUi:
 
     def draw_signal(self, signal):
         try:
-            fig, ax = plt.subplots()
-
-            ax.plot(signal.iloc[:, 0], signal.iloc[:, 1])
-            ax.set_title("Signal Digram.")
-            ax.set_xlabel("time")
-            ax.set_ylabel("Amplitude")
-            ax.grid(True)
-
-            st.pyplot(fig)
+            st.session_state.graphWidget.draw_signal(signal)
         except:
             raise ValueError("The Input Data isn't a signal, and Can't be plotted.")
 
     def draw_sampled_signal(self, signal):
         try:
-
-            fig, ax = plt.subplots()
-
-            ax.plot(signal.iloc[:, 0], signal.iloc[:, 1], 'r-')
-            ax.set_title("Signal Digram.")
-            ax.set_xlabel("time")
-            ax.set_ylabel("Amplitude")
-            ax.grid(True)
-
-            st.pyplot(fig)
+            st.session_state.graphWidget.draw_sampled_signal(signal)
         except:
             raise ValueError("The Input Data isn't a signal, and Can't be plotted.")
 

@@ -1,8 +1,6 @@
 import streamlit as st
-
-
-def on_click_btn(operation):
-    print(f'Button Clicked to {operation}')
+import pandas as pd
+import numpy as np
 
 
 class headerUI:
@@ -20,12 +18,36 @@ class headerUI:
         headerCols = st.columns([2, 2, 2, 2, 2, 10, 1, 2])
 
         with headerCols[1]:
-            st.button('Add Signal', on_click=on_click_btn('add_signal'))
+            st.button('Add Signal', key="AddSignalButton")
         with headerCols[2]:
-            st.button('Add Noise', on_click=on_click_btn('add_noise'))
+            st.button('Add Noise', key="AddNoiseButton")
         with headerCols[3]:
-            st.button('Sampling', on_click=on_click_btn('sampling'))
+            st.button('Sampling', key="SamplingButton")
         with headerCols[4]:
-            st.button('Clear', on_click=on_click_btn('clear'))
+            st.button('Clear', key="ClearButton")
         with headerCols[6]:
-            st.button('Export', on_click=on_click_btn('export'))
+            st.button('Export', key="ExportButton")
+    
+        if st.session_state.AddSignalButton:
+            self.add_button()
+
+        if st.session_state.AddNoiseButton:
+            self.add_noise()
+
+
+
+    def add_button(self, signalDict):
+        st.session_state.signals.append(signalDict)
+
+    def add_noise(self):
+        df = pd.read_csv(r"C:\Users\kamel\OneDrive\Documents\GitKraken\Sampling-Studio\uploads\Untitled_spreadsheet_-_Sheet1.csv")
+
+        st.session_state.noises.append({
+            "name": np.random.random(),
+            "noise": df
+        })
+
+    
+
+
+    

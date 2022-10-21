@@ -1,4 +1,5 @@
 import os
+import streamlit as st
 import numpy as np
 import pandas as pd
 
@@ -32,33 +33,33 @@ class SignalProcessing:
             raise ValueError("An Error Occur While Reading the file, please try again.")
 
     def sample_signal(self, signal, sampleRate):
-        t = signal.iloc[:, 0]
-        x1 = np.sinc(2 * np.pi * f * t)
-        T = 1/sampleRate
-        n = np.arange(0, 0.5 / T)
-        nT = n * T
-        d = {'t': t, 'x1': x1}
+        try:
+            t = signal.iloc[:, 0]
+            y = signal.iloc[:, 1]
 
-        freqs = np.fft.fftfreq(len(t))
-        maxFrequency = np.max(freqs)
+            freqs = np.fft.fftfreq(len(t))
+            maxFrequency = 2
 
-        # guard class for freq
-        # BUG  # error catch should be handled to catch this message instead of throw (can't sample the function)
-        if sampleRate < (2*maxFrequency) or sampleRate > t.shape[0]:
-            raise ValueError('Sample Rate isn''t enough')
+            # guard class for freq
+            # BUG  # error catch should be handled to catch this message instead of throw (can't sample the function)
+            if sampleRate < (2*maxFrequency) or sampleRate > t.shape[0]:
+                raise ValueError('Sample Rate isn''t enough')
 
-        step = t.shape[0]//sampleRate
-        timeArray = []
-        amplitudeArray = []
-        i = 0
+            step = t.shape[0]//sampleRate
+            timeArray = []
+            amplitudeArray = []
+            i = 0
 
-        while (i < t.shape[0]):
-            timeArray.append(t[i])
-            amplitudeArray.append(y[i])
-            i += step
-            i = int(i)
-        sampledSignal = {'t': timeArray, 'y': amplitudeArray}
-        return pd.DataFrame(sampledSignal)
+            while (i < t.shape[0]):
+                timeArray.append(t[i])
+                amplitudeArray.append(y[i])
+                i += step
+                i = int(i)
+            d = {'t': timeArray, 'y': amplitudeArray}
+            signal = pd.DataFrame(data=d)
+            return(signal)
+        except:
+            raise ValueError("Can't sample the function")
 
     def saving_signal(self):
         """
