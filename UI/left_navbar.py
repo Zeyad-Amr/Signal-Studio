@@ -21,12 +21,6 @@ class leftNavBar:
 
         uploadTab, generateTab = st.tabs(["Upload", "Generate"])
 
-        if 'signalCounter' not in st.session_state:
-            st.session_state.signalCounter = 0
-        
-        if 'generatedSignalCounter' not in st.session_state:
-            st.session_state.generatedSignalCounter = 0
-
         with uploadTab:
             uploadSignal = st.file_uploader("Upload Signal", type=["csv"], key='uploadButton')
             if uploadSignal:
