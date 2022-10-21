@@ -16,8 +16,9 @@ class rightNavBar:
             slider_val = st.slider("Sampling")
 
             # Every form must have a submit button.
-            submitted = st.form_submit_button("Construct")
+            submitted = st.form_submit_button("Reconstruct")
             if submitted:
-                st.success("Constructed Successfully")
+                st.success("Reconstructed Successfully")
 
+        
 

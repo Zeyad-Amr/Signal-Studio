@@ -6,6 +6,14 @@
 .color5 {color: #ED0000;}
 .color6 {color: #F7F4EA;}
 
+:root{
+    --color_cyan: #97DFFC;
+    --color_blue: #5891C7;
+    --color_black: #161818;
+    --color_grey: #424344;
+    --color_red: #ED0000;
+    --color_wheat: #F7F4EA;
+}
 
 /* header & footer*/
 .css-14xtw13.e8zbici0 {
@@ -20,7 +28,7 @@
 
 /* body*/
 .css-ffhzg2{
-    background: #161818;
+    background: var(--color_black);
 }
 .css-12oz5g7 {
     padding: 0;
@@ -32,7 +40,7 @@ hr{
 }
 .row-widget.stRadio{
     padding: 2rem;
-    border: 1px solid #424344;
+    border: 1px solid var(--color_grey);
     border-radius:5px;
 }
 
@@ -41,4 +49,14 @@ hr{
 /*}*/
 .st-bp {
     padding: 5px 0;
+}
+
+.css-u8hs99{
+    display: block;
+}
+
+.css-8u98yl.exg6vvm0{
+    padding: 1rem;
+    border: 1px solid var(--color_grey);
+    border-radius:5px;
 }

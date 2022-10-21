@@ -37,7 +37,6 @@ class AppUi:
         </style>
         """, unsafe_allow_html=True)
 
-
         # header
         x = headerUI()
 
@@ -58,7 +57,7 @@ class AppUi:
             st.session_state.signals.append(self.signalObject.reading_signal(filePath))
         except Exception as errorMessage:
             self.show_error(errorMessage)
-    
+
     def save_file(self, csvFile):
         try:
             filePath = os.path.join(
@@ -74,14 +73,13 @@ class AppUi:
     def delete_signal(self, signalName):
         try:
             for signal in range(len(st.session_state.signals)):
-                if(st.session_state.signals[signal]['name'] == signalName):
-                    st.session_state.signals = st.session_state.signals[:signal] + st.session_state.signals[signal+1:]
-            
+                if (st.session_state.signals[signal]['name'] == signalName):
+                    st.session_state.signals = st.session_state.signals[:signal] + st.session_state.signals[signal + 1:]
+
             self.show_error("Please select signal to delete.")
         except:
             self.show_error("Can't Delete this signal.")
 
-    
     def start_signal_drawing(self, filePath):
         try:
             self.draw_signal(self.signalObject.signal)
@@ -96,7 +94,6 @@ class AppUi:
             selectButtonValue = st.session_state.checkbox
             # TODO: get the specified signal from the file.
 
-
             st.session_state.sampledSignal = self.signalObject.sample_signal(st.session_state.signal[0], sampleRate)
             self.draw_sampled_signal(st.session_state.sampledSignal)
         except:
@@ -104,22 +101,21 @@ class AppUi:
 
     def reconstruct_signal(self):
         try:
-            t = st.session_state.sampledSignal.iloc[:,0]
-            y = st.session_state.sampledSignal.iloc[:,1]
+            t = st.session_state.sampledSignal.iloc[:, 0]
+            y = st.session_state.sampledSignal.iloc[:, 1]
             for i in range(t.shape[0]):
-                if t[i]<0:
-                    y[i]=0
-            y=self.yRe(t, y)        
-            reconstructedData = {'t':t,'y':y}
+                if t[i] < 0:
+                    y[i] = 0
+            y = self.yRe(t, y)
+            reconstructedData = {'t': t, 'y': y}
             reconstructedSignal = pd.DataFrame(reconstructedData)
             self.draw_signal(reconstructedSignal)
         except:
             self.show_error("Can't reconstruct this signal...")
 
-        
-    def yRe(self,t,y):
+    def yRe(self, t, y):
         Ts = t[2] - t[1]
-        fs=1/Ts
+        fs = 1 / Ts
         z = 0
         for i in range(-int((t.shape[0] - 1) / 2), int((t.shape[0] - 1) / 2), 1):
             n = int(i + (t.shape[0] - 1) / 2 + 1)
