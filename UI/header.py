@@ -35,18 +35,6 @@ class headerUI:
             self.add_noise()
 
 
-
-    def add_button(self, signalDict):
-        st.session_state.signals.append(signalDict)
-
-    def add_noise(self):
-        df = pd.read_csv(r"C:\Users\kamel\OneDrive\Documents\GitKraken\Sampling-Studio\uploads\Untitled_spreadsheet_-_Sheet1.csv")
-
-        st.session_state.noises.append({
-            "name": np.random.random(),
-            "noise": df
-        })
-
     
 
 

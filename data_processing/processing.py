@@ -60,6 +60,55 @@ class SignalProcessing:
             return(signal)
         except:
             raise ValueError("Can't sample the function")
+    
+    def generate_signal(self, amplitude, frequency, phase):
+        sampleRate=100 
+        time=np.arange(0, 10, 1/sampleRate)
+        y=amplitude* np.sin(2*np.pi*frequency*time+ phase)
+        d = {'time': time, 'y': y}
+
+        return(pd.DataFrame(data=d))
+
+    def add_noise(self, signal, SNR):
+        t = signal.iloc[:, 0]
+        y = signal.iloc[:, 1]
+
+        initialNoise = np.random.uniform(low=0, high=1, size=len(t))
+
+        multiplicationFactor = (np.mean(y**2)) / (SNR * np.mean(np.square(initialNoise)))
+
+        noise = multiplicationFactor * initialNoise
+
+        signalWithNoise = y + noise
+
+        return(pd.DataFrame({
+            't':t,
+            'y':signalWithNoise
+        }))
+    
+    def reconstruct_signal(self, sampledSignal):
+        try:
+            t = sampledSignal.iloc[:, 0]
+            y = sampledSignal.iloc[:, 1]
+            for i in range(t.shape[0]):
+                if t[i] < 0:
+                    y[i] = 0
+            y = self.yRe(t, y)
+            reconstructedData = {'t': t, 'y': y}
+            reconstructedSignal = pd.DataFrame(reconstructedData)
+            return(reconstructedSignal)
+        except:
+            st.error("Can't reconstruct this signal...")
+
+    def yRe(self, t, y):
+        Ts = t[2] - t[1]
+        fs = 1 / Ts
+        z = 0
+        for i in range(-int((t.shape[0] - 1) / 2), int((t.shape[0] - 1) / 2), 1):
+            n = int(i + (t.shape[0] - 1) / 2 + 1)
+            z += y[n] * np.sin(np.pi * fs * (t - i * Ts)) / (np.pi * fs * (t - i * Ts))
+        return z
+
 
     def saving_signal(self):
         """

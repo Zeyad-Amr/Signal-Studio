@@ -85,28 +85,6 @@ class AppUi:
         except:
             raise ValueError("Can't sample this Signal...")
 
-    def reconstruct_signal(self):
-        try:
-            t = st.session_state.sampledSignal.iloc[:, 0]
-            y = st.session_state.sampledSignal.iloc[:, 1]
-            for i in range(t.shape[0]):
-                if t[i] < 0:
-                    y[i] = 0
-            y = self.yRe(t, y)
-            reconstructedData = {'t': t, 'y': y}
-            reconstructedSignal = pd.DataFrame(reconstructedData)
-            self.draw_signal(reconstructedSignal)
-        except:
-            self.show_error("Can't reconstruct this signal...")
-
-    def yRe(self, t, y):
-        Ts = t[2] - t[1]
-        fs = 1 / Ts
-        z = 0
-        for i in range(-int((t.shape[0] - 1) / 2), int((t.shape[0] - 1) / 2), 1):
-            n = int(i + (t.shape[0] - 1) / 2 + 1)
-            z += y[n] * np.sin(np.pi * fs * (t - i * Ts)) / (np.pi * fs * (t - i * Ts))
-        return z
 
     def draw_signal(self, signal):
         try:
@@ -122,17 +100,4 @@ class AppUi:
 
     def show_error(self, errorMessage):
         st.error(errorMessage)
-    
-    def generate_signal(self):
-        amplitude=1
-        frequency=1
-        phase=0
-        sampleRate=100 
-        # st.session_state.signalSlider
-        time=np.arange(0, 10, 1/sampleRate)
-        y=amplitude* np.sin(2*np.pi*frequency*time+ phase)
-        d = {'time': time, 'y': y}
-
-        signal = pd.DataFrame(data=d)
-        self.draw_signal(signal)
     

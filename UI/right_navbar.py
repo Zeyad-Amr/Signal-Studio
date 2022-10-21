@@ -11,20 +11,40 @@ class rightNavBar:
         {style}
         </style>
         """, unsafe_allow_html=True)
+        if 'recCounter' not in st.session_state:
+            st.session_state.recCounter = 0
 
         # sampling
         with st.container():
             slider_val = st.slider("Sampling")
             if slider_val:
-                print(slider_val)
-            st.button("Reconstruct", on_click=self.on_clicked)
+                try:
+                    if slider_val != 0:
+                        st.session_state.sampledSignal = st.session_state.signalObject.sample_signal(st.session_state.signal, slider_val)
+                        st.session_state.graphWidget.draw_sampled_signal()
+                    else:
+                        st.error("Sample Rate Can't be 0 ...")
+                except:
+                    st.session_state.graphWidget.error_occur()
+                    st.error("Error Occur in sampling, please check and try again...")
+            
+            reconstructButton = st.button("Reconstruct")
+            if reconstructButton:
+                if 'sampledSignal' in st.session_state:
+                    st.session_state.signal = st.session_state.signalObject.reconstruct_signal(st.session_state.sampledSignal)
+                    st.session_state.leftNav.add_button({
+                        'name': 'Reconstructed Signal {}'.format(st.session_state.recCounter),
+                        'signal': st.session_state.signal
+                    })
+                    st.session_state.recCounter += 1
+                    st.session_state.graphWidget.draw_signal()
 
         # add noise
         st.write("Add Noise")
         noiseSNR = st.slider("SNR")
         if noiseSNR:
-            # TODO: SNR change function
-            print("SNR change function: ", noiseSNR)
+            st.session_state.signalWithNoise = st.session_state.signalObject.add_noise(st.session_state.siganl, noiseSNR)
+            st.session_state.graphWidget.draw_signal_with_noise()
 
     def on_clicked(self):
         print("Clicked")

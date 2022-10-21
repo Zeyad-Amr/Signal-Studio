@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from click import clear
+from numpy import sign
 from werkzeug.utils import secure_filename
 import streamlit as st
 import os
@@ -17,31 +18,45 @@ class leftNavBar:
         </style>
         """, unsafe_allow_html=True)
 
-        tab1, tab2 = st.tabs(["Upload", "Generate"])
+        uploadTab, generateTab = st.tabs(["Upload", "Generate"])
 
-        with tab1:
-            # signal file upload
+        if 'signalCounter' not in st.session_state:
+            st.session_state.signalCounter = 0
+
+        with uploadTab:
             uploadSignal = st.file_uploader("Upload Signal", type=["csv"], key='uploadButton')
             if uploadSignal:
                 path = self.save_file(uploadSignal)
                 siganlDict = st.session_state.signalObject.reading_signal(path)
-                st.session_state.header.add_button(siganlDict)
+                self.add_button(siganlDict)
 
-        with tab2:
-            # generate signal
+        with generateTab:
             with st.form("generate_signal"):
                 st.write("Generate Signal")
                 signalTitle = st.text_input("Signal Title")
 
-                freqVal = st.number_input("Frequency")
+                freqVal = st.number_input("Frequency", )
                 ampVal = st.number_input("Amplitude")
                 phaseVal = st.number_input("Phase")
 
                 submitted = st.form_submit_button("Generate")
                 if submitted:
-                    # TODO: Generate signal function
-                    print(signalTitle, ", ", freqVal, ", ", ampVal, ", ", phaseVal)
-                    st.success("Generated Successfully")
+                    try:
+                        siganlObject = st.session_state.signalObject.generate_signal(ampVal, freqVal, phaseVal)
+                        if signalTitle:
+                            self.add_button({
+                                "name" : signalTitle,
+                                "signal": siganlObject
+                            })
+                        else:
+                            self.add_button({
+                                "name" : "Untitled {}".format(st.session_state.signalCounter),
+                                "signal": siganlObject
+                            })
+                            st.session_state.signalCounter += 1
+                        st.success("Generated Successfully")
+                    except:
+                        st.error("Can't Generate Signal with these values...")
 
         signalsLst = []
         for signal in st.session_state.signals:
@@ -54,10 +69,15 @@ class leftNavBar:
             self.on_change()
 
     def on_change(self):
-        for signal in st.session_state.signals:
-            if signal['name'] == st.session_state.selectedSignal:
-                st.session_state.signal = signal['signal']
-                st.session_state.graphWidget.draw_signal()
+        try:
+            for signal in st.session_state.signals:
+                if signal['name'] == st.session_state.selectedSignal:
+                    st.session_state.signal = signal['signal']
+                    st.session_state.graphWidget.draw_signal()
+                    # TODO: Select the last signal
+        except:
+            st.session_state.graphWidget.error_occur()
+            st.error("Can't Import this signal...")
 
     def save_file(self, csvFile):
         try:
@@ -70,3 +90,7 @@ class leftNavBar:
             return filePath
         except:
             raise ValueError("Can't Upload this file, please try again...")
+
+    def add_button(self, signalDict):
+        st.session_state.signals.append(signalDict)
+        st.session_state.siganl = signalDict['signal']
