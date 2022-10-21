@@ -19,9 +19,6 @@ class rightNavBar:
                 print(slider_val)
             st.button("Reconstruct", on_click=self.on_clicked)
 
-
-
-
         # add noise
         st.write("Add Noise")
         noiseSNR = st.slider("SNR")
