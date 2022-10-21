@@ -1,3 +1,4 @@
+from enum import Flag
 import os
 from pathlib import Path
 from click import clear
@@ -22,6 +23,9 @@ class leftNavBar:
 
         if 'signalCounter' not in st.session_state:
             st.session_state.signalCounter = 0
+        
+        if 'generatedSignalCounter' not in st.session_state:
+            st.session_state.generatedSignalCounter = 0
 
         with uploadTab:
             uploadSignal = st.file_uploader("Upload Signal", type=["csv"], key='uploadButton')
@@ -44,15 +48,19 @@ class leftNavBar:
                     try:
                         siganlObject = st.session_state.signalObject.generate_signal(ampVal, freqVal, phaseVal)
                         if signalTitle:
-                            self.add_button({
+                            sObject = {
                                 "name": signalTitle,
                                 "signal": siganlObject
-                            })
+                            }
+                            self.add_button(sObject)
+                            self.add_generated_signal_name(sObject)
                         else:
-                            self.add_button({
+                            sObject = {
                                 "name": "Untitled {}".format(st.session_state.signalCounter),
                                 "signal": siganlObject
-                            })
+                            }
+                            self.add_button(sObject)
+                            st.session_state.generatedSignals.append(sObject)
                             st.session_state.signalCounter += 1
                         st.success("Generated Successfully")
                     except:
@@ -95,3 +103,13 @@ class leftNavBar:
     def add_button(self, signalDict):
         st.session_state.signals.append(signalDict)
         st.session_state.siganl = signalDict['signal']
+
+    def add_generated_signal_name(self, sObject):
+        for i in st.session_state.generatedSignals:
+            if i['name'] == sObject['name']:
+                flag = False
+                sObject['name'] = sObject['name'] + ' {}'.format(st.session_state.generatedSignalCounter)
+                st.session_state.generatedSignalCounter += 1
+                break
+        st.session_state.generatedSignals.append(sObject)
+        

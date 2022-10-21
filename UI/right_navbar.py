@@ -14,6 +14,9 @@ class rightNavBar:
         if 'recCounter' not in st.session_state:
             st.session_state.recCounter = 0
 
+        if 'mixCounter' not in st.session_state:
+            st.session_state.mixCounter = 0
+
         # sampling
         with st.container():
             slider_val = st.slider("Sampling")
@@ -55,10 +58,23 @@ class rightNavBar:
             st.write("---")
             st.write("Add Signals")
             selectedSignals = []
-            for signal in st.session_state.signals:
+            for signal in st.session_state.generatedSignals:
                 checkboxVal = st.checkbox(signal['name'], key=signal['name'])
                 if checkboxVal:
-                    selectedSignals.append(signal['name'])
+                    selectedSignals.append(signal['signal'])
         addSingalBtn = st.button("Add")
         if addSingalBtn:
-            print(selectedSignals)
+            firstSignal = selectedSignals[0]
+            for i in selectedSignals[1:]:
+                firstSignal = st.session_state.signalObject.add_signals(firstSignal, i)
+            
+            st.session_state.signal = firstSignal
+            sObject = {
+                'name': 'Mixture Signal {}'.format(st.session_state.mixCounter),
+                'signal': st.session_state.signal
+            }
+            st.session_state.leftNav.add_button(sObject)
+            st.session_state.generatedSignals.append(sObject)
+            st.session_state.mixCounter += 1
+            st.session_state.graphWidget.draw_signal()
+            

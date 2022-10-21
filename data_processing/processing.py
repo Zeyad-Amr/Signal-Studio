@@ -117,3 +117,14 @@ class SignalProcessing:
             savingPath (str): a path of the file that wanted to save.
         """
         return pd.DataFrame(self.signal).to_csv().encode('utf-8')
+
+    def add_signals(self, firstSignal, secondSignal):
+        try:
+            outputSignal={'t': firstSignal.iloc[:, 0], 
+                    'y': firstSignal.iloc[:, 1] + secondSignal.iloc[:, 1]}
+
+            outputDataFrame = pd.DataFrame(outputSignal)
+            return(outputDataFrame)
+        except:
+            raise ValueError(
+                "The Input signals Can't be plotted.")

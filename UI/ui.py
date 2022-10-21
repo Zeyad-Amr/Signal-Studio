@@ -15,8 +15,8 @@ class AppUi:
     def __init__(self):
         if 'signals' not in st.session_state:
             st.session_state.signals = []
-        if 'noises' not in st.session_state:
-            st.session_state.noises = []
+        if 'generatedSignals' not in st.session_state:
+            st.session_state.generatedSignals = []
         if 'sampledSignal' not in st.session_state:
             st.session_state.sampledSignal = pd.DataFrame()
         if 'signalObject' not in st.session_state:
@@ -91,17 +91,3 @@ class AppUi:
     def show_error(self, errorMessage):
         st.error(errorMessage)
     
-    def generate_signal(self):
-        amplitude=1
-        frequency=1
-        phase=0
-        sampleRate=100 
-        # st.session_state.signalSlider
-        time=np.arange(0, 10, 1/sampleRate)
-        y=amplitude* np.sin(2*np.pi*frequency*time+ phase)
-        d = {'time': time, 'y': y}
-
-        signal = pd.DataFrame(data=d)
-        self.draw_signal(signal)
-    
-    st.button("Generate", on_click=generate_signal(Self))
