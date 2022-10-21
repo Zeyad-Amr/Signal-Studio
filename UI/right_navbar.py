@@ -20,5 +20,11 @@ class rightNavBar:
             if submitted:
                 st.success("Reconstructed Successfully")
 
-        
+        # file upload
+        uploadSignal = st.file_uploader("Upload Signal", type=["csv"], accept_multiple_files=True)
+        if uploadSignal:
+            # TODO: Browse signal function
+            print("Browse signal function")
+
+
 
