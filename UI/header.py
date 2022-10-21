@@ -17,7 +17,7 @@ class headerUI:
         </style>
         """, unsafe_allow_html=True)
 
-        headerCols = st.columns([2, 2, 2, 2, 2, 15, 1, 2])
+        headerCols = st.columns([2, 2, 2, 2, 2, 10, 1, 2])
 
         with headerCols[1]:
             st.button('Add Signal', on_click=on_click_btn('add_signal'))

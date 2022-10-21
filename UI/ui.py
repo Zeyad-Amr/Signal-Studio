@@ -43,7 +43,7 @@ class AppUi:
         st.write("---")
 
         # layout
-        cols = st.columns([0.1, 1, 0.1, 2, 0.1, 1, 0.1])
+        cols = st.columns([0.1, 2, 0.1, 3, 0.1, 2, 0.1])
         with cols[1].container():
             leftNavBar()
         with cols[3].container():

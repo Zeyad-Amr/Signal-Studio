@@ -28,9 +28,11 @@ class rightNavBar:
 
         with st.form("generate_signal"):
             st.write("Generate Signal")
-            signalTitle = st.text_input("Signal Title", )
-            freqVal = st.slider("Frequency")
-            ampVal = st.slider("Amplitude")
+            signalTitle = st.text_input("Signal Title")
+
+            freqVal = st.number_input("Frequency")
+            ampVal = st.number_input("Amplitude")
+            phaseVal = st.number_input("Phase")
 
             # Every form must have a submit button.
             submitted = st.form_submit_button("Generate")
@@ -38,4 +40,5 @@ class rightNavBar:
                 # TODO: Generate signal function
 
                 st.success("Generated Successfully")
+
 
