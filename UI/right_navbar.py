@@ -41,10 +41,10 @@ class rightNavBar:
                 # TODO: Generate signal function
                 print(signalTitle, ", ", freqVal, ", ", ampVal, ", ", phaseVal)
                 st.success("Generated Successfully")
-
-                # add noise
-                st.write("Add Noise")
-                noiseSNR = st.slider("SNR")
-                if noiseSNR:
-                    # TODO: SNR change function
+        with st.container():
+            # add noise
+            st.write("Add Noise")
+            noiseSNR = st.slider("SNR")
+            if noiseSNR:
+                # TODO: SNR change function
                     print("SNR change function: ", noiseSNR)
