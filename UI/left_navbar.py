@@ -45,12 +45,12 @@ class leftNavBar:
                         siganlObject = st.session_state.signalObject.generate_signal(ampVal, freqVal, phaseVal)
                         if signalTitle:
                             self.add_button({
-                                "name" : signalTitle,
+                                "name": signalTitle,
                                 "signal": siganlObject
                             })
                         else:
                             self.add_button({
-                                "name" : "Untitled {}".format(st.session_state.signalCounter),
+                                "name": "Untitled {}".format(st.session_state.signalCounter),
                                 "signal": siganlObject
                             })
                             st.session_state.signalCounter += 1
@@ -61,7 +61,6 @@ class leftNavBar:
         signalsLst = []
         for signal in st.session_state.signals:
             signalsLst.append(signal['name'])
-
 
         st.radio("Signals", signalsLst, key="selectedSignal")
 
