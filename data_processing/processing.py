@@ -30,7 +30,8 @@ class SignalProcessing:
                 "signal": self.signal
             })
         except Exception:
-            raise ValueError("An Error Occur While Reading the file, please try again.")
+            raise ValueError(
+                "An Error Occur While Reading the file, please try again.")
 
     def sample_signal(self, signal, sampleRate):
         try:
@@ -38,7 +39,7 @@ class SignalProcessing:
             y = signal.iloc[:, 1]
 
             freqs = np.fft.fftfreq(len(t))
-            maxFrequency = 2
+            maxFrequency = np.max(freqs)
 
             # guard class for freq
             # BUG  # error catch should be handled to catch this message instead of throw (can't sample the function)
@@ -87,26 +88,26 @@ class SignalProcessing:
         }))
 
     def reconstruct_signal(self, sampledSignal):
-        try:
-            t = sampledSignal.iloc[:, 0]
-            y = sampledSignal.iloc[:, 1]
-            for i in range(t.shape[0]):
-                if t[i] < 0:
-                    y[i] = 0
-            y = self.reconstructY(t, y)
-            reconstructedData = {'t': t, 'y': y}
-            reconstructedSignal = pd.DataFrame(reconstructedData)
-            return (reconstructedSignal)
-        except:
-            st.error("Can't reconstruct this signal...")
-
-    def reconstructY(self, t, y):
-        Ts = t[2] - t[1]
-        fs = 1 / Ts
-        z = 0
+        t = sampledSignal.iloc[:, 0]
+        y = sampledSignal.iloc[:, 1]
         for i in range(t.shape[0]):
-            z += y[i] * np.sin(np.pi * fs * (t - i * Ts)) / (np.pi * fs * (t - i * Ts))
-        return z
+            if t[i] < 0:
+                y[i] = 0
+
+        t_reconstruct = np.linspace(t[0], t[t.shape[0]-1], 10000)
+        t=np.array(t)
+        y=np.array(y)
+        y_reconstruction = self.reconstructY(x=t_reconstruct, xp=t, fp=y)
+        reconstructedData = {'t': t_reconstruct, 'y': y_reconstruction}
+        reconstructedSignal = pd.DataFrame(reconstructedData)
+        return (reconstructedSignal)
+
+    def reconstructY(self, x, xp, fp):
+        u = np.resize(x, (len(xp), len(x)))
+        v = (xp - u.T)/(xp[1] - xp[0])
+        m = fp * np.sinc(v)
+        fp_at_x = np.sum(m, axis=1)
+        return fp_at_x
 
     def saving_signal(self):
         """
