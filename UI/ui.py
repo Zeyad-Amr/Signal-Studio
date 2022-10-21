@@ -13,30 +13,6 @@ import pandas as pd
 
 class AppUi:
     def __init__(self):
-        # .....testing add_signal & generate_signal functions
-        # amplitude1=1
-        # frequency1=1
-        # phase1=0
-        # sampleRate1=100 
-        # time1=np.arange(0, 10, 1/sampleRate1)
-        # y1=amplitude1* np.sin(2*np.pi*frequency1*time1+ phase1)
-        # d1 = {'t': time1, 'y': y1}
-        # signal1 = pd.DataFrame(data=d1)
-        # amplitude2=1
-        # frequency2=1
-        # phase2=0
-        # sampleRate2=100 
-        # time2=np.arange(0, 10, 1/sampleRate2)
-        # y=amplitude2* np.sin(2*np.pi*frequency2*time2+ phase2)
-        # d2 = {'t': time2, 'y': y}
-        # signal2 = pd.DataFrame(data=d2)
-        # st.button("Add", on_click=self.add_signal(signal1, signal2))
-        # st.button("Generate", on_click=self.generate_signal)
-
-
-
-
-
         self.signalObject = processing.SignalProcessing()
         st.set_page_config(page_title='Sampling Studio')
 
@@ -142,11 +118,13 @@ class AppUi:
         self.draw_signal(signal)
     
     
-    def add_signal(self, signal1, signal2):
-        if(signal1['t'].equals(signal2['t'])):
-            mixedd={'t': signal1['t'], 'y': signal1['y']+signal1['y']}
-            mixedSignal=pd.DataFrame(data=mixedd)
-            self.draw_signal(mixedSignal)
+    def add_signal(self, firstSignal, secondSignal):
+        if(firstSignal['t'].equals(secondSignal['t'])):
+            outputSignal={'t': firstSignal['t'], 
+                    'y': firstSignal['y'] + secondSignal['y']}
+
+            outputDataFrame = pd.DataFrame(outputSignal)
+            return(outputDataFrame)
         else:
             raise ValueError(
                 "The Input signals Can't be plotted.")
