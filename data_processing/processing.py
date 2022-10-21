@@ -63,7 +63,7 @@ class SignalProcessing:
     
     def generate_signal(self, amplitude, frequency, phase):
         sampleRate=100 
-        time=np.arange(0, 10, 1/sampleRate)
+        time=np.arange(0, 20, 1/sampleRate)
         y=amplitude* np.sin(2*np.pi*frequency*time+ phase)
         d = {'time': time, 'y': y}
 

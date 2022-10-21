@@ -74,6 +74,8 @@ class leftNavBar:
                 if signal['name'] == st.session_state.selectedSignal:
                     st.session_state.signal = signal['signal']
                     st.session_state.graphWidget.draw_signal()
+                    st.session_state.fileToDownload = signal['signal'].to_csv()
+                    st.session_state.fileToDownloadName = signal['name']
                     # TODO: Select the last signal
         except:
             st.session_state.graphWidget.error_occur()

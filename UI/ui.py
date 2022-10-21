@@ -74,16 +74,6 @@ class AppUi:
         except Exception as errorMessage:
             self.show_error(errorMessage)
 
-    def sample_signal(self):
-        try:
-            sampleRate = st.session_state.signalSlider
-            selectButtonValue = st.session_state.checkbox
-            # TODO: get the specified signal from the file.
-
-            st.session_state.sampledSignal = self.signalObject.sample_signal(st.session_state.signal[0], sampleRate)
-            self.draw_sampled_signal(st.session_state.sampledSignal)
-        except:
-            raise ValueError("Can't sample this Signal...")
 
 
     def draw_signal(self, signal):
