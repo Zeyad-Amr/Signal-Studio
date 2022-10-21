@@ -12,33 +12,22 @@ class rightNavBar:
         </style>
         """, unsafe_allow_html=True)
 
-        with st.form("sampling_form"):
+        # sampling
+        with st.container():
             slider_val = st.slider("Sampling")
-
-            # Every form must have a submit button.
-            submitted = st.form_submit_button("Reconstruct")
-            if submitted:
-                st.success("Reconstructed Successfully")
-
-        # file upload
-        uploadSignal = st.file_uploader("Upload Signal", type=["csv"], accept_multiple_files=True)
-        if uploadSignal:
-            # TODO: Browse signal function
-            print("Browse signal function")
-
-        with st.form("generate_signal"):
-            st.write("Generate Signal")
-            signalTitle = st.text_input("Signal Title")
-
-            freqVal = st.number_input("Frequency")
-            ampVal = st.number_input("Amplitude")
-            phaseVal = st.number_input("Phase")
-
-            # Every form must have a submit button.
-            submitted = st.form_submit_button("Generate")
-            if submitted:
-                # TODO: Generate signal function
-
-                st.success("Generated Successfully")
+            if slider_val:
+                print(slider_val)
+            st.button("Reconstruct", on_click=self.on_clicked)
 
 
+
+
+        # add noise
+        st.write("Add Noise")
+        noiseSNR = st.slider("SNR")
+        if noiseSNR:
+            # TODO: SNR change function
+            print("SNR change function: ", noiseSNR)
+
+    def on_clicked(self):
+        print("Clicked")
