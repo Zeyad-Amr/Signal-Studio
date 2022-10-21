@@ -13,21 +13,38 @@ class rightNavBar:
         """, unsafe_allow_html=True)
 
         # sampling
-        with st.container():
+        with st.form("sampling_form"):
             slider_val = st.slider("Sampling")
-            if slider_val:
-                print(slider_val)
-            st.button("Reconstruct", on_click=self.on_clicked)
 
+            # Every form must have a submit button.
+            submitted = st.form_submit_button("Reconstruct")
+            if submitted:
+                st.success("Reconstructed Successfully")
 
+        # signal file upload
+        uploadSignal = st.file_uploader("Upload Signal", type=["csv"])
+        if uploadSignal:
+            # TODO: Browse signal function
+            print("Browse signal function: ", uploadSignal)
 
+        # generate signal
+        with st.form("generate_signal"):
+            st.write("Generate Signal")
+            signalTitle = st.text_input("Signal Title")
 
-        # add noise
-        st.write("Add Noise")
-        noiseSNR = st.slider("SNR")
-        if noiseSNR:
-            # TODO: SNR change function
-            print("SNR change function: ", noiseSNR)
+            freqVal = st.number_input("Frequency")
+            ampVal = st.number_input("Amplitude")
+            phaseVal = st.number_input("Phase")
 
-    def on_clicked(self):
-        print("Clicked")
+            submitted = st.form_submit_button("Generate")
+            if submitted:
+                # TODO: Generate signal function
+                print(signalTitle, ", ", freqVal, ", ", ampVal, ", ", phaseVal)
+                st.success("Generated Successfully")
+
+                # add noise
+                st.write("Add Noise")
+                noiseSNR = st.slider("SNR")
+                if noiseSNR:
+                    # TODO: SNR change function
+                    print("SNR change function: ", noiseSNR)
