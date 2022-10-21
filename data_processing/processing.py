@@ -93,20 +93,19 @@ class SignalProcessing:
             for i in range(t.shape[0]):
                 if t[i] < 0:
                     y[i] = 0
-            y = self.yRe(t, y)
+            y = self.reconstructY(t, y)
             reconstructedData = {'t': t, 'y': y}
             reconstructedSignal = pd.DataFrame(reconstructedData)
             return(reconstructedSignal)
         except:
             st.error("Can't reconstruct this signal...")
 
-    def yRe(self, t, y):
+    def reconstructY(self, t, y):
         Ts = t[2] - t[1]
         fs = 1 / Ts
         z = 0
-        for i in range(-int((t.shape[0] - 1) / 2), int((t.shape[0] - 1) / 2), 1):
-            n = int(i + (t.shape[0] - 1) / 2 + 1)
-            z += y[n] * np.sin(np.pi * fs * (t - i * Ts)) / (np.pi * fs * (t - i * Ts))
+        for i in range(t.shape[0]):
+            z += y[i] * np.sin(np.pi * fs * (t - i * Ts)) / (np.pi * fs * (t - i * Ts))
         return z
 
 
