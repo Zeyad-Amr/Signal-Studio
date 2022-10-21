@@ -26,5 +26,16 @@ class rightNavBar:
             # TODO: Browse signal function
             print("Browse signal function")
 
+        with st.form("generate_signal"):
+            st.write("Generate Signal")
+            signalTitle = st.text_input("Signal Title", )
+            freqVal = st.slider("Frequency")
+            ampVal = st.slider("Amplitude")
 
+            # Every form must have a submit button.
+            submitted = st.form_submit_button("Generate")
+            if submitted:
+                # TODO: Generate signal function
+
+                st.success("Generated Successfully")
 
