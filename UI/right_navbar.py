@@ -62,8 +62,7 @@ class rightNavBar:
         st.write("---")
         st.write("Add Noise")
         noiseSNR = st.slider("SNR", key="SNR_slider", min_value=0, max_value=50)
-        if noiseSNR != 0:
-            st.session_state["sampling_slider"] = 0
+
         if noiseSNR:
             try:
                 st.session_state.signalWithNoise = st.session_state.signalObject.add_noise(st.session_state.siganl,

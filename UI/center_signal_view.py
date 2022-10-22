@@ -1,8 +1,8 @@
-from signal import signal
+from matplotlib.style import use
 import streamlit as st
 from matplotlib import pyplot as plt
 import numpy as np
-
+import plotly.graph_objects as go
 
 class centerSignalView:
     def __init__(self):
@@ -15,49 +15,122 @@ class centerSignalView:
         </style>
         """, unsafe_allow_html=True)
 
-        self.fig, self.ax = plt.subplots()
-        self.fig.set_size_inches(12, 5)
-
+        self.fig = go.Figure()
+        self.fig.update_layout(
+            height = 400,
+            margin = {
+                'l':0,
+                'r':0,
+                'b':0,
+                't':0
+            }
+        )
+        self.fig.update_xaxes(showgrid = False, automargin=True)
+        self.fig.update_yaxes(showgrid = False, automargin=True)
         if 'figureSpot' not in st.session_state:
-            self.figureSpot = st.pyplot(self.fig)
+            self.figureSpot = st.plotly_chart(self.fig, use_container_width=True)
             st.session_state.figureSpot = self.figureSpot
 
     def draw_signal(self):
+        self.fig = go.Figure()
         signal = st.session_state.signal
-        plt.style.use(
-            "https://raw.githubusercontent.com/dhaitz/matplotlib-stylesheets/master/pitayasmoothie-dark.mplstyle")
-        self.ax.plot(signal.iloc[:, 0], signal.iloc[:, 1], color="#5891C7")
+        self.fig.add_trace(go.Scatter(
+            x = signal.iloc[:, 0],
+            y=signal.iloc[:, 1], 
+            mode='lines',
+            name='lines'))
 
-        self.ax.set_title("Signal Digram.")
-        self.ax.set_xlabel("time")
-        self.ax.set_ylabel("Amplitude")
+        self.fig.update_layout(title = "Signal Digram.", 
+                                xaxis_title = "time", 
+                                yaxis_title="Amplitude")
+
+        self.fig.update_xaxes(showgrid = False, automargin=True)
+        self.fig.update_yaxes(showgrid = False, automargin=True)
+        
+        self.fig.update_layout(
+            height = 400,
+            margin = {
+                'l':0,
+                'r':0,
+                'b':0,
+                't':0
+            }
+        )
 
         with st.session_state.figureSpot:
-            st.pyplot(self.fig)
+            st.plotly_chart(self.fig, use_container_width=True)
 
     def draw_signal_with_noise(self):
+        self.fig = go.Figure()
         signal = st.session_state.signalWithNoise
-        plt.style.use(
-            "https://raw.githubusercontent.com/dhaitz/matplotlib-stylesheets/master/pitayasmoothie-dark.mplstyle")
-        self.ax.plot(signal.iloc[:, 0], signal.iloc[:, 1], color="#5891C7")
 
-        self.ax.set_title("Signal with Noise Digram.")
-        self.ax.set_xlabel("time")
-        self.ax.set_ylabel("Amplitude")
+        self.fig.add_trace(go.Scatter(
+            x = signal.iloc[:, 0],
+            y=signal.iloc[:, 1],
+            mode='lines',
+            name='dots'))
+
+
+        self.fig.update_layout(title = "Signal with Noise Digram.", 
+                                xaxis_title = "time", 
+                                yaxis_title="Amplitude")
+        self.fig.update_xaxes(showgrid = False, automargin=True)
+        self.fig.update_yaxes(showgrid = False, automargin=True)
+        
+        self.fig.update_layout(
+            height = 400,
+            margin = {
+                'l':0,
+                'r':0,
+                'b':0,
+                't':0
+            }
+        )
 
         with st.session_state.figureSpot:
-            st.pyplot(self.fig)
+            st.plotly_chart(self.fig, use_container_width=True)
 
     def draw_sampled_signal(self):
+        self.fig = go.Figure()
         sampledSignal = st.session_state.sampledSignal
+        signal = st.session_state.signal
 
-        self.ax.scatter(sampledSignal.iloc[:, 0], sampledSignal.iloc[:, 1])
+        self.fig.add_trace(go.Scatter(
+            x = signal.iloc[:, 0],
+            y= signal.iloc[:, 1],
+            mode='lines',
+            name='signal'))
+
+        self.fig.add_trace(go.Scatter(
+            x = sampledSignal.iloc[:, 0],
+            y=sampledSignal.iloc[:, 1],
+            mode='markers',
+            name='sampled signal'))
+
+        self.fig.update_layout(legend = {})
+        self.fig.update_xaxes(showgrid = False, automargin=True)
+        self.fig.update_yaxes(showgrid = False, automargin=True)
+
+        self.fig.update_layout(title = "Sampled Signal Digram.", 
+                                xaxis_title = "time", 
+                                yaxis_title="Amplitude")
+
+        self.fig.update_layout(
+            height = 400,
+            margin = {
+                'l':0,
+                'r':0,
+                'b':0,
+                't':0
+            }
+        )
 
         with st.session_state.figureSpot:
-            st.pyplot(self.fig)
+            st.plotly_chart(self.fig, use_container_width=True)
 
     def error_occur(self):
-        self.fig, self.ax = plt.subplots()
-        self.fig.set_size_inches(12, 5)
+        self.fig = go.Figure()
+        self.fig.update_xaxes(showgrid = False, automargin=True)
+        self.fig.update_yaxes(showgrid = False, automargin=True)
         with st.session_state.figureSpot:
-            st.pyplot(self.fig)
+            st.plotly_chart(self.fig, use_container_width=True)

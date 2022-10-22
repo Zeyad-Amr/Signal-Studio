@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 
 
+
 class AppUi:
     def __init__(self):
         if 'signals' not in st.session_state:
