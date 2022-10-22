@@ -22,13 +22,15 @@ class rightNavBar:
 
         # sampling
         with st.container():
-            slider_val = st.slider("Sampling", key="sampling_slider", min_value=0, max_value=20)
+            slider_val = st.slider("Sampling", key="sampling_slider", min_value=0, max_value=150)
             if slider_val:
                 try:
                     if slider_val != 0:
                         st.session_state.sampledSignal = st.session_state.signalObject.sample_signal(
                             st.session_state.signal, slider_val)
                         st.session_state.graphWidget.draw_sampled_signal()
+                        st.session_state["SNR_slider"] = 0
+
                     else:
                         st.error("Sample Rate Can't be 0 ...")
                 except:
@@ -39,6 +41,7 @@ class rightNavBar:
             if reconstructButton:
                 try:
                     if 'sampledSignal' in st.session_state:
+                        st.session_state["SNR_slider"] = 0
                         if st.session_state.sampledSignal == NULL:
                             st.error("Nothing to reconstruct this signal...")
                             st.session_state.graphWidget.error_occur()
@@ -58,12 +61,15 @@ class rightNavBar:
         # add noise
         st.write("---")
         st.write("Add Noise")
-        noiseSNR = st.slider("SNR", key="SNR_slider", min_value=0, max_value=20)
+        noiseSNR = st.slider("SNR", key="SNR_slider", min_value=0, max_value=50)
+        if noiseSNR != 0:
+            st.session_state["sampling_slider"] = 0
         if noiseSNR:
             try:
                 st.session_state.signalWithNoise = st.session_state.signalObject.add_noise(st.session_state.siganl,
                                                                                            noiseSNR)
                 st.session_state.graphWidget.draw_signal_with_noise()
+
             except Exception as e:
                 st.error("Can't Add Noise to This Signal...")
                 st.session_state.graphWidget.error_occur()
@@ -102,4 +108,4 @@ class rightNavBar:
             except:
                 st.error("Can't Add These Signals...")
                 st.session_state.graphWidget.error_occur()
-    
+

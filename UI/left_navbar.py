@@ -41,11 +41,11 @@ class leftNavBar:
         with generateTab:
             with st.form("generate_signal"):
                 st.write("Generate Signal")
-                signalTitle = st.text_input("Signal Title")
+                signalTitle = st.text_input("Signal Title", placeholder  ="Please enter the signal title")
 
-                freqVal = st.number_input("Frequency", )
-                ampVal = st.number_input("Amplitude")
-                phaseVal = st.number_input("Phase")
+                freqVal = st.number_input("Frequency (HZ)", step=0.01)
+                ampVal = st.number_input("Amplitude (m)",step=0.01)
+                phaseVal = st.number_input("Phase (⫪)",step=0.01)
 
                 submitted = st.form_submit_button("Generate")
                 if submitted:

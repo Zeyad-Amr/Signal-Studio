@@ -1,34 +1,33 @@
 /* color palette */
-.color1 {color: #97DFFC;}
-.color2 {color: #5891C7;}
-.color3 {color: #161818;}
-.color4 {color: #424344;}
-.color5 {color: #ED0000;}
-.color6 {color: #F7F4EA;}
 
 :root{
-    --color_cyan: #97DFFC;
-    --color_blue: #5891C7;
-    --color_black: #161818;
-    --color_grey: #424344;
-    --color_red: #ED0000;
-    --color_wheat: #F7F4EA;
+
+    --color_black: #1e1b18;
+    --color_grey: #202124;
+    --color__light_grey: #5f5d5d;
+    --color_white: #fffaff;
+
+    --color_red: #ed1c24;
+
+    --color_cyan: #0f79eb;
+    --color_blue: #004fa3;
+    --color_purple: #742e92 ;
+
+
 }
 
 /* header & footer*/
-.css-14xtw13.e8zbici0 {
-    visibility : visible;
-}
-.css-1lsmgbg.egzxvld0 {
+.css-19903na.e8zbici2 {
     visibility : hidden;
 }
-.css-1avcm0n.e8zbici2{
+.css-1fbvalz.egzxvld0 {
     visibility : hidden;
 }
 
+
 /* body*/
 .css-ffhzg2{
-    background: var(--color_black);
+    background: var(--color_grey);
 }
 .css-12oz5g7 {
     padding: 0;
@@ -55,11 +54,6 @@ hr{
     display: block;
 }
 
-/*.css-8u98yl.exg6vvm0{*/
-/*    padding: 1rem;*/
-/*    border: 1px solid var(--color_grey);*/
-/*    border-radius:5px;*/
-/*}*/
 
 .css-5thqtp-e1tzin5v0{
     padding: 1rem;
@@ -84,4 +78,36 @@ hr{
 
 div.st-bb .st-b3 .st-bc .st-bd .st-be .st-bf .st-bg .st-bh .st-bi .st-bj .st-bk{
     background-color: transparent;
+}
+
+/* buttons */
+.css-nc7boh.edgvbvh9{
+    border: 1px solid var(--color_grey);
+    border-radius:10px;
+    background: rgb(116,46,146);
+    background: linear-gradient(90deg, rgba(116,46,146,1) 0%, rgba(15,121,235,1) 100%);
+    color:var(--color_white);
+}
+
+/* form button */
+.css-nc7boh.edgvbvh5{
+    border: 1px solid var(--color_grey);
+    border-radius:10px;
+    background: rgb(116,46,146);
+    background: linear-gradient(90deg, rgba(116,46,146,1) 0%, rgba(15,121,235,1) 100%);
+    color:var(--color_white);
+
+}
+
+/* slider value */
+.StyledThumbValue.css-10y5sf6.e88czh82{
+    color: var(--color_cyan);
+}
+/* slider point */
+.css-demzbm.e88czh83{
+    background-color: var(--color_cyan);
+}
+
+.st-au .st-av .st-aw .st-ax .st-fa .st-f2 .st-b6 .st-f3 .st-f4 .st-ff .st-f7 .st-f8{
+    background: linear-gradient(to right, var(--color_blue) 0%, var(--color_cyan) 50%, var(--color_cyan) 50%, var(--color__light_grey) 100%);
 }

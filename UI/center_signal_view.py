@@ -35,7 +35,6 @@ class centerSignalView:
         with st.session_state.figureSpot:
             st.pyplot(self.fig)
 
-
     def draw_signal_with_noise(self):
         signal = st.session_state.signalWithNoise
         plt.style.use(
@@ -49,16 +48,16 @@ class centerSignalView:
         with st.session_state.figureSpot:
             st.pyplot(self.fig)
 
-
     def draw_sampled_signal(self):
         sampledSignal = st.session_state.sampledSignal
 
         self.ax.scatter(sampledSignal.iloc[:, 0], sampledSignal.iloc[:, 1])
-        
+
         with st.session_state.figureSpot:
             st.pyplot(self.fig)
 
     def error_occur(self):
         self.fig, self.ax = plt.subplots()
+        self.fig.set_size_inches(12, 5)
         with st.session_state.figureSpot:
             st.pyplot(self.fig)
