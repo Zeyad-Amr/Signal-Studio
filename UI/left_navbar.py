@@ -29,14 +29,15 @@ class leftNavBar:
 
         with uploadTab:
             with st.form("my-form", clear_on_submit=True):
-                uploadSignal = st.file_uploader(
-                    "Upload Signal", type=["csv"], key='uploadButton')
+                uploadedSignals = st.file_uploader(
+                    "Upload Signal", type=["csv"], key='uploadButton', accept_multiple_files=True)
                 submitted = st.form_submit_button("Upload")
 
-            if submitted and uploadSignal is not None:
-                path = self.save_file(uploadSignal)
-                siganlDict = st.session_state.signalObject.reading_signal(path)
-                self.add_button(siganlDict)
+            if submitted and uploadedSignals is not None:
+                for signal in uploadedSignals:
+                    path = self.save_file(signal)
+                    siganlDict = st.session_state.signalObject.reading_signal(path)
+                    self.add_button(siganlDict)
 
         with generateTab:
             with st.form("generate_signal"):

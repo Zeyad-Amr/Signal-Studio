@@ -16,6 +16,7 @@ class centerSignalView:
         """, unsafe_allow_html=True)
 
         self.fig, self.ax = plt.subplots()
+        self.fig.set_size_inches(12, 5)
 
         if 'figureSpot' not in st.session_state:
             self.figureSpot = st.pyplot(self.fig)

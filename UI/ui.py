@@ -60,7 +60,7 @@ class AppUi:
         st.session_state.header = headerUI()
 
         # layout
-        cols = st.columns([0.1, 2, 0.1, 3, 0.1, 2, 0.1])
+        cols = st.columns([0.1, 2, 0.1, 5, 0.1, 2, 0.1])
         with cols[1].container():
             st.session_state.leftNav = leftNavBar()
         with cols[3].container():

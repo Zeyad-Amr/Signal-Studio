@@ -26,9 +26,9 @@ class headerUI:
         with headerCols[4]:
             st.button('Clear', key="ClearButton")
         with headerCols[6]:
-            st.download_button(label='Export', mime='csv', file_name = st.session_state.fileToDownloadName, 
-                data = st.session_state.fileToDownload, key="ExportButton")
-    
+            st.download_button(label='Export', mime='csv', file_name=st.session_state.fileToDownloadName,
+                               data=st.session_state.fileToDownload, key="ExportButton")
+
         if st.session_state.AddSignalButton:
             self.add_button()
 
@@ -38,6 +38,3 @@ class headerUI:
         if st.session_state.ClearButton:
             st.session_state.graphWidget.error_occur()
             st.session_state.signal = pd.DataFrame()
-
-
-    
