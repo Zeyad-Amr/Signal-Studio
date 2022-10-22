@@ -6,7 +6,6 @@ from numpy import sign
 from werkzeug.utils import secure_filename
 import streamlit as st
 import os
-from asyncio.windows_events import NULL
 
 
 class leftNavBar:
@@ -76,13 +75,17 @@ class leftNavBar:
         for signal in st.session_state.signals:
             signalsLst.append(signal['name'])
 
-        st.radio("Signals", signalsLst, key="selectedSignal")
+        def on_change_radio():
+                self.reset_values()
+
+        st.radio("Signals", signalsLst, key="selectedSignal", on_change=on_change_radio)
 
         if st.session_state.selectedSignal:
             self.on_change()
 
     def on_change(self):
         try:
+
             for signal in st.session_state.signals:
                 if signal['name'] == st.session_state.selectedSignal:
                     st.session_state.signal = signal['signal']
@@ -90,6 +93,12 @@ class leftNavBar:
                     st.session_state.fileToDownload = signal['signal'].to_csv()
                     st.session_state.fileToDownloadName = signal['name']
                     # TODO: Select the last signal
+
+
+
+
+
+
         except:
             st.session_state.graphWidget.error_occur()
             st.error("Can't Import this signal...")
@@ -109,13 +118,18 @@ class leftNavBar:
     def add_button(self, signalDict):
         st.session_state.signals.append(signalDict)
         st.session_state.siganl = signalDict['signal']
+        self.reset_values()
 
     def add_generated_signal_name(self, sObject):
         for i in st.session_state.generatedSignals:
             if i['name'] == sObject['name']:
                 flag = False
                 sObject['name'] = sObject['name'] + \
-                    ' {}'.format(st.session_state.generatedSignalCounter)
+                                  ' {}'.format(st.session_state.generatedSignalCounter)
                 st.session_state.generatedSignalCounter += 1
                 break
         st.session_state.generatedSignals.append(sObject)
+
+    def reset_values(self):
+        st.session_state["sampling_slider"] = 0
+        st.session_state["SNR_slider"] = 0
