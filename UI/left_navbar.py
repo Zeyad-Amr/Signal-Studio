@@ -23,13 +23,16 @@ class leftNavBar:
 
         if 'signalCounter' not in st.session_state:
             st.session_state.signalCounter = 0
-        
+
         if 'generatedSignalCounter' not in st.session_state:
             st.session_state.generatedSignalCounter = 0
 
         with uploadTab:
-            uploadSignal = st.file_uploader("Upload Signal", type=["csv"], key='uploadButton')
-            if uploadSignal:
+            with st.form("my-form", clear_on_submit=True):
+                uploadSignal = st.file_uploader("Upload Signal", type=["csv"], key='uploadButton')
+                submitted = st.form_submit_button("Upload")
+
+            if submitted and uploadSignal is not None:
                 path = self.save_file(uploadSignal)
                 siganlDict = st.session_state.signalObject.reading_signal(path)
                 self.add_button(siganlDict)
@@ -112,4 +115,3 @@ class leftNavBar:
                 st.session_state.generatedSignalCounter += 1
                 break
         st.session_state.generatedSignals.append(sObject)
-        

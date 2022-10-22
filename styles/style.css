@@ -55,11 +55,11 @@ hr{
     display: block;
 }
 
-.css-8u98yl.exg6vvm0{
-    padding: 1rem;
-    border: 1px solid var(--color_grey);
-    border-radius:5px;
-}
+/*.css-8u98yl.exg6vvm0{*/
+/*    padding: 1rem;*/
+/*    border: 1px solid var(--color_grey);*/
+/*    border-radius:5px;*/
+/*}*/
 
 .css-5thqtp-e1tzin5v0{
     padding: 1rem;
@@ -76,3 +76,8 @@ hr{
     border: 1px solid var(--color_grey);
     border-radius:5px;
 }
+
+
+/*.css-fis6aj.exg6vvm10{*/
+/*    display: none;*/
+/*}*/
