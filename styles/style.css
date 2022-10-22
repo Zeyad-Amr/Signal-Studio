@@ -1,5 +1,4 @@
 /* color palette */
-
 :root{
 
     --color_black: #1e1b18;
@@ -12,8 +11,6 @@
     --color_cyan: #0f79eb;
     --color_blue: #004fa3;
     --color_purple: #742e92 ;
-
-
 }
 
 /* header & footer*/
@@ -24,11 +21,7 @@
     visibility : hidden;
 }
 
-
 /* body*/
-.css-ffhzg2{
-    background: var(--color_grey);
-}
 .css-12oz5g7 {
     padding: 0;
     max-width: inherit;
@@ -43,71 +36,34 @@ hr{
     border-radius:5px;
 }
 
-/*.css-1p05t8e.epcbefy1{*/
-/*    padding: 2rem;*/
-/*}*/
-.st-bp {
-    padding: 5px 0;
-}
-
+/* browse block */
 .css-u8hs99{
     display: block;
 }
 
-
-.css-5thqtp-e1tzin5v0{
-    padding: 1rem;
-    border: 1px solid var(--color_grey);
-    border-radius:5px;
-}
-
-.st-c5 {
-    background: rgb(14, 17, 23);
-}
-
-.css-5thqtp.e1tzin5v0{
-    padding: 1rem;
-    border: 1px solid var(--color_grey);
-    border-radius:5px;
-}
-
-
-.st-bl{
-    background-color: transparent;
-}
-
-div.st-bb .st-b3 .st-bc .st-bd .st-be .st-bf .st-bg .st-bh .st-bi .st-bj .st-bk{
-    background-color: transparent;
-}
-
 /* buttons */
-.css-nc7boh.edgvbvh9{
+/*button{*/
+/*    border: 1px solid var(--color_grey);*/
+/*    border-radius:20px;*/
+/*    background: rgb(116,46,146);*/
+/*    background: linear-gradient(90deg, rgba(116,46,146,1) 0%, rgba(15,121,235,1) 100%);*/
+/*    color:var(--color_white);*/
+/*}*/
+
+/*button:hover {*/
+/*  background-color: #4CAF50; !* Green *!*/
+/*  color: white;*/
+/*}*/
+
+.css-nc7boh{
     border: 1px solid var(--color_grey);
     border-radius:10px;
-    background: rgb(116,46,146);
-    background: linear-gradient(90deg, rgba(116,46,146,1) 0%, rgba(15,121,235,1) 100%);
-    color:var(--color_white);
-}
-
-/* form button */
-.css-nc7boh.edgvbvh5{
-    border: 1px solid var(--color_grey);
-    border-radius:10px;
-    background: rgb(116,46,146);
     background: linear-gradient(90deg, rgba(116,46,146,1) 0%, rgba(15,121,235,1) 100%);
     color:var(--color_white);
 
 }
 
-/* slider value */
-.StyledThumbValue.css-10y5sf6.e88czh82{
-    color: var(--color_cyan);
-}
-/* slider point */
-.css-demzbm.e88czh83{
-    background-color: var(--color_cyan);
-}
-
-.st-au .st-av .st-aw .st-ax .st-fa .st-f2 .st-b6 .st-f3 .st-f4 .st-ff .st-f7 .st-f8{
-    background: linear-gradient(to right, var(--color_blue) 0%, var(--color_cyan) 50%, var(--color_cyan) 50%, var(--color__light_grey) 100%);
+.css-nc7boh:hover{
+     background: var(--color_grey);
+     color:var(--color_white);
 }
