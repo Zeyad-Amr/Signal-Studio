@@ -29,7 +29,8 @@ class leftNavBar:
 
         with uploadTab:
             with st.form("my-form", clear_on_submit=True):
-                uploadSignal = st.file_uploader("Upload Signal", type=["csv"], key='uploadButton')
+                uploadSignal = st.file_uploader(
+                    "Upload Signal", type=["csv"], key='uploadButton')
                 submitted = st.form_submit_button("Upload")
 
             if submitted and uploadSignal is not None:
@@ -49,7 +50,8 @@ class leftNavBar:
                 submitted = st.form_submit_button("Generate")
                 if submitted:
                     try:
-                        siganlObject = st.session_state.signalObject.generate_signal(ampVal, freqVal, phaseVal)
+                        siganlObject = st.session_state.signalObject.generate_signal(
+                            ampVal, freqVal, phaseVal)
                         if signalTitle:
                             sObject = {
                                 "name": signalTitle,
@@ -111,7 +113,8 @@ class leftNavBar:
         for i in st.session_state.generatedSignals:
             if i['name'] == sObject['name']:
                 flag = False
-                sObject['name'] = sObject['name'] + ' {}'.format(st.session_state.generatedSignalCounter)
+                sObject['name'] = sObject['name'] + \
+                    ' {}'.format(st.session_state.generatedSignalCounter)
                 st.session_state.generatedSignalCounter += 1
                 break
         st.session_state.generatedSignals.append(sObject)

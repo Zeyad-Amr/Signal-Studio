@@ -15,13 +15,34 @@ class AppUi:
     def __init__(self):
         if 'signals' not in st.session_state:
             st.session_state.signals = []
+        
         if 'generatedSignals' not in st.session_state:
             st.session_state.generatedSignals = []
+        
         if 'sampledSignal' not in st.session_state:
-            st.session_state.sampledSignal = pd.DataFrame()
+            st.session_state.sampledSignal = NULL
+        
         if 'signalObject' not in st.session_state:
             self.signalObject = processing.SignalProcessing()
             st.session_state.signalObject = self.signalObject
+        
+        if 'fileToDownload' not in st.session_state:
+            st.session_state.fileToDownload = pd.DataFrame({'t':[], 'y':[]}).to_csv(index=False).encode('utf-8')
+        
+        if 'fileToDownloadName' not in st.session_state:
+            st.session_state.fileToDownloadName = "Untitled"
+        
+        if 'recCounter' not in st.session_state:
+            st.session_state.recCounter = 0
+        
+        if 'mixCounter' not in st.session_state:
+            st.session_state.mixCounter = 0
+
+        if 'signalCounter' not in st.session_state:
+            st.session_state.signalCounter = 0
+        
+        if 'generatedSignalCounter' not in st.session_state:
+            st.session_state.generatedSignalCounter = 0
 
         # config
         st.set_page_config(page_title='Sampling Studio')

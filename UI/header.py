@@ -17,11 +17,6 @@ class headerUI:
 
         headerCols = st.columns([2, 2, 2, 2, 2, 10, 1, 2])
 
-        if 'fileToDownload' not in st.session_state:
-            st.session_state.fileToDownload = pd.DataFrame({'t':[], 'y':[]}).to_csv(index=False).encode('utf-8')
-        if 'fileToDownloadName' not in st.session_state:
-            st.session_state.fileToDownloadName = "Untitled"
-
         with headerCols[1]:
             st.button('Add Signal', key="AddSignalButton")
         with headerCols[2]:
@@ -41,8 +36,8 @@ class headerUI:
             self.add_noise()
 
         if st.session_state.ClearButton:
-            st.session_state.pop('signal')
             st.session_state.graphWidget.error_occur()
+            st.session_state.signal = pd.DataFrame()
 
 
     

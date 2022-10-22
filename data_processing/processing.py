@@ -5,12 +5,6 @@ import pandas as pd
 
 
 class SignalProcessing:
-    def __init__(self):
-        self.signal = None
-        self.sampleRate = 0
-        self.outputFileName = "output.csv"
-        self.outputFile = pd.DataFrame({}).to_csv().encode('utf-8')
-
     def reading_signal(self, filePath):
         """
         return a dataframe from a read file format.
@@ -63,44 +57,53 @@ class SignalProcessing:
             raise ValueError("Can't sample the function")
 
     def generate_signal(self, amplitude, frequency, phase):
-        sampleRate = 100
-        time = np.arange(0, 20, 1 / sampleRate)
-        y = amplitude * np.sin(2 * np.pi * frequency * time + phase)
-        d = {'time': time, 'y': y}
+        try:
+            sampleRate = 100
+            time = np.arange(0, 20, 1 / sampleRate)
+            y = amplitude * np.sin(2 * np.pi * frequency * time + phase)
+            d = {'time': time, 'y': y}
 
-        return (pd.DataFrame(data=d))
+            return (pd.DataFrame(data=d))
+        except:
+            raise ValueError("Can't Generate this signal...")
 
     def add_noise(self, signal, SNR):
-        t = signal.iloc[:, 0]
-        y = signal.iloc[:, 1]
+        try:
+            t = signal.iloc[:, 0]
+            y = signal.iloc[:, 1]
 
-        initialNoise = np.random.uniform(low=0, high=1, size=len(t))
+            initialNoise = np.random.uniform(low=0, high=1, size=len(t))
 
-        multiplicationFactor = (np.mean(y ** 2)) / (SNR * np.mean(np.square(initialNoise)))
+            multiplicationFactor = (np.mean(y ** 2)) / (SNR * np.mean(np.square(initialNoise)))
 
-        noise = multiplicationFactor * initialNoise
+            noise = multiplicationFactor * initialNoise
 
-        signalWithNoise = y + noise
+            signalWithNoise = y + noise
 
-        return (pd.DataFrame({
-            't': t,
-            'y': signalWithNoise
-        }))
+            return (pd.DataFrame({
+                't': t,
+                'y': signalWithNoise
+            }))
+        except:
+            raise ValueError("Can't Add Noise to this signal...")
 
     def reconstruct_signal(self, sampledSignal):
-        t = sampledSignal.iloc[:, 0]
-        y = sampledSignal.iloc[:, 1]
-        for i in range(t.shape[0]):
-            if t[i] < 0:
-                y[i] = 0
+        try:
+            t = sampledSignal.iloc[:, 0]
+            y = sampledSignal.iloc[:, 1]
+            for i in range(t.shape[0]):
+                if t[i] < 0:
+                    y[i] = 0
 
-        t_reconstruct = np.linspace(t[0], t[t.shape[0]-1], 10000)
-        t=np.array(t)
-        y=np.array(y)
-        y_reconstruction = self.reconstructY(x=t_reconstruct, xp=t, fp=y)
-        reconstructedData = {'t': t_reconstruct, 'y': y_reconstruction}
-        reconstructedSignal = pd.DataFrame(reconstructedData)
-        return (reconstructedSignal)
+            t_reconstruct = np.linspace(t[0], t[t.shape[0]-1], 10000)
+            t=np.array(t)
+            y=np.array(y)
+            y_reconstruction = self.reconstructY(x=t_reconstruct, xp=t, fp=y)
+            reconstructedData = {'t': t_reconstruct, 'y': y_reconstruction}
+            reconstructedSignal = pd.DataFrame(reconstructedData)
+            return (reconstructedSignal)
+        except:
+            st.error("Can't Reconstruct this signal...")
 
     def reconstructY(self, x, xp, fp):
         u = np.resize(x, (len(xp), len(x)))
