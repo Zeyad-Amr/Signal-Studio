@@ -1,13 +1,10 @@
 /* color palette */
 :root{
-
     --color_black: #1e1b18;
     --color_grey: #202124;
     --color__light_grey: #5f5d5d;
     --color_white: #fffaff;
-
     --color_red: #ed1c24;
-
     --color_cyan: #0f79eb;
     --color_blue: #004fa3;
     --color_purple: #742e92 ;
@@ -30,11 +27,12 @@
 hr{
     margin: 0;
 }
-.row-widget.stRadio{
-    padding: 2rem;
-    border: 1px solid var(--color_grey);
-    border-radius:5px;
-}
+/* radio styling */
+/*.row-widget.stRadio{*/
+/*    padding: 1.5rem;*/
+/*    border: 1px solid var(--color__light_grey);*/
+/*    border-radius:5px;*/
+/*}*/
 
 /* browse block */
 .css-u8hs99{
@@ -42,19 +40,6 @@ hr{
 }
 
 /* buttons */
-/*button{*/
-/*    border: 1px solid var(--color_grey);*/
-/*    border-radius:20px;*/
-/*    background: rgb(116,46,146);*/
-/*    background: linear-gradient(90deg, rgba(116,46,146,1) 0%, rgba(15,121,235,1) 100%);*/
-/*    color:var(--color_white);*/
-/*}*/
-
-/*button:hover {*/
-/*  background-color: #4CAF50; !* Green *!*/
-/*  color: white;*/
-/*}*/
-
 .css-nc7boh{
     border: 1px solid var(--color_grey);
     border-radius:10px;
@@ -62,8 +47,16 @@ hr{
     color:var(--color_white);
 
 }
-
 .css-nc7boh:hover{
      background: var(--color_grey);
      color:var(--color_white);
+}
+
+.css-nc7boh:focus{
+     background: var(--color_grey);
+     color:var(--color_white);
+}
+
+.deleteClass{
+    color:var(--color_red)
 }

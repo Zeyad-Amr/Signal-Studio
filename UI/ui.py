@@ -11,39 +11,42 @@ import numpy as np
 import pandas as pd
 
 
-
 class AppUi:
     def __init__(self):
+
         if 'signals' not in st.session_state:
             st.session_state.signals = []
-        
+
         if 'generatedSignals' not in st.session_state:
             st.session_state.generatedSignals = []
-        
+
         if 'sampledSignal' not in st.session_state:
             st.session_state.sampledSignal = pd.DataFrame({})
-        
+
         if 'signalObject' not in st.session_state:
             self.signalObject = processing.SignalProcessing()
             st.session_state.signalObject = self.signalObject
-        
+
         if 'fileToDownload' not in st.session_state:
             st.session_state.fileToDownload = pd.DataFrame().to_csv(index=False).encode('utf-8')
-        
+
         if 'fileToDownloadName' not in st.session_state:
             st.session_state.fileToDownloadName = "Untitled"
-        
+
         if 'recCounter' not in st.session_state:
             st.session_state.recCounter = 0
-        
+
         if 'mixCounter' not in st.session_state:
             st.session_state.mixCounter = 0
 
         if 'signalCounter' not in st.session_state:
             st.session_state.signalCounter = 0
-        
+
         if 'generatedSignalCounter' not in st.session_state:
             st.session_state.generatedSignalCounter = 0
+
+        if 'viewDeletePanel' not in st.session_state:
+            st.session_state.viewDeletePanel = False
 
         # config
         st.set_page_config(page_title='Sampling Studio')
@@ -72,21 +75,10 @@ class AppUi:
     def upload_signal(self):
         try:
             filePath = self.save_file(st.session_state.signalUploader)
-            st.session_state.signals.append(self.signalObject.reading_signal(filePath))
+            st.session_state.signals.append(
+                self.signalObject.reading_signal(filePath))
         except Exception as errorMessage:
             self.show_error(errorMessage)
-
-    
-
-    def delete_signal(self, signalName):
-        try:
-            for signal in range(len(st.session_state.signals)):
-                if (st.session_state.signals[signal]['name'] == signalName):
-                    st.session_state.signals = st.session_state.signals[:signal] + st.session_state.signals[signal + 1:]
-
-            self.show_error("Please select signal to delete.")
-        except:
-            self.show_error("Can't Delete this signal.")
 
     def start_signal_drawing(self, filePath):
         try:
@@ -96,20 +88,19 @@ class AppUi:
         except Exception as errorMessage:
             self.show_error(errorMessage)
 
-
-
     def draw_signal(self, signal):
         try:
             st.session_state.graphWidget.draw_signal(signal)
         except:
-            raise ValueError("The Input Data isn't a signal, and Can't be plotted.")
+            raise ValueError(
+                "The Input Data isn't a signal, and Can't be plotted.")
 
     def draw_sampled_signal(self, signal):
         try:
             st.session_state.graphWidget.draw_sampled_signal(signal)
         except:
-            raise ValueError("The Input Data isn't a signal, and Can't be plotted.")
+            raise ValueError(
+                "The Input Data isn't a signal, and Can't be plotted.")
 
     def show_error(self, errorMessage):
         st.error(errorMessage)
-    
