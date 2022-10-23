@@ -1,6 +1,7 @@
 import streamlit as st
 from asyncio.windows_events import NULL
-import random
+import pandas as pd
+import time
 
 
 class rightNavBar:
@@ -42,7 +43,7 @@ class rightNavBar:
                 try:
                     if 'sampledSignal' in st.session_state:
                         st.session_state["SNR_slider"] = 0
-                        if st.session_state.sampledSignal == NULL:
+                        if st.session_state.sampledSignal.empty:
                             st.error("Nothing to reconstruct this signal...")
                             st.session_state.graphWidget.error_occur()
                         else:
@@ -94,13 +95,13 @@ class rightNavBar:
                     for i in selectedSignals[1:]:
                         firstSignal = st.session_state.signalObject.add_signals(firstSignal, i)
 
-                    st.session_state.signal = firstSignal
+                    # st.session_state.signal = firstSignal
                     sObject = {
                         'name': 'Mixture Signal {}'.format(st.session_state.mixCounter),
-                        'signal': st.session_state.signal
+                        'signal': firstSignal
                     }
                     st.session_state.leftNav.add_button(sObject)
-                    st.session_state.generatedSignals.append(sObject)
+                    # st.session_state.generatedSignals.append(sObject)
                     st.session_state.mixCounter += 1
                     st.session_state.graphWidget.draw_signal()
 

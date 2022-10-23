@@ -21,14 +21,14 @@ class AppUi:
             st.session_state.generatedSignals = []
         
         if 'sampledSignal' not in st.session_state:
-            st.session_state.sampledSignal = NULL
+            st.session_state.sampledSignal = pd.DataFrame({})
         
         if 'signalObject' not in st.session_state:
             self.signalObject = processing.SignalProcessing()
             st.session_state.signalObject = self.signalObject
         
         if 'fileToDownload' not in st.session_state:
-            st.session_state.fileToDownload = pd.DataFrame({'t':[], 'y':[]}).to_csv(index=False).encode('utf-8')
+            st.session_state.fileToDownload = pd.DataFrame().to_csv(index=False).encode('utf-8')
         
         if 'fileToDownloadName' not in st.session_state:
             st.session_state.fileToDownloadName = "Untitled"

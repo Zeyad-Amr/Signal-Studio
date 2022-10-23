@@ -26,7 +26,7 @@ class headerUI:
         with headerCols[4]:
             st.button('Clear', key="ClearButton")
         with headerCols[6]:
-            st.download_button(label='Export', mime='csv', file_name=st.session_state.fileToDownloadName,
+            st.download_button(label='Export', mime='text/csv', file_name=st.session_state.fileToDownloadName + '.csv',
                                data=st.session_state.fileToDownload, key="ExportButton")
 
         if st.session_state.AddSignalButton:

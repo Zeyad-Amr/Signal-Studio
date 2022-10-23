@@ -17,7 +17,7 @@ class centerSignalView:
 
         self.fig = go.Figure()
         self.fig.update_layout(
-            height = 400,
+            height = 450,
             margin = {
                 'l':0,
                 'r':0,
@@ -48,7 +48,7 @@ class centerSignalView:
         self.fig.update_yaxes(showgrid = False, automargin=True)
         
         self.fig.update_layout(
-            height = 400,
+            height = 450,
             margin = {
                 'l':0,
                 'r':0,
@@ -74,11 +74,12 @@ class centerSignalView:
         self.fig.update_layout(title = "Signal with Noise Digram.", 
                                 xaxis_title = "time", 
                                 yaxis_title="Amplitude")
+
         self.fig.update_xaxes(showgrid = False, automargin=True)
         self.fig.update_yaxes(showgrid = False, automargin=True)
         
         self.fig.update_layout(
-            height = 400,
+            height = 450,
             margin = {
                 'l':0,
                 'r':0,
@@ -116,7 +117,7 @@ class centerSignalView:
                                 yaxis_title="Amplitude")
 
         self.fig.update_layout(
-            height = 400,
+            height = 450,
             margin = {
                 'l':0,
                 'r':0,
@@ -132,5 +133,14 @@ class centerSignalView:
         self.fig = go.Figure()
         self.fig.update_xaxes(showgrid = False, automargin=True)
         self.fig.update_yaxes(showgrid = False, automargin=True)
+        self.fig.update_layout(
+            height = 450,
+            margin = {
+                'l':0,
+                'r':0,
+                'b':0,
+                't':0
+            }
+        )
         with st.session_state.figureSpot:
             st.plotly_chart(self.fig, use_container_width=True)

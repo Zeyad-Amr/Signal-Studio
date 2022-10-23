@@ -34,9 +34,14 @@ class leftNavBar:
 
             if submitted and uploadedSignals is not None:
                 for signal in uploadedSignals:
-                    path = self.save_file(signal)
-                    siganlDict = st.session_state.signalObject.reading_signal(path)
-                    self.add_button(siganlDict)
+                    try:
+                        path = self.save_file(signal)
+                        siganlDict = st.session_state.signalObject.reading_signal(path)
+                        st.session_state.signal = siganlDict['signal']
+                        st.session_state.graphWidget.draw_signal()
+                        self.add_button(siganlDict)
+                    except:
+                        st.error("Error Occur with importing of signal...")
 
         with generateTab:
             with st.form("generate_signal"):
@@ -71,21 +76,20 @@ class leftNavBar:
                     except:
                         st.error("Can't Generate Signal with these values...")
 
-        signalsLst = []
+        self.signalsLst = []
         for signal in st.session_state.signals:
-            signalsLst.append(signal['name'])
+            self.signalsLst.append(signal['name'])
 
         def on_change_radio():
                 self.reset_values()
 
-        st.radio("Signals", signalsLst, key="selectedSignal", on_change=on_change_radio)
+        st.radio("Signals", self.signalsLst, key="selectedSignal", on_change=on_change_radio)
 
         if st.session_state.selectedSignal:
             self.on_change()
 
     def on_change(self):
         try:
-
             for signal in st.session_state.signals:
                 if signal['name'] == st.session_state.selectedSignal:
                     st.session_state.signal = signal['signal']
@@ -93,12 +97,6 @@ class leftNavBar:
                     st.session_state.fileToDownload = signal['signal'].to_csv()
                     st.session_state.fileToDownloadName = signal['name']
                     # TODO: Select the last signal
-
-
-
-
-
-
         except:
             st.session_state.graphWidget.error_occur()
             st.error("Can't Import this signal...")
@@ -118,7 +116,7 @@ class leftNavBar:
     def add_button(self, signalDict):
         st.session_state.signals.append(signalDict)
         st.session_state.siganl = signalDict['signal']
-        self.reset_values()
+        # self.reset_values()
 
     def add_generated_signal_name(self, sObject):
         for i in st.session_state.generatedSignals:
