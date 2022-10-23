@@ -22,7 +22,8 @@ class rightNavBar:
 
         # sampling
         with st.container():
-            slider_val = st.slider("Sampling", key="sampling_slider", min_value=0, max_value=150)
+            slider_val = st.slider(
+                "Sampling", key="sampling_slider", min_value=0, max_value=150)
             if slider_val:
                 try:
                     if slider_val != 0:
@@ -35,7 +36,8 @@ class rightNavBar:
                         st.error("Sample Rate Can't be 0 ...")
                 except:
                     st.session_state.graphWidget.error_occur()
-                    st.error("Error Occur in sampling, please check and try again...")
+                    st.error(
+                        "Error Occur in sampling, please check and try again...")
 
             reconstructButton = st.button("Reconstruct")
             if reconstructButton:
@@ -61,7 +63,8 @@ class rightNavBar:
         # add noise
         st.write("---")
         st.write("Add Noise")
-        noiseSNR = st.slider("SNR", key="SNR_slider", min_value=0, max_value=50)
+        noiseSNR = st.slider("SNR", key="SNR_slider",
+                             min_value=0, max_value=50)
         if noiseSNR != 0:
             st.session_state["sampling_slider"] = 0
         if noiseSNR:
@@ -93,7 +96,8 @@ class rightNavBar:
                 else:
                     firstSignal = selectedSignals[0]
                     for i in selectedSignals[1:]:
-                        firstSignal = st.session_state.signalObject.add_signals(firstSignal, i)
+                        firstSignal = st.session_state.signalObject.add_signals(
+                            firstSignal, i)
 
                     st.session_state.signal = firstSignal
                     sObject = {
@@ -108,4 +112,3 @@ class rightNavBar:
             except:
                 st.error("Can't Add These Signals...")
                 st.session_state.graphWidget.error_occur()
-
