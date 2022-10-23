@@ -35,8 +35,6 @@ class SignalProcessing:
             freqs = np.fft.fftfreq(len(t))
             maxFrequency = np.max(freqs)
 
-            # guard class for freq
-            # BUG  # error catch should be handled to catch this message instead of throw (can't sample the function)
             if sampleRate < (2 * maxFrequency) or sampleRate > t.shape[0]:
                 raise ValueError('Sample Rate isn''t enough')
 
@@ -89,38 +87,30 @@ class SignalProcessing:
 
     def reconstruct_signal(self, sampledSignal):
         try:
-            t = sampledSignal.iloc[:, 0]
-            y = sampledSignal.iloc[:, 1]
-            for i in range(t.shape[0]):
-                if t[i] < 0:
-                    y[i] = 0
+            time = sampledSignal.iloc[:, 0]
+            amplitude = sampledSignal.iloc[:, 1]
+            for i in range(time.shape[0]):
+                if time[i] < 0:
+                    amplitude[i] = 0
 
-            t_reconstruct = np.linspace(t[0], t[t.shape[0]-1], 10000)
-            t=np.array(t)
-            y=np.array(y)
-            y_reconstruction = self.reconstructY(x=t_reconstruct, xp=t, fp=y)
-            reconstructedData = {'t': t_reconstruct, 'y': y_reconstruction}
+            t_reconstruct = np.linspace(time[0], time[time.shape[0]-1], 10000)
+            time=np.array(time)
+            amplitude=np.array(amplitude)
+            amplitude_reconstruction = self.reconstruct_helper(time=t_reconstruct, xp=time, fp=amplitude)
+            reconstructedData = {'time': t_reconstruct, 'amplitude': amplitude_reconstruction}
             reconstructedSignal = pd.DataFrame(reconstructedData)
-            return (reconstructedSignal)
+            return(reconstructedSignal)
         except:
             st.error("Can't Reconstruct this signal...")
 
-    def reconstructY(self, x, xp, fp):
-        u = np.resize(x, (len(xp), len(x)))
-        v = (xp - u.T)/(xp[1] - xp[0])
+
+    def reconstruct_helper(self, time, xp, fp):
+        time_matrix = np.resize(time, (len(xp), len(time)))
+        v = (xp - time_matrix.T)/(xp[1] - xp[0])
         m = fp * np.sinc(v)
         fp_at_x = np.sum(m, axis=1)
         return fp_at_x
 
-    def saving_signal(self):
-        """
-        save the signal dataframe to csv file with specific path.
-
-        params:
-            signalDataFrame (pandas DataFrame): a dataframe of a specific signal.
-            savingPath (str): a path of the file that wanted to save.
-        """
-        return pd.DataFrame(self.signal).to_csv().encode('utf-8')
 
     def add_signals(self, firstSignal, secondSignal):
         try:

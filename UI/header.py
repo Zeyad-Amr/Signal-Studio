@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-
+from UI.center_signal_view import centerSignalView
 
 class headerUI:
     def __init__(self):
@@ -15,7 +15,10 @@ class headerUI:
         </style>
         """, unsafe_allow_html=True)
 
-        headerCols = st.columns([2, 2, 2, 2, 2, 10, 1, 2])
+        headerCols = st.columns([2, 2.5, 2.5, 2.5,10,2, 2.5, 3])
+        
+        if 'sideNav' not in st.session_state:
+            st.session_state['sideNav'] = 0
 
         with headerCols[1]:
             st.button('Add Signal', key="AddSignalButton")
@@ -26,34 +29,31 @@ class headerUI:
         with headerCols[3]:
             st.button('Sampling', key="SamplingButton")
 
+        with headerCols[6]:
+             st.button('Delete', key="deleteSignalsButton")
+
         with headerCols[4]:
             st.button('Clear', key="ClearButton")
-
-        with headerCols[5]:
-            if not st.session_state.viewDeletePanel:
-                st.button('Delete', key="deleteSignalsButton")
-                if st.session_state.deleteSignalsButton:
-                    st.session_state.viewDeletePanel = True
-                    st.session_state.graphWidget.error_occur()
-                    st.experimental_rerun()
-            else:
-                st.button('Signals', key="ViewSignalsButton")
-                if st.session_state.ViewSignalsButton:
-                    st.session_state.viewDeletePanel = False
-                    st.session_state.graphWidget.error_occur()
-                    st.experimental_rerun()
-
-        with headerCols[6]:
-            st.download_button(label='Export', mime='text/csv', file_name=st.session_state.fileToDownloadName + '.csv',
-                               data=st.session_state.fileToDownload, key="ExportButton")
-
         if st.session_state.AddSignalButton:
-            self.add_button()
-
+            st.session_state.graphWidget.error_occur()
+            st.session_state.sideNav = 2
+        
         if st.session_state.AddNoiseButton:
-            self.add_noise()
+            st.session_state.graphWidget.error_occur()
+            st.session_state.sideNav = 1
 
+        if st.session_state.SamplingButton:
+            st.session_state.graphWidget.error_occur()
+            st.session_state.sideNav = 0
+
+        if st.session_state.deleteSignalsButton:
+            st.session_state.graphWidget.error_occur()
+            st.session_state.sideNav = 3
+            
         if st.session_state.ClearButton:
             st.session_state.graphWidget.error_occur()
-            st.session_state.signal = pd.DataFrame()
-            st.experimental_rerun()
+
+
+        with headerCols[7]:
+            st.download_button(label='Export', mime='text/csv', file_name=st.session_state.fileToDownloadName + '.csv',
+                               data=st.session_state.fileToDownload, key="ExportButton")

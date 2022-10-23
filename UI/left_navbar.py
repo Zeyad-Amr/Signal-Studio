@@ -85,34 +85,15 @@ class leftNavBar:
         def on_change_radio():
             self.reset_values()
 
-        if st.session_state.viewDeletePanel:
-            st.markdown(
-                '<p class="deleteClass">Select signals to delete', unsafe_allow_html=True)
-            with st.form("deleteSignals", clear_on_submit=True):
-                selectedSignals = []
-                for signal in range(len(self.signalsLst)):
-                    checkboxVal = st.checkbox(
-                        self.signalsLst[signal], key=self.signalsLst[signal] + 'ToDEL{}'.format(signal))
-                    if checkboxVal:
-                        selectedSignals.append(self.signalsLst[signal])
-                submittedDeleteBtn = st.form_submit_button("Delete")
-                if submittedDeleteBtn:
-                    st.session_state.viewDeletePanel = False
-                    self.delete_signals(selectedSignals)
-                    # if len(st.session_state.signals)==0:
-                    #     st.session_state.graphWidget.error_occur()
-                    st.experimental_rerun()
+        
 
+    
+        st.write("Signals Panel")
+        st.radio("Signals", self.signalsLst, key="selectedSignal",
+                    on_change=on_change_radio)
 
-
-
-        else:
-            st.write("Signals Panel")
-            st.radio("Signals", self.signalsLst, key="selectedSignal",
-                     on_change=on_change_radio)
-
-            if st.session_state.selectedSignal:
-                self.on_change()
+        if st.session_state.selectedSignal:
+            self.on_change()
 
 
     def on_change(self):
@@ -123,7 +104,6 @@ class leftNavBar:
                     st.session_state.graphWidget.draw_signal()
                     st.session_state.fileToDownload = signal['signal'].to_csv()
                     st.session_state.fileToDownloadName = signal['name']
-
         except:
             st.session_state.graphWidget.error_occur()
             st.error("Can't Import this signal...")
@@ -161,19 +141,3 @@ class leftNavBar:
         st.session_state["sampling_slider"] = 0
         st.session_state["SNR_slider"] = 0
 
-    def delete_signals(self, signalsNames):
-        try:
-            remaningSignals = []
-            for signal in st.session_state.signals:
-                isExist = False
-                for deletedSignal in signalsNames:
-                    if signal['name'] == deletedSignal:
-                        isExist = True
-                if not isExist:
-                    remaningSignals.append(signal)
-
-            st.session_state.signals = remaningSignals
-            st.session_state.viewDeletePanel = False
-
-        except:
-            self.show_error("Can't Delete this signals.")

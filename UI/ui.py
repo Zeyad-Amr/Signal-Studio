@@ -13,7 +13,6 @@ import pandas as pd
 
 class AppUi:
     def __init__(self):
-
         if 'signals' not in st.session_state:
             st.session_state.signals = []
 
@@ -71,36 +70,6 @@ class AppUi:
             st.session_state.graphWidget = centerSignalView()
         with cols[5].container():
             st.session_state.rightNav = rightNavBar()
-
-    def upload_signal(self):
-        try:
-            filePath = self.save_file(st.session_state.signalUploader)
-            st.session_state.signals.append(
-                self.signalObject.reading_signal(filePath))
-        except Exception as errorMessage:
-            self.show_error(errorMessage)
-
-    def start_signal_drawing(self, filePath):
-        try:
-            self.draw_signal(self.signalObject.signal)
-            st.session_state.signal = self.signalObject
-
-        except Exception as errorMessage:
-            self.show_error(errorMessage)
-
-    def draw_signal(self, signal):
-        try:
-            st.session_state.graphWidget.draw_signal(signal)
-        except:
-            raise ValueError(
-                "The Input Data isn't a signal, and Can't be plotted.")
-
-    def draw_sampled_signal(self, signal):
-        try:
-            st.session_state.graphWidget.draw_sampled_signal(signal)
-        except:
-            raise ValueError(
-                "The Input Data isn't a signal, and Can't be plotted.")
 
     def show_error(self, errorMessage):
         st.error(errorMessage)
