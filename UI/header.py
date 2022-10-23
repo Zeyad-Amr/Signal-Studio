@@ -15,7 +15,7 @@ class headerUI:
         </style>
         """, unsafe_allow_html=True)
 
-        headerCols = st.columns([2, 2, 2, 2, 2, 2,8, 1, 2])
+        headerCols = st.columns([2, 2, 2, 2, 2, 2, 8, 1, 2])
 
         with headerCols[1]:
             st.button('Add Signal', key="AddSignalButton")
@@ -39,10 +39,7 @@ class headerUI:
                 if st.session_state.ViewSignalsButton:
                     st.session_state.viewDeletePanel = False
         with headerCols[6]:
-            if st.session_state.ffff:
-                st.write("ffff")
-        with headerCols[7]:
-            st.download_button(label='Export', mime='csv', file_name=st.session_state.fileToDownloadName,
+            st.download_button(label='Export', mime='text/csv', file_name=st.session_state.fileToDownloadName + '.csv',
                                data=st.session_state.fileToDownload, key="ExportButton")
 
         if st.session_state.AddSignalButton:
@@ -54,4 +51,3 @@ class headerUI:
         if st.session_state.ClearButton:
             st.session_state.graphWidget.error_occur()
             st.session_state.signal = pd.DataFrame()
-
