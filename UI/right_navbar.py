@@ -104,8 +104,8 @@ class rightNavBar:
                     # st.session_state.generatedSignals.append(sObject)
                     st.session_state.mixCounter += 1
                     st.session_state.graphWidget.draw_signal()
-
             except:
                 st.error("Can't Add These Signals...")
                 st.session_state.graphWidget.error_occur()
+            st.experimental_rerun()
 
