@@ -50,9 +50,9 @@ class leftNavBar:
                 signalTitle = st.text_input(
                     "Signal Title", placeholder="Please enter the signal title")
 
-                freqVal = st.number_input("Frequency (HZ)", step=0.01)
-                ampVal = st.number_input("Amplitude", step=0.01)
-                phaseVal = st.number_input("Phase", step=0.01)
+                freqVal = st.number_input("Frequency (HZ)", step=0.25)
+                ampVal = st.number_input("Amplitude", step=0.25)
+                phaseVal = st.number_input("Phase", step=0.25)
 
                 submitted = st.form_submit_button("Generate")
                 if submitted:
@@ -90,24 +90,30 @@ class leftNavBar:
                 '<p class="deleteClass">Select signals to delete', unsafe_allow_html=True)
             with st.form("deleteSignals", clear_on_submit=True):
                 selectedSignals = []
-                for signal in signalsLst:
-                    checkboxVal = st.checkbox(signal, key=signal + 'ToDEL')
+                for signal in range(len(self.signalsLst)):
+                    checkboxVal = st.checkbox(
+                        self.signalsLst[signal], key=self.signalsLst[signal] + 'ToDEL{}'.format(signal))
                     if checkboxVal:
-                        selectedSignals.append(signal)
+                        selectedSignals.append(self.signalsLst[signal])
                 submittedDeleteBtn = st.form_submit_button("Delete")
                 if submittedDeleteBtn:
                     st.session_state.viewDeletePanel = False
-                    print("Delete")
-                    # for signal in selectedSignals:
                     self.delete_signals(selectedSignals)
+                    # if len(st.session_state.signals)==0:
+                    #     st.session_state.graphWidget.error_occur()
+                    st.experimental_rerun()
+
+
+
 
         else:
             st.write("Signals Panel")
-            st.radio("Signals", signalsLst, key="selectedSignal",
+            st.radio("Signals", self.signalsLst, key="selectedSignal",
                      on_change=on_change_radio)
 
             if st.session_state.selectedSignal:
                 self.on_change()
+
 
     def on_change(self):
         try:
@@ -117,10 +123,11 @@ class leftNavBar:
                     st.session_state.graphWidget.draw_signal()
                     st.session_state.fileToDownload = signal['signal'].to_csv()
                     st.session_state.fileToDownloadName = signal['name']
-                    # TODO: Select the last signal
+
         except:
             st.session_state.graphWidget.error_occur()
             st.error("Can't Import this signal...")
+
 
     def save_file(self, csvFile):
         try:
@@ -136,7 +143,8 @@ class leftNavBar:
 
     def add_button(self, signalDict):
         st.session_state.signals.append(signalDict)
-        st.session_state.siganl = signalDict['signal']
+        st.session_state.signal = signalDict['signal']
+        st.session_state.selectedSignal = signalDict['name']
         # self.reset_values()
 
     def add_generated_signal_name(self, sObject):
@@ -165,6 +173,7 @@ class leftNavBar:
                     remaningSignals.append(signal)
 
             st.session_state.signals = remaningSignals
+            st.session_state.viewDeletePanel = False
 
         except:
             self.show_error("Can't Delete this signals.")

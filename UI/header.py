@@ -34,10 +34,15 @@ class headerUI:
                 st.button('Delete', key="deleteSignalsButton")
                 if st.session_state.deleteSignalsButton:
                     st.session_state.viewDeletePanel = True
+                    st.session_state.graphWidget.error_occur()
+                    st.experimental_rerun()
             else:
                 st.button('Signals', key="ViewSignalsButton")
                 if st.session_state.ViewSignalsButton:
                     st.session_state.viewDeletePanel = False
+                    st.session_state.graphWidget.error_occur()
+                    st.experimental_rerun()
+
         with headerCols[6]:
             st.download_button(label='Export', mime='text/csv', file_name=st.session_state.fileToDownloadName + '.csv',
                                data=st.session_state.fileToDownload, key="ExportButton")
@@ -51,3 +56,4 @@ class headerUI:
         if st.session_state.ClearButton:
             st.session_state.graphWidget.error_occur()
             st.session_state.signal = pd.DataFrame()
+            st.experimental_rerun()

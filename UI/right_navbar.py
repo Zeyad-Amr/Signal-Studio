@@ -51,26 +51,30 @@ class rightNavBar:
                         else:
                             st.session_state.signal = st.session_state.signalObject.reconstruct_signal(
                                 st.session_state.sampledSignal)
-                            st.session_state.leftNav.add_button({
+                            st.session_state.signals.append({
                                 'name': 'Reconstructed Signal {}'.format(st.session_state.recCounter),
                                 'signal': st.session_state.signal
                             })
+                            st.session_state.signal = st.session_state.signal
+
                             st.session_state.recCounter += 1
                             st.session_state.graphWidget.draw_signal()
+
                 except:
                     st.error("Can't Reconstruct this signal...")
                     st.session_state.graphWidget.error_occur()
+                st.experimental_rerun()
 
         # add noise
         st.write("---")
         st.write("Add Noise")
         noiseSNR = st.slider("SNR", key="SNR_slider",
                              min_value=0, max_value=50)
-        if noiseSNR != 0:
-            st.session_state["sampling_slider"] = 0
+        # if noiseSNR != 0:
+        #     st.session_state["sampling_slider"] = 0
         if noiseSNR:
             try:
-                st.session_state.signalWithNoise = st.session_state.signalObject.add_noise(st.session_state.siganl,
+                st.session_state.signalWithNoise = st.session_state.signalObject.add_noise(st.session_state.signal,
                                                                                            noiseSNR)
                 st.session_state.graphWidget.draw_signal_with_noise()
 
