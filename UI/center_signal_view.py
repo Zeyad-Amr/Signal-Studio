@@ -15,6 +15,7 @@ class centerSignalView:
         </style>
         """, unsafe_allow_html=True)
 
+
         self.fig = go.Figure()
         self.fig.update_layout(
             height = 450,

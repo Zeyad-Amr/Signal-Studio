@@ -23,10 +23,14 @@ class rightNavBar:
 
         if "SNR_slider" not in st.session_state:
             st.session_state["SNR_slider"] = 0
+        
+        if "exportNameKey" not in st.session_state:
+            st.session_state["exportNameKey"] = ""
 
         # sampling
         if st.session_state.sideNav == 0:
             with st.container():
+                st.write("---")
                 slider_val =  st.slider("Sampling", key="sampling_slider", min_value=0, max_value=150)
                 if slider_val:
                     try:
@@ -34,7 +38,6 @@ class rightNavBar:
                             st.session_state.sampledSignal = st.session_state.signalObject.sample_signal(
                                 st.session_state.signal, slider_val)
                             st.session_state.graphWidget.draw_sampled_signal()
-                            st.session_state["SNR_slider"] = 0
 
                         else:
                             st.error("Sample Rate Can't be 0 ...")
@@ -58,11 +61,9 @@ class rightNavBar:
                                     'name': 'Reconstructed Signal {}'.format(st.session_state.recCounter),
                                     'signal': st.session_state.signal
                                 })
-                                # st.session_state.signal = st.session_state.signal
 
                                 st.session_state.recCounter += 1
                                 st.session_state.graphWidget.draw_signal()
-
                     except:
                         st.error("Can't Reconstruct this signal...")
                         st.session_state.graphWidget.error_occur()
@@ -70,25 +71,20 @@ class rightNavBar:
 
         # add noise
         if st.session_state.sideNav == 1:
-            st.write("---")
-            st.write("Add Noise")
-            
-            noiseSNR = st.slider("SNR", key="SNR_slider", min_value=0, max_value=50)
-            try:
-                if noiseSNR != 0:
-                    st.session_state["sampling_slider"] = 0
-            except:
-                print()
-            if noiseSNR:
-                try:
-                    st.session_state.signalWithNoise = st.session_state.signalObject.add_noise(st.session_state.signal,
-                                                                                            noiseSNR)
-                    st.session_state.graphWidget.draw_signal_with_noise()
-
-                except Exception as e:
-                    st.error("Can't Add Noise to This Signal...")
-                    st.session_state.graphWidget.error_occur()
-
+            with st.container():
+                st.write("---")
+                st.write("Add Noise")
+                
+                noiseSNR = st.slider("SNR", min_value=0, max_value=50)
+                print(noiseSNR)
+                if noiseSNR:
+                    try:
+                        st.session_state.signalWithNoise = st.session_state.signalObject.add_noise(st.session_state.signal,
+                                                                                                noiseSNR)
+                        st.session_state.graphWidget.draw_signal_with_noise()
+                    except Exception as e:
+                        st.error("Can't Add Noise to This Signal...")
+                        st.session_state.graphWidget.error_occur()
         # add signals
         if st.session_state.sideNav == 2:
             with st.container():
@@ -112,19 +108,20 @@ class rightNavBar:
                             firstSignal = st.session_state.signalObject.add_signals(
                                 firstSignal, i)
 
-                        # st.session_state.signal = firstSignal
                         sObject = {
                             'name': 'Mixture Signal {}'.format(st.session_state.mixCounter),
                             'signal': firstSignal
                         }
+
                         st.session_state.leftNav.add_button(sObject)
-                        # st.session_state.generatedSignals.append(sObject)
+                        st.session_state.generatedSignals.append(sObject)
                         st.session_state.mixCounter += 1
                         st.session_state.graphWidget.draw_signal()
                 except:
                     st.error("Can't Add These Signals...")
                     st.session_state.graphWidget.error_occur()
                 st.experimental_rerun()
+                
         if st.session_state.sideNav == 3:
             self.signalsLst = []
             for signal in st.session_state.signals:
@@ -142,11 +139,23 @@ class rightNavBar:
                 if submittedDeleteBtn:
                     st.session_state.viewDeletePanel = False
                     self.delete_signals(selectedSignals)
-                    if len(st.session_state.signals)!=0:
-                        st.experimental_rerun()
-                    c=centerSignalView()
-                    c.error_occur()
+                    # if len(st.session_state.signals)!=0:
+                    st.experimental_rerun()
 
+        
+        if st.session_state.sideNav == 4:
+           with st.container():
+                exportName= st.text_input("File Name", placeholder="Please enter file name")
+                if exportName:
+                    st.session_state.exportNameKey=exportName
+                    st.download_button(label='Export', mime='text/csv', file_name=st.session_state.exportNameKey + '.csv',
+                               data=st.session_state.fileToDownload)
+                else:
+                    st.session_state.exportNameKey="Untitled"
+                    st.download_button(label='Export', mime='text/csv', file_name=st.session_state.fileToDownloadName + '.csv',
+                               data=st.session_state.fileToDownload)
+
+                    
     def delete_signals(self, signalsNames):
         try:
             remaningSignals = []

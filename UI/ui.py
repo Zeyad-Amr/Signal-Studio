@@ -71,5 +71,6 @@ class AppUi:
         with cols[5].container():
             st.session_state.rightNav = rightNavBar()
 
+
     def show_error(self, errorMessage):
         st.error(errorMessage)
