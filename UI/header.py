@@ -32,11 +32,6 @@ class headerUI:
         with headerCols[6]:
              st.button('Delete', key="deleteSignalsButton")
 
-        with headerCols[4]:
-            st.button('Clear', key="ClearButton")
-        if st.session_state.AddSignalButton:
-            st.session_state.graphWidget.error_occur()
-            st.session_state.sideNav = 2
         
         if st.session_state.AddNoiseButton:
             st.session_state.graphWidget.error_occur()
@@ -50,8 +45,6 @@ class headerUI:
             st.session_state.graphWidget.error_occur()
             st.session_state.sideNav = 3
             
-        if st.session_state.ClearButton:
-            st.session_state.graphWidget.error_occur()
 
 
         with headerCols[7]:
