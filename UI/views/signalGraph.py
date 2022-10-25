@@ -20,13 +20,11 @@ class signalGraph:
         )
 
 
-        if not (st.session_state.pureSignal['signal'].empty):
+        if not (st.session_state.currentSignal['signal'].empty):
             self.fig.add_trace(go.Scatter(
-                x=st.session_state.pureSignal['signal'].iloc[:, 0],
-                y=st.session_state.pureSignal['signal'].iloc[:, 1],
+                x=st.session_state.currentSignal['signal'].iloc[:, 0],
+                y=st.session_state.currentSignal['signal'].iloc[:, 1],
                 mode='lines',
                 name='lines'))
 
         st.plotly_chart(self.fig, use_container_width=True)
-        # with st.session_state.figureSpot:
-        #     st.plotly_chart(self.fig, use_container_width=True)

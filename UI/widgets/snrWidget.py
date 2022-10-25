@@ -8,7 +8,6 @@ class snrWidget:
         # stateManagement
         state = stateManagement()
 
-        noiseSNR = st.slider("SNR", min_value=0, max_value=50)
-        print(noiseSNR)
-        if noiseSNR:
-            state.set_noised_signal(noiseSNR)
+        noiseSNR = st.slider("SNR", min_value=1, max_value=100, value=100)
+
+        state.set_noised_signal(noiseSNR)

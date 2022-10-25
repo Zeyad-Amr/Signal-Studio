@@ -11,7 +11,10 @@ class stateManagement:
     def __init__(self):
 
         if 'currentSignal' not in st.session_state:
-            st.session_state.currentSignal = pd.DataFrame({})
+            st.session_state.currentSignal = {
+                'name':'',
+                'signal':pd.DataFrame({})
+            }
 
         if 'signalsList' not in st.session_state:
             st.session_state.signalsList = []
@@ -28,8 +31,6 @@ class stateManagement:
         if 'reconstructedSignal' not in st.session_state:
             st.session_state.reconstructedSignal = pd.DataFrame({})
 
-        if 'noisedSignal' not in st.session_state:
-            st.session_state.noisedSignal = pd.DataFrame({})
 
         if 'isGenerateMode' not in st.session_state:
             st.session_state.isGenerateMode = True
@@ -175,8 +176,10 @@ class stateManagement:
     def set_noised_signal(self, snr):
         processing = SignalProcessing()
 
-        st.session_state.noisedSignal = processing.add_noise(
-            signal=st.session_state.currentSignal, SNR=snr)
+        st.session_state.currentSignal = {
+            'name':st.session_state.pureSignal['name'],
+            'signal': processing.add_noise( signal=st.session_state.pureSignal['signal'], SNR=snr)
+        }
 
 ################### End Draw Noised Signal Graph Function #################
 
