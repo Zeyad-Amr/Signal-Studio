@@ -1,5 +1,5 @@
 import streamlit as st
-from dataProcessing import processing
+from dataProcessing.processing import SignalProcessing
 import pandas as pd
 import plotly.graph_objects as go
 import os
@@ -10,54 +10,72 @@ from werkzeug.utils import secure_filename
 class stateManagement:
     def __init__(self):
 
-        if 'signals' not in st.session_state:
-            st.session_state.signals = []
+        if 'currentSignal' not in st.session_state:
+            st.session_state.currentSignal = pd.DataFrame({})
 
-        if 'generatedSignals' not in st.session_state:
-            st.session_state.generatedSignals = []
+        if 'signalsList' not in st.session_state:
+            st.session_state.signalsList = []
+
+        if 'pureSignal' not in st.session_state:
+            st.session_state.pureSignal = pd.DataFrame({})
 
         if 'sampledSignal' not in st.session_state:
             st.session_state.sampledSignal = pd.DataFrame({})
 
-        if 'signalObject' not in st.session_state:
-            self.signalObject = processing.SignalProcessing()
-            st.session_state.signalObject = self.signalObject
+        if 'reconstructedSignal' not in st.session_state:
+            st.session_state.reconstructedSignal = pd.DataFrame({})
 
-        if 'fileToDownload' not in st.session_state:
-            st.session_state.fileToDownload = pd.DataFrame().to_csv(index=False).encode('utf-8')
+        if 'noisedSignal' not in st.session_state:
+            st.session_state.noisedSignal = pd.DataFrame({})
 
-        if 'fileToDownloadName' not in st.session_state:
-            st.session_state.fileToDownloadName = "Untitled"
+        # if 'signals' not in st.session_state:
+        #     st.session_state.signals = []
 
-        if 'recCounter' not in st.session_state:
-            st.session_state.recCounter = 0
+        # if 'generatedSignals' not in st.session_state:
+        #     st.session_state.generatedSignals = []
 
-        if 'mixCounter' not in st.session_state:
-            st.session_state.mixCounter = 0
+        # if 'sampledSignal' not in st.session_state:
+        #     st.session_state.sampledSignal = pd.DataFrame({})
 
-        if 'signalCounter' not in st.session_state:
-            st.session_state.signalCounter = 0
+        # if 'signalObject' not in st.session_state:
+        #     self.signalObject = processing.SignalProcessing()
+        #     st.session_state.signalObject = self.signalObject
 
-        if 'generatedSignalCounter' not in st.session_state:
-            st.session_state.generatedSignalCounter = 0
+        # if 'fileToDownload' not in st.session_state:
+        #     st.session_state.fileToDownload = pd.DataFrame().to_csv(index=False).encode('utf-8')
 
-        if 'viewDeletePanel' not in st.session_state:
-            st.session_state.viewDeletePanel = False
+        # if 'fileToDownloadName' not in st.session_state:
+        #     st.session_state.fileToDownloadName = "Untitled"
 
-        if "sampling_slider" not in st.session_state:
-            st.session_state["sampling_slider"] = 0
+        # if 'recCounter' not in st.session_state:
+        #     st.session_state.recCounter = 0
 
-        if "SNR_slider" not in st.session_state:
-            st.session_state["SNR_slider"] = 0
+        # if 'mixCounter' not in st.session_state:
+        #     st.session_state.mixCounter = 0
 
-        if "exportNameKey" not in st.session_state:
-            st.session_state["exportNameKey"] = ""
+        # if 'signalCounter' not in st.session_state:
+        #     st.session_state.signalCounter = 0
 
-        if 'signalCounter' not in st.session_state:
-            st.session_state.signalCounter = 0
+        # if 'generatedSignalCounter' not in st.session_state:
+        #     st.session_state.generatedSignalCounter = 0
 
-        if 'generatedSignalCounter' not in st.session_state:
-            st.session_state.generatedSignalCounter = 0
+        # if 'viewDeletePanel' not in st.session_state:
+        #     st.session_state.viewDeletePanel = False
+
+        # if "sampling_slider" not in st.session_state:
+        #     st.session_state["sampling_slider"] = 0
+
+        # if "SNR_slider" not in st.session_state:
+        #     st.session_state["SNR_slider"] = 0
+
+        # if "exportNameKey" not in st.session_state:
+        #     st.session_state["exportNameKey"] = ""
+
+        # if 'signalCounter' not in st.session_state:
+        #     st.session_state.signalCounter = 0
+
+        # if 'generatedSignalCounter' not in st.session_state:
+        #     st.session_state.generatedSignalCounter = 0
 
 ################### Start Draw Signal Graph Function #################
 
@@ -94,35 +112,12 @@ class stateManagement:
 
     ################### Start Draw Noised Signal Graph Function #################
 
-    def draw_signal_with_noise(self):
-        self.fig = go.Figure()
-        signal = st.session_state.signalWithNoise
+    def setNoisedSignal(self, snr):
+        processing = SignalProcessing()
 
-        self.fig.add_trace(go.Scatter(
-            x=signal.iloc[:, 0],
-            y=signal.iloc[:, 1],
-            mode='lines',
-            name='dots'))
+        st.session_state.noisedSignal = processing.add_noise(
+            signal=st.session_state.currentSignal, SNR=snr)
 
-        self.fig.update_layout(title="Signal with Noise Digram.",
-                               xaxis_title="time",
-                               yaxis_title="Amplitude")
-
-        self.fig.update_xaxes(showgrid=False, automargin=True)
-        self.fig.update_yaxes(showgrid=False, automargin=True)
-
-        self.fig.update_layout(
-            height=450,
-            margin={
-                'l': 0,
-                'r': 0,
-                'b': 0,
-                't': 0
-            }
-        )
-
-        with st.session_state.figureSpot:
-            st.plotly_chart(self.fig, use_container_width=True)
     ################### End Draw Noised Signal Graph Function #################
 
     ################### Start Draw Sampled Signal Graph Function #################

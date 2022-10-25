@@ -14,5 +14,5 @@ class signalsListWidget:
 
         st.radio("dd", self.signalsLst, key="selectedSignal")
 
-        if st.session_state.selectedSignal:
-            state.on_change()
+        # if st.session_state.selectedSignal:
+        #     state.on_change()

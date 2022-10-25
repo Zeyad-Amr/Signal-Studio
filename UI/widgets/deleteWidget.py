@@ -20,6 +20,6 @@ class deleteWidget:
                 if checkboxVal:
                     selectedSignals.append(self.signalsLst[signal])
             submittedDeleteBtn = st.form_submit_button("Delete")
-            if submittedDeleteBtn:
-                st.session_state.viewDeletePanel = False
-                state.delete_signals(selectedSignals)
+            # if submittedDeleteBtn:
+            #     st.session_state.viewDeletePanel = False
+            #     state.delete_signals(selectedSignals)

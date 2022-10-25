@@ -17,6 +17,7 @@ class headerui:
             st.button('Save', key="saveBtnKey")
 
         with headerCols[4]:
-            st.download_button(label='Export', mime='text/csv', file_name=st.session_state.fileToDownloadName + '.csv',
-                               data=st.session_state.fileToDownload, key="ExportButton")
+            st.download_button(label='Export', mime='text/csv', file_name="st.session_state.fileToDownloadName" + '.csv',
+                               data="st.session_state.fileToDownload", key="ExportButton")
+            # TODO: Export
         # st.write("---")
