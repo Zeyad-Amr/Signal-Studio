@@ -7,9 +7,6 @@ class addWidget:
 
         # stateManagement
         state = stateManagement()
-
-        st.write("---")
-        st.write("Add Signals")
         selectedSignals = []
         for signal in st.session_state.generatedSignals:
             checkboxVal = st.checkbox(
