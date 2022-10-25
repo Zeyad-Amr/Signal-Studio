@@ -9,19 +9,8 @@ class uploadWidget:
         state = stateManagement()
 
         uploadedSignals = st.file_uploader(
-            "Upload Signal", type=["csv"], key='uploadButton', accept_multiple_files=True)
+            "Upload Signal", type=["csv"], key='uploadButton', )
 
-        # submitted = st.form_submit_button("Upload")
-
-        # if submitted and uploadedSignals is not None:
-        #     for signal in uploadedSignals:
-        #         try:
-        #             path = state.save_file(signal)
-        #             siganlDict = st.session_state.signalObject.reading_signal(
-        #                 path)
-        #             st.session_state.signal = siganlDict['signal']
-
-        #             state.draw_signal()
-        #             state.add_signal(siganlDict)
-        #         except:
-        #             st.error("Error Occur with importing of signal...")
+        if uploadedSignals is not None:
+            path = state.save_file(uploadedSignals)
+            state.set_uploaded_signal(path=path)

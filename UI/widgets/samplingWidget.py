@@ -8,20 +8,24 @@ class samplingWidget:
         # stateManagement
         state = stateManagement()
 
-        slider_val = st.slider(
+        sampling_val = st.slider(
             "Sampling", key="sampling_slider", min_value=0, max_value=150)
-        if slider_val:
-            # try:
-            if slider_val != 0:
-                st.session_state.sampledSignal = st.session_state.signalObject.sample_signal(
-                    st.session_state.signal, slider_val)
-            else:
-                st.error("Sample Rate Can't be 0 ...")
-            # except:
 
-            #     state.draw_empty_graph()
-            #     st.error(
-            #         "Error Occur in sampling, please check and try again...")
+        if sampling_val:
+            state.set_sampled_signal(sampleRate=sampling_val)
+
+        # if slider_val:
+        # try:
+        # if slider_val != 0:
+        # st.session_state.sampledSignal = st.session_state.signalObject.sample_signal(
+        #     st.session_state.signal, slider_val)
+        # else:
+        #     st.error("Sample Rate Can't be 0 ...")
+        # except:
+
+        #     state.draw_empty_graph()
+        #     st.error(
+        #         "Error Occur in sampling, please check and try again...")
 #####################
         # reconstructButton = st.button("Reconstruct")
         # if reconstructButton:

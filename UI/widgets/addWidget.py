@@ -10,7 +10,7 @@ class addWidget:
 
         with st.form("addSignalsForm"):
             selectedSignals = []
-            for signal in st.session_state.generatedSignals:
+            for signal in st.session_state.signalsList:
                 checkboxVal = st.checkbox(
                     signal['name'], key=signal['name'])
                 if checkboxVal:

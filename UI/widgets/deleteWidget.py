@@ -8,17 +8,17 @@ class deleteWidget:
         # stateManagement
         state = stateManagement()
 
-        self.signalsLst = []
-        for signal in st.session_state.signals:
-            self.signalsLst.append(signal['name'])
+        signalsList = []
+        for signal in st.session_state.signalsList:
+            signalsList.append(signal['name'])
 
         with st.form("deleteSignals", clear_on_submit=True):
             selectedSignals = []
-            for signal in range(len(self.signalsLst)):
+            for signal in range(len(signalsList)):
                 checkboxVal = st.checkbox(
-                    self.signalsLst[signal], key=self.signalsLst[signal] + 'ToDEL{}'.format(signal))
+                    signalsList[signal], key=signalsList[signal] + 'ToDEL{}'.format(signal))
                 if checkboxVal:
-                    selectedSignals.append(self.signalsLst[signal])
+                    selectedSignals.append(self.signalsList[signal])
             submittedDeleteBtn = st.form_submit_button("Delete")
             # if submittedDeleteBtn:
             #     st.session_state.viewDeletePanel = False

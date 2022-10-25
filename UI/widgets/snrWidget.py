@@ -11,4 +11,4 @@ class snrWidget:
         noiseSNR = st.slider("SNR", min_value=0, max_value=50)
         print(noiseSNR)
         if noiseSNR:
-            state.setNoisedSignal(noiseSNR)
+            state.set_noised_signal(noiseSNR)

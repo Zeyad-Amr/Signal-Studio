@@ -77,111 +77,7 @@ class stateManagement:
         # if 'generatedSignalCounter' not in st.session_state:
         #     st.session_state.generatedSignalCounter = 0
 
-################### Start Draw Signal Graph Function #################
-
-    def draw_signal(self):
-        self.fig = go.Figure()
-        signal = st.session_state.signal
-        self.fig.add_trace(go.Scatter(
-            x=signal.iloc[:, 0],
-            y=signal.iloc[:, 1],
-            mode='lines',
-            name='lines'))
-
-        self.fig.update_layout(title="Signal Digram.",
-                               xaxis_title="time",
-                               yaxis_title="Amplitude")
-
-        self.fig.update_xaxes(showgrid=False, automargin=True)
-        self.fig.update_yaxes(showgrid=False, automargin=True)
-
-        self.fig.update_layout(
-            height=450,
-            margin={
-                'l': 0,
-                'r': 0,
-                'b': 0,
-                't': 0
-            }
-        )
-
-        with st.session_state.figureSpot:
-            st.plotly_chart(self.fig, use_container_width=True)
-
-    ################### End Draw Signal Graph Function #################
-
-    ################### Start Draw Noised Signal Graph Function #################
-
-    def setNoisedSignal(self, snr):
-        processing = SignalProcessing()
-
-        st.session_state.noisedSignal = processing.add_noise(
-            signal=st.session_state.currentSignal, SNR=snr)
-
-    ################### End Draw Noised Signal Graph Function #################
-
-    ################### Start Draw Sampled Signal Graph Function #################
-
-    def draw_sampled_signal(self):
-        self.fig = go.Figure()
-        sampledSignal = st.session_state.sampledSignal
-        signal = st.session_state.signal
-
-        self.fig.add_trace(go.Scatter(
-            x=signal.iloc[:, 0],
-            y=signal.iloc[:, 1],
-            mode='lines',
-            name='signal'))
-
-        self.fig.add_trace(go.Scatter(
-            x=sampledSignal.iloc[:, 0],
-            y=sampledSignal.iloc[:, 1],
-            mode='markers',
-            name='sampled signal'))
-
-        self.fig.update_layout(legend={})
-        self.fig.update_xaxes(showgrid=False, automargin=True)
-        self.fig.update_yaxes(showgrid=False, automargin=True)
-
-        self.fig.update_layout(title="Sampled Signal Digram.",
-                               xaxis_title="time",
-                               yaxis_title="Amplitude")
-
-        self.fig.update_layout(
-            height=450,
-            margin={
-                'l': 0,
-                'r': 0,
-                'b': 0,
-                't': 0
-            }
-        )
-
-        with st.session_state.figureSpot:
-            st.plotly_chart(self.fig, use_container_width=True)
-    ################### End Draw Sampled Signal Graph Function #################
-
-    ################### Start Draw Empty Graph Graph Function #################
-
-    def draw_empty_graph(self):
-        self.fig = go.Figure()
-        self.fig.update_xaxes(showgrid=False, automargin=True)
-        self.fig.update_yaxes(showgrid=False, automargin=True)
-        self.fig.update_layout(
-            height=450,
-            margin={
-                'l': 0,
-                'r': 0,
-                'b': 0,
-                't': 0
-            }
-        )
-        with st.session_state.figureSpot:
-            st.plotly_chart(self.fig, use_container_width=True)
-
-    ################### End Draw Empty Graph Function #################
-
-    ################### Start onChange Function #################
+################### Start onChange Function #################
 
     def on_change(self):
         try:
@@ -197,18 +93,18 @@ class stateManagement:
             self.draw_empty_graph()
             st.error("Can't Import this signal...")
 
-    ################### End onChange Function #################
+################### End onChange Function #################
 
-    ################### Start Add Signal Function #################
+################### Start Add Signal Function #################
 
     def add_signal(self, signalDict):
         st.session_state.signals.insert(0, signalDict)
         st.session_state.signal = signalDict['signal']
         st.session_state.selectedSignal = signalDict['name']
 
-    ################### End onChange Function #################
+################### End onChange Function #################
 
-    ################### Start Save File Function #################
+################### Start Save File Function #################
 
     def save_file(self, csvFile):
         try:
@@ -222,9 +118,9 @@ class stateManagement:
         except:
             raise ValueError("Can't Upload this file, please try again...")
 
-    ################### End Save File Function #################
+################### End Save File Function #################
 
-    ################### Start Delete Signal Function #################
+################### Start Delete Signal Function #################
 
     def delete_signals(self, signalsNames):
         try:
@@ -243,17 +139,103 @@ class stateManagement:
         except:
             self.show_error("Can't Delete this signals.")
 
-    ################### End Delete Signal Function #################
+################### End Delete Signal Function #################
 
-    ################### Start Generate Signal Function #################
+################### Start Generate Signal Function #################
 
-    def add_generated_signal_name(self, sObject):
-        for i in st.session_state.generatedSignals:
-            if i['name'] == sObject['name']:
-                flag = False
-                sObject['name'] = sObject['name'] + \
-                    ' {}'.format(st.session_state.generatedSignalCounter)
-                st.session_state.generatedSignalCounter += 1
-                break
-        st.session_state.generatedSignals.append(sObject)
-    ################### End Generate Signal Function #################
+    def set_generated_signal(self, amp, freq, phase):
+        processing = SignalProcessing()
+        generatedSignal = processing.generate_signal(
+            amplitude=amp, frequency=freq, phase=phase)
+        signal = {
+            'name': 'Signal' + ' {}'.format(len(st.session_state.signalsList)+1),
+            'signal': generatedSignal
+        }
+        st.session_state.pureSignal = signal
+
+################### End Generate Signal Function #################
+
+################### Start Upload Signal Function #################
+
+    def set_uploaded_signal(self, path):
+        processing = SignalProcessing()
+        generatedSignal = processing.reading_signal(path)
+        signal = {
+            'name': 'Signal' + ' {}'.format(len(st.session_state.signalsList)+1),
+            'signal': generatedSignal
+        }
+        st.session_state.pureSignal = signal
+
+################### End Upload Signal Function #################
+
+################### Start Draw Noised Signal Graph Function #################
+
+    def set_noised_signal(self, snr):
+        processing = SignalProcessing()
+
+        st.session_state.noisedSignal = processing.add_noise(
+            signal=st.session_state.currentSignal, SNR=snr)
+
+################### End Draw Noised Signal Graph Function #################
+
+################### Start Draw Sampled Signal Graph Function #################
+
+    def set_sampled_signal(self, sampleRate):
+        processing = SignalProcessing()
+        st.session_state.sampledSignal = processing.sample_signal(
+            sampleRate=sampleRate, signal=st.session_state.currentSignal)
+
+################### End Draw Sampled Signal Graph Function #################
+
+################### Start Draw Signal Graph Function #################
+
+    # def draw_signal(self):
+    #     self.fig = go.Figure()
+    #     signal = st.session_state.signal
+    #     self.fig.add_trace(go.Scatter(
+    #         x=signal.iloc[:, 0],
+    #         y=signal.iloc[:, 1],
+    #         mode='lines',
+    #         name='lines'))
+
+    #     self.fig.update_layout(title="Signal Digram.",
+    #                            xaxis_title="time",
+    #                            yaxis_title="Amplitude")
+
+    #     self.fig.update_xaxes(showgrid=False, automargin=True)
+    #     self.fig.update_yaxes(showgrid=False, automargin=True)
+
+    #     self.fig.update_layout(
+    #         height=450,
+    #         margin={
+    #             'l': 0,
+    #             'r': 0,
+    #             'b': 0,
+    #             't': 0
+    #         }
+    #     )
+
+    #     with st.session_state.figureSpot:
+    #         st.plotly_chart(self.fig, use_container_width=True)
+
+    ################### End Draw Signal Graph Function #################
+
+    ################### Start Draw Empty Graph Graph Function #################
+
+    # def draw_empty_graph(self):
+    #     self.fig = go.Figure()
+    #     self.fig.update_xaxes(showgrid=False, automargin=True)
+    #     self.fig.update_yaxes(showgrid=False, automargin=True)
+    #     self.fig.update_layout(
+    #         height=450,
+    #         margin={
+    #             'l': 0,
+    #             'r': 0,
+    #             'b': 0,
+    #             't': 0
+    #         }
+    #     )
+    #     with st.session_state.figureSpot:
+    #         st.plotly_chart(self.fig, use_container_width=True)
+
+    ################### End Draw Empty Graph Function #################
