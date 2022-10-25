@@ -52,6 +52,7 @@ hr{
     border-radius:10px;
     background: linear-gradient(90deg, rgba(116,46,146,1) 0%, rgba(15,121,235,1) 100%);
     color:var(--color_white);
+    width: 5rem;
 
 }
 .css-nc7boh:hover{

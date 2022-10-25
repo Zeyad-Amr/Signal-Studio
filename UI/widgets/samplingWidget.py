@@ -26,29 +26,29 @@ class samplingWidget:
                 st.error(
                     "Error Occur in sampling, please check and try again...")
 
-        reconstructButton = st.button("Reconstruct")
-        if reconstructButton:
-            try:
-                if 'sampledSignal' in st.session_state:
-                    st.session_state["SNR_slider"] = 0
-                    if st.session_state.sampledSignal.empty:
-                        st.error(
-                            "Nothing to reconstruct this signal...")
+        # reconstructButton = st.button("Reconstruct")
+        # if reconstructButton:
+        #     try:
+        #         if 'sampledSignal' in st.session_state:
+        #             st.session_state["SNR_slider"] = 0
+        #             if st.session_state.sampledSignal.empty:
+        #                 st.error(
+        #                     "Nothing to reconstruct this signal...")
 
-                        state.draw_empty_graph()
-                    else:
-                        st.session_state.signal = st.session_state.signalObject.reconstruct_signal(
-                            st.session_state.sampledSignal)
-                        st.session_state.signalsPanel.add_signal({
-                            'name': 'Reconstructed Signal {}'.format(st.session_state.recCounter),
-                            'signal': st.session_state.signal
-                        })
+        #                 state.draw_empty_graph()
+        #             else:
+        #                 st.session_state.signal = st.session_state.signalObject.reconstruct_signal(
+        #                     st.session_state.sampledSignal)
+        #                 st.session_state.signalsPanel.add_signal({
+        #                     'name': 'Reconstructed Signal {}'.format(st.session_state.recCounter),
+        #                     'signal': st.session_state.signal
+        #                 })
 
-                        st.session_state.recCounter += 1
+        #                 st.session_state.recCounter += 1
 
-                        state.draw_signal()
-            except:
-                st.error("Can't Reconstruct this signal...")
+        #                 state.draw_signal()
+        #     except:
+        #         st.error("Can't Reconstruct this signal...")
 
-                state.draw_empty_graph()
-            st.experimental_rerun()
+        #         state.draw_empty_graph()
+        #     st.experimental_rerun()
