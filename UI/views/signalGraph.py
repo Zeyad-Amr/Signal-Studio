@@ -18,13 +18,27 @@ class signalGraph:
                 't': 0
             }
         )
-
+        self.fig.update_layout(legend = {})
 
         if not (st.session_state.currentSignal['signal'].empty):
             self.fig.add_trace(go.Scatter(
                 x=st.session_state.currentSignal['signal'].iloc[:, 0],
                 y=st.session_state.currentSignal['signal'].iloc[:, 1],
                 mode='lines',
-                name='lines'))
+                name='signal'))
+
+        if not (st.session_state.sampledSignal['signal'].empty):
+            self.fig.add_trace(go.Scatter(
+                x=st.session_state.sampledSignal['signal'].iloc[:, 0],
+                y=st.session_state.sampledSignal['signal'].iloc[:, 1],
+                mode='markers',
+                name='sample'))
+
+        if not (st.session_state.reconstructedSignal['signal'].empty):
+            self.fig.add_trace(go.Scatter(
+                x=st.session_state.reconstructedSignal['signal'].iloc[:, 0],
+                y=st.session_state.reconstructedSignal['signal'].iloc[:, 1],
+                mode='lines',
+                name='Reconstructed'))
 
         st.plotly_chart(self.fig, use_container_width=True)

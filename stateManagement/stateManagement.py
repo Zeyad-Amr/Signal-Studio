@@ -26,10 +26,16 @@ class stateManagement:
             }
 
         if 'sampledSignal' not in st.session_state:
-            st.session_state.sampledSignal = pd.DataFrame({})
+            st.session_state.sampledSignal = {
+                'name':'',
+                'signal':pd.DataFrame({})
+            }
 
         if 'reconstructedSignal' not in st.session_state:
-            st.session_state.reconstructedSignal = pd.DataFrame({})
+            st.session_state.reconstructedSignal = {
+                'name':'',
+                'signal':pd.DataFrame({})
+            }
 
 
         if 'isGenerateMode' not in st.session_state:
@@ -187,8 +193,11 @@ class stateManagement:
 
     def set_sampled_signal(self, sampleRate):
         processing = SignalProcessing()
-        st.session_state.sampledSignal = processing.sample_signal(
-            sampleRate=sampleRate, signal=st.session_state.currentSignal)
+        st.session_state.sampledSignal = {
+            'name':'Sample',
+            'signal': processing.sample_signal( signal=st.session_state.pureSignal['signal'], 
+                                                sampleRate=sampleRate)
+        }
 
 ################### End Draw Sampled Signal Graph Function #################
 

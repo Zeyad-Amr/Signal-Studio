@@ -1,3 +1,4 @@
+from os import stat
 import streamlit as st
 from stateManagement.stateManagement import stateManagement
 
@@ -9,10 +10,9 @@ class samplingWidget:
         state = stateManagement()
 
         sampling_val = st.slider(
-            "Sampling", key="sampling_slider", min_value=0, max_value=150)
+            "Sampling", key="sampling_slider", min_value=1, max_value=150, value=20)
 
-        if sampling_val:
-            state.set_sampled_signal(sampleRate=sampling_val)
+        state.set_sampled_signal(sampleRate=sampling_val)
 
         # if slider_val:
         # try:
