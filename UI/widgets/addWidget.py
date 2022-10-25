@@ -8,15 +8,22 @@ class addWidget:
         # stateManagement
         state = stateManagement()
 
-        with st.form("addSignalsForm"):
-            selectedSignals = []
-            for signal in st.session_state.signalsList:
-                checkboxVal = st.checkbox(
-                    signal['name'], key=signal['name'])
-                if checkboxVal:
-                    selectedSignals.append(signal['signal'])
+        selectedSignals = []
+        for signal in st.session_state.signalsList:
+            checkboxVal = st.checkbox(
+                signal['name'], key=signal['name'])
+            if checkboxVal:
+                selectedSignals.append(signal)
 
-            addSingalBtn = st.form_submit_button("Add")
+        st.session_state.selectedSignals = selectedSignals
+
+        if len(selectedSignals) == 0:
+            st.session_state.Mode = 0
+        else:
+            st.session_state.Mode = 2
+
+        if st.session_state.Mode == 2:
+            state.set_add_signals()
             # if addSingalBtn:
             #     try:
             #         if len(selectedSignals) == 0:

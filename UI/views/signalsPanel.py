@@ -17,12 +17,11 @@ class signalsPanel:
             generateWidget()
             
 
-        signalsList, deleteSignals, addSignals = st.tabs(
-            ["Signals", "Delete", "Add"])
+        signalsList, deleteSignals = st.tabs(
+            ["Signals", "Delete"])
 
         with signalsList:
-            signalsListWidget()
+            addWidget()
         with deleteSignals:
             deleteWidget()
-        with addSignals:
-            addWidget()
+            

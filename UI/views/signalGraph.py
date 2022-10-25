@@ -20,21 +20,21 @@ class signalGraph:
         )
         self.fig.update_layout(legend = {})
 
-        if not (st.session_state.currentSignal['signal'].empty):
+        if (not (st.session_state.currentSignal['signal'].empty)) and (st.session_state.signalView):
             self.fig.add_trace(go.Scatter(
                 x=st.session_state.currentSignal['signal'].iloc[:, 0],
                 y=st.session_state.currentSignal['signal'].iloc[:, 1],
                 mode='lines',
                 name='signal'))
 
-        if not (st.session_state.sampledSignal['signal'].empty):
+        if (not (st.session_state.sampledSignal['signal'].empty)) and (st.session_state.sampleView):
             self.fig.add_trace(go.Scatter(
                 x=st.session_state.sampledSignal['signal'].iloc[:, 0],
                 y=st.session_state.sampledSignal['signal'].iloc[:, 1],
                 mode='markers',
                 name='sample'))
 
-        if not (st.session_state.reconstructedSignal['signal'].empty):
+        if (not (st.session_state.reconstructedSignal['signal'].empty)) and (st.session_state.reconstructedview):
             self.fig.add_trace(go.Scatter(
                 x=st.session_state.reconstructedSignal['signal'].iloc[:, 0],
                 y=st.session_state.reconstructedSignal['signal'].iloc[:, 1],

@@ -113,7 +113,7 @@ class SignalProcessing:
         fp_at_x = np.sum(m, axis=1)
         return fp_at_x
 
-    def add_signals(self, firstSignal, secondSignal):
+    def add_helper(self, firstSignal, secondSignal):
         try:
             outputSignal = {'t': firstSignal.iloc[:, 0],
                             'y': firstSignal.iloc[:, 1] + secondSignal.iloc[:, 1]}
@@ -123,3 +123,10 @@ class SignalProcessing:
         except:
             raise ValueError(
                 "The Input signals Can't be plotted.")
+
+    def add_signals(self, lstSignals):
+        firstSignal = lstSignals[0]
+        for i in range(1, len(lstSignals)):
+            firstSignal['signal'] = self.add_helper(firstSignal['signal'], lstSignals[i]['signal'])
+
+        return firstSignal

@@ -37,12 +37,20 @@ class stateManagement:
                 'signal':pd.DataFrame({})
             }
 
+        if 'Mode' not in st.session_state:
+            st.session_state.Mode = 0
 
-        if 'isGenerateMode' not in st.session_state:
-            st.session_state.isGenerateMode = True
+        if 'signalView' not in st.session_state:
+            st.session_state.signalView = True
 
-        # if 'signals' not in st.session_state:
-        #     st.session_state.signals = []
+        if 'sampleView' not in st.session_state:
+            st.session_state.sampleView = True
+
+        if 'reconstructedview' not in st.session_state:
+            st.session_state.reconstructedview = True
+
+        if 'selectedSignals' not in st.session_state:
+            st.session_state.selectedSignals = []
 
         # if 'generatedSignals' not in st.session_state:
         #     st.session_state.generatedSignals = []
@@ -110,10 +118,8 @@ class stateManagement:
 
 ################### Start Add Signal Function #################
 
-    def add_signal(self, signalDict):
-        st.session_state.signals.insert(0, signalDict)
-        st.session_state.signal = signalDict['signal']
-        st.session_state.selectedSignal = signalDict['name']
+    def save_signal(self):
+        st.session_state.signalsList.insert(0, st.session_state.currentSignal)
 
 ################### End onChange Function #################
 
@@ -201,6 +207,27 @@ class stateManagement:
 
 ################### End Draw Sampled Signal Graph Function #################
 
+################### Start 
+
+    def set_reconstructed_signal(self):
+            processing = SignalProcessing()
+            st.session_state.reconstructedSignal = {
+                'name':'Sample',
+                'signal': processing.reconstruct_signal(st.session_state.sampledSignal['signal'])
+            }
+
+
+    def set_add_signals(self):
+        processing = SignalProcessing()
+        if len(st.session_state.selectedSignals) != 0:
+            print(st.session_state.selectedSignals)
+            if len(st.session_state.selectedSignals) == 1:
+                st.session_state.currentSignal = st.session_state.selectedSignals[0]
+            else:
+                st.session_state.currentSignal = processing.add_signals(st.session_state.selectedSignals)
+
+
+################### END
 ################### Start Draw Signal Graph Function #################
 
     # def draw_signal(self):

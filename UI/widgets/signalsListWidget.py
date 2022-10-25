@@ -10,9 +10,9 @@ class signalsListWidget:
 
         signalsList = []
         for signal in st.session_state.signalsList:
-            self.signalsList.append(signal['name'])
+            signalsList.append(signal['name'])
 
-        st.radio("Signalls", signalsList, key="selectedSignal")
+        # st.radio("Signalls", signalsList)
 
         # if st.session_state.selectedSignal:
         #     state.on_change()
