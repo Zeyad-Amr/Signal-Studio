@@ -9,8 +9,11 @@ class uploadWidget:
         state = stateManagement()
 
         uploadedSignals = st.file_uploader(
-            "Upload Signal", type=["csv"], key='uploadButton', )
+            "Upload Signal", type=["csv"], key='uploadButton', on_change=self.change_upload_value)
 
-        if uploadedSignals is not None:
+        if (uploadedSignals is not None) and (st.session_state.isGenerateMode == False):
             path = state.save_file(uploadedSignals)
             state.set_uploaded_signal(path=path)
+
+    def change_upload_value(self):
+        st.session_state.isGenerateMode = False

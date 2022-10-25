@@ -17,7 +17,10 @@ class stateManagement:
             st.session_state.signalsList = []
 
         if 'pureSignal' not in st.session_state:
-            st.session_state.pureSignal = pd.DataFrame({})
+            st.session_state.pureSignal = {
+                'name':'',
+                'signal':pd.DataFrame({})
+            }
 
         if 'sampledSignal' not in st.session_state:
             st.session_state.sampledSignal = pd.DataFrame({})
@@ -27,6 +30,9 @@ class stateManagement:
 
         if 'noisedSignal' not in st.session_state:
             st.session_state.noisedSignal = pd.DataFrame({})
+
+        if 'isGenerateMode' not in st.session_state:
+            st.session_state.isGenerateMode = True
 
         # if 'signals' not in st.session_state:
         #     st.session_state.signals = []
@@ -159,12 +165,8 @@ class stateManagement:
 
     def set_uploaded_signal(self, path):
         processing = SignalProcessing()
-        generatedSignal = processing.reading_signal(path)
-        signal = {
-            'name': 'Signal' + ' {}'.format(len(st.session_state.signalsList)+1),
-            'signal': generatedSignal
-        }
-        st.session_state.pureSignal = signal
+        uploadedSignal = processing.reading_signal(path)
+        st.session_state.pureSignal = uploadedSignal
 
 ################### End Upload Signal Function #################
 

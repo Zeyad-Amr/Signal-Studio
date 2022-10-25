@@ -9,12 +9,13 @@ import streamlit as st
 class signalsPanel:
     def __init__(self):
 
-        uploadTab, generateTab = st.tabs(["Upload", "Generate"])
+        generateTab, uploadTab = st.tabs(["Generate", "Upload"])
         with uploadTab:
             uploadWidget()
 
         with generateTab:
             generateWidget()
+            
 
         signalsList, deleteSignals, addSignals = st.tabs(
             ["Signals", "Delete", "Add"])
