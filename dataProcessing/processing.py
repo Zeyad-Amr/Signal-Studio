@@ -72,7 +72,8 @@ class SignalProcessing:
 
             initialNoise = np.random.uniform(low=0, high=1, size=len(t))
 
-            multiplicationFactor = (np.mean(y ** 2)) / (SNR * np.mean(np.square(initialNoise)))
+            multiplicationFactor = (np.mean(y ** 2)) / \
+                (SNR * np.mean(np.square(initialNoise)))
 
             noise = multiplicationFactor * initialNoise
 
@@ -94,15 +95,16 @@ class SignalProcessing:
                     amplitude[i] = 0
 
             t_reconstruct = np.linspace(time[0], time[time.shape[0]-1], 10000)
-            time=np.array(time)
-            amplitude=np.array(amplitude)
-            amplitude_reconstruction = self.reconstruct_helper(time=t_reconstruct, xp=time, fp=amplitude)
-            reconstructedData = {'time': t_reconstruct, 'amplitude': amplitude_reconstruction}
+            time = np.array(time)
+            amplitude = np.array(amplitude)
+            amplitude_reconstruction = self.reconstruct_helper(
+                time=t_reconstruct, xp=time, fp=amplitude)
+            reconstructedData = {'time': t_reconstruct,
+                                 'amplitude': amplitude_reconstruction}
             reconstructedSignal = pd.DataFrame(reconstructedData)
             return(reconstructedSignal)
         except:
             st.error("Can't Reconstruct this signal...")
-
 
     def reconstruct_helper(self, time, xp, fp):
         time_matrix = np.resize(time, (len(xp), len(time)))
@@ -111,11 +113,10 @@ class SignalProcessing:
         fp_at_x = np.sum(m, axis=1)
         return fp_at_x
 
-
     def add_signals(self, firstSignal, secondSignal):
         try:
-            outputSignal={'t': firstSignal.iloc[:, 0], 
-                    'y': firstSignal.iloc[:, 1] + secondSignal.iloc[:, 1]}
+            outputSignal = {'t': firstSignal.iloc[:, 0],
+                            'y': firstSignal.iloc[:, 1] + secondSignal.iloc[:, 1]}
 
             outputDataFrame = pd.DataFrame(outputSignal)
             return(outputDataFrame)

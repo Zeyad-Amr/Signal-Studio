@@ -38,6 +38,13 @@ hr{
 .css-u8hs99{
     display: block;
 }
+.css-1c5cf0w.exg6vvm15>button{
+    display: none;
+}
+
+.css-d5g9fg.exg6vvm13{
+    display: none;
+}
 
 /* buttons */
 .css-nc7boh{
@@ -60,3 +67,20 @@ hr{
 .deleteClass{
     color:var(--color_red)
 }
+
+/* hide radio label */
+.row-widget.stRadio>label{
+    display: none;
+}
+
+/* hide upload file label */
+.css-8u98yl.exg6vvm0>label{
+    display: none;
+}
+
+/* form diaplay */
+.css-1mz3dlx.e1tzin5v0{
+    display: block;
+    
+}
+
