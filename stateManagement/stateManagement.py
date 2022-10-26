@@ -12,8 +12,8 @@ class stateManagement:
 
         if 'currentSignal' not in st.session_state:
             st.session_state.currentSignal = {
-                'name':'',
-                'signal':pd.DataFrame({})
+                'name': '',
+                'signal': pd.DataFrame({})
             }
 
         if 'signalsList' not in st.session_state:
@@ -21,20 +21,20 @@ class stateManagement:
 
         if 'pureSignal' not in st.session_state:
             st.session_state.pureSignal = {
-                'name':'',
-                'signal':pd.DataFrame({})
+                'name': '',
+                'signal': pd.DataFrame({})
             }
 
         if 'sampledSignal' not in st.session_state:
             st.session_state.sampledSignal = {
-                'name':'',
-                'signal':pd.DataFrame({})
+                'name': '',
+                'signal': pd.DataFrame({})
             }
 
         if 'reconstructedSignal' not in st.session_state:
             st.session_state.reconstructedSignal = {
-                'name':'',
-                'signal':pd.DataFrame({})
+                'name': '',
+                'signal': pd.DataFrame({})
             }
 
         if 'Mode' not in st.session_state:
@@ -141,26 +141,25 @@ class stateManagement:
 
 ################### Start Delete Signal Function #################
 
-    def delete_signals(self, signalsNames):
-        try:
-            remaningSignals = []
-            for signal in st.session_state.signals:
-                isExist = False
-                for deletedSignal in signalsNames:
-                    if signal['name'] == deletedSignal:
-                        isExist = True
-                if not isExist:
-                    remaningSignals.append(signal)
+    def delete_signals(self, signals):
 
-            st.session_state.signals = remaningSignals
-            st.session_state.viewDeletePanel = False
+        remaningSignals = []
+        for signal in st.session_state.signalsList:
+            isExist = False
+            for deletedSignal in signals:
+                if signal['name'] == deletedSignal['name']:
+                    isExist = True
+            if not isExist:
+                remaningSignals.append(signal)
 
-        except:
-            self.show_error("Can't Delete this signals.")
+        st.session_state.signalsList = remaningSignals
+        st.experimental_rerun()
+
 
 ################### End Delete Signal Function #################
 
 ################### Start Generate Signal Function #################
+
 
     def set_generated_signal(self, amp, freq, phase):
         processing = SignalProcessing()
@@ -189,8 +188,8 @@ class stateManagement:
         processing = SignalProcessing()
 
         st.session_state.currentSignal = {
-            'name':st.session_state.pureSignal['name'],
-            'signal': processing.add_noise( signal=st.session_state.pureSignal['signal'], SNR=snr)
+            'name': st.session_state.pureSignal['name'],
+            'signal': processing.add_noise(signal=st.session_state.pureSignal['signal'], SNR=snr)
         }
 
 ################### End Draw Noised Signal Graph Function #################
@@ -200,22 +199,21 @@ class stateManagement:
     def set_sampled_signal(self, sampleRate):
         processing = SignalProcessing()
         st.session_state.sampledSignal = {
-            'name':'Sample',
-            'signal': processing.sample_signal( signal=st.session_state.pureSignal['signal'], 
-                                                sampleRate=sampleRate)
+            'name': 'Sample',
+            'signal': processing.sample_signal(signal=st.session_state.pureSignal['signal'],
+                                               sampleRate=sampleRate)
         }
 
 ################### End Draw Sampled Signal Graph Function #################
 
-################### Start 
+# Start
 
     def set_reconstructed_signal(self):
-            processing = SignalProcessing()
-            st.session_state.reconstructedSignal = {
-                'name':'Sample',
-                'signal': processing.reconstruct_signal(st.session_state.sampledSignal['signal'])
-            }
-
+        processing = SignalProcessing()
+        st.session_state.reconstructedSignal = {
+            'name': 'Sample',
+            'signal': processing.reconstruct_signal(st.session_state.sampledSignal['signal'])
+        }
 
     def set_add_signals(self):
         processing = SignalProcessing()
@@ -224,10 +222,11 @@ class stateManagement:
             if len(st.session_state.selectedSignals) == 1:
                 st.session_state.currentSignal = st.session_state.selectedSignals[0]
             else:
-                st.session_state.currentSignal = processing.add_signals(st.session_state.selectedSignals)
+                st.session_state.currentSignal = processing.add_signals(
+                    st.session_state.selectedSignals)
 
 
-################### END
+# END
 ################### Start Draw Signal Graph Function #################
 
     # def draw_signal(self):
