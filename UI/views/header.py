@@ -8,7 +8,7 @@ class headerui:
         # stateManagement
         state = stateManagement()
 
-        headerCols = st.columns([1, 5, 20, 2.5, 2.5, 1.5])
+        headerCols = st.columns([1, 10, 15, 2.5, 2.5, 1.5])
 
         with headerCols[1]:
             st.subheader("Sampling Studio")
