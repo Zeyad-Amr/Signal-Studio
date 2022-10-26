@@ -218,11 +218,10 @@ class stateManagement:
     def set_add_signals(self):
         processing = SignalProcessing()
         if len(st.session_state.selectedSignals) != 0:
-            print(st.session_state.selectedSignals)
             if len(st.session_state.selectedSignals) == 1:
-                st.session_state.currentSignal = st.session_state.selectedSignals[0]
+                st.session_state.pureSignal = st.session_state.selectedSignals[0]
             else:
-                st.session_state.currentSignal = processing.add_signals(
+                st.session_state.pureSignal = processing.add_signals(
                     st.session_state.selectedSignals)
 
 
