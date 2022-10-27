@@ -8,12 +8,16 @@ class uploadWidget:
         # stateManagement
         state = stateManagement()
 
-        uploadedSignals = st.file_uploader(
-            "Upload Signal", type=["csv"], key='uploadButton', on_change=self.change_upload_value)
+        try:
+            uploadedSignals = st.file_uploader(
+                "Upload Signal", type=["csv"], key='uploadButton', on_change=self.change_upload_value)
 
-        if (uploadedSignals is not None) and (st.session_state.Mode == 1):
-            path = state.save_file(uploadedSignals)
-            state.set_uploaded_signal(path=path)
+         
+            if (uploadedSignals is not None) and (st.session_state.Mode == 1):
+                path = state.save_file(uploadedSignals)
+                state.set_uploaded_signal(path=path)
+        except Exception as e:
+            st.error(e)
 
     def change_upload_value(self):
         st.session_state.Mode = 1
