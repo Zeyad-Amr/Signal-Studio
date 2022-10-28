@@ -35,4 +35,4 @@
 
 >- Reconstructing with 4 sample rate
 
-![Screenshot (723)](https://user-images.githubusercontent.com/77173710/198734612-55999b16-248a-4c0c-81ae-82414165480e.png)
+![Screenshot (731)](https://user-images.githubusercontent.com/77173710/198735201-c8308ad0-dffb-41d2-b8b2-8a43ae165efc.png)
