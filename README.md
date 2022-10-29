@@ -36,3 +36,16 @@
 >- Reconstructing with 4 sample rate
 
 ![Screenshot (731)](https://user-images.githubusercontent.com/77173710/198735201-c8308ad0-dffb-41d2-b8b2-8a43ae165efc.png)
+#### Scenario #2:
+>- Viewing uploaded signal
+
+![image](https://user-images.githubusercontent.com/93046966/198839765-f6bbd233-7b9d-4a55-b815-651d2669cb0c.png)
+
+>- Adding 2 uploaded signals 
+
+![image](https://user-images.githubusercontent.com/93046966/198839827-c3cb2441-0f96-42d9-a355-8b3a32687595.png)
+
+>- Adding  noise with (SNR=40) to an uploaded signal
+
+![image](https://user-images.githubusercontent.com/93046966/198840077-10002f15-4b4a-4021-900c-0cc0082b3b4d.png)
+
