@@ -31,7 +31,7 @@ class SignalProcessing:
         try:
             t = signal.iloc[:, 0]
             y = signal.iloc[:, 1]
-            sampleRate*=20
+            sampleRate *= 20
             freqs = np.fft.fftfreq(len(t))
             maxFrequency = np.max(freqs)
 
@@ -127,6 +127,7 @@ class SignalProcessing:
     def add_signals(self, lstSignals):
         firstSignal = lstSignals[0]
         for i in range(1, len(lstSignals)):
-            firstSignal['signal'] = self.add_helper(firstSignal['signal'], lstSignals[i]['signal'])
+            firstSignal['signal'] = self.add_helper(
+                firstSignal['signal'], lstSignals[i]['signal'])
 
         return firstSignal

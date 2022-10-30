@@ -1,5 +1,5 @@
 import sys
-from UI.ui import Appui
+from ui.ui import Appui
 sys.path.append('../ui')
 sys.path.append('../data_processing')
 sys.path.append('../stateManagement')

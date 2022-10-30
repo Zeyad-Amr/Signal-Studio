@@ -1,8 +1,8 @@
 import streamlit as st
-from UI.views.header import headerui
-from UI.views.signalsPanel import signalsPanel
-from UI.views.operationsPanel import operationsPanel
-from UI.views.signalGraph import signalGraph
+from ui.views.header import headerui
+from ui.views.signalsPanel import signalsPanel
+from ui.views.operationsPanel import operationsPanel
+from ui.views.signalGraph import signalGraph
 from stateManagement.stateManagement import stateManagement
 
 
