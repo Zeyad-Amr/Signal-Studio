@@ -9,7 +9,11 @@ from ui.widgets.sampling_with_fmax_widget import sampling_with_fmax_widget
 
 class operationsPanel:
     def __init__(self):
-        snrWidget()
+        st.write("Upload Signal")
+        st.write("---")
+        uploadWidget()
+        st.write("---")
         samplingWidget()
         sampling_with_fmax_widget()
+        snrWidget()
         graphParams()
