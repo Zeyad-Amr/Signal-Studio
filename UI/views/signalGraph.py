@@ -10,7 +10,7 @@ class signalGraph:
         self.fig.update_yaxes(showgrid=False, automargin=True)
 
         self.fig.update_layout(
-            height=450,
+            height=500,
             margin={
                 'l': 0,
                 'r': 0,
@@ -18,7 +18,13 @@ class signalGraph:
                 't': 0
             }
         )
-        self.fig.update_layout(legend = {})
+        self.fig.update_layout(legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        ))
 
         if (not (st.session_state.currentSignal['signal'].empty)) and (st.session_state.signalView):
             print(st.session_state.Mode)

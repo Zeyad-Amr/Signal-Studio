@@ -27,7 +27,7 @@ class Appui:
         headerui()
 
         # layout
-        cols = st.columns([0.2, 2, 0.1, 2, 0.1, 5, 0.2])
+        cols = st.columns([0.2, 2, 0.1, 2, 0.1, 6, 0.2])
         with cols[1]:
             signalsPanel()
         with cols[3]:
