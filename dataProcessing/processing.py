@@ -55,9 +55,12 @@ class SignalProcessing:
             sampleRate = 100*10
             time = np.arange(0, 10, 1 / sampleRate)
             y = amplitude * np.sin(2 * np.pi * frequency * time + phase)
-            d = {'time': time, 'y': y}
-
-            return (pd.DataFrame(data=d))
+            data = {
+                'time': time, 
+                'y': y}
+            signalDataFrame = pd.DataFrame(data=data)
+            signalDataFrame['Freq'] = frequency
+            return(signalDataFrame)
         except:
             raise ValueError("Can't Generate this signal...")
 
@@ -74,11 +77,13 @@ class SignalProcessing:
             noise = multiplicationFactor * initialNoise
 
             signalWithNoise = y + noise
-
-            return (pd.DataFrame({
-                't': t,
-                'y': signalWithNoise
-            }))
+            signalDataFrame = pd.DataFrame({
+                                            't': t,
+                                            'y': signalWithNoise
+                                           })
+            if(signal.shape[1] > 2):
+                signalDataFrame['freq'] = signal.iloc[:,2]
+            return (signalDataFrame)
         except:
             raise ValueError("Can't Add Noise to this signal...")
 
@@ -98,6 +103,8 @@ class SignalProcessing:
             reconstructedData = {'time': t_reconstruct,
                                  'amplitude': amplitude_reconstruction}
             reconstructedSignal = pd.DataFrame(reconstructedData)
+            if(sampledSignal.shape[1] > 2):
+                reconstructedSignal['freq'] = sampledSignal.iloc[:,2]
             return(reconstructedSignal)
         except:
             st.error("Can't Reconstruct this signal...")

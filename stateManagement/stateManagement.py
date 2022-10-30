@@ -40,6 +40,9 @@ class stateManagement:
         if 'Mode' not in st.session_state:
             st.session_state.Mode = -1
 
+        if 'SamplingMode' not in st.session_state:
+            st.session_state.SamplingMode = 0
+
         if 'signalView' not in st.session_state:
             st.session_state.signalView = True
 
@@ -133,12 +136,18 @@ class stateManagement:
 
 ################### Start Draw Sampled Signal Graph Function #################
 
-    def set_sampled_signal(self, sampleRate):
+    def set_sampled_signal(self, sampleRate, max_freq = False):
         processing = SignalProcessing()
+        try:
+            if max_freq:
+                sampleRate = st.session_state.pureSignal['signal'].iloc[0, 2] * st.session_state.sampling_slider_with_fmax
+        except:
+            print('EXCEPTION')
+        signal = processing.sample_signal(signal=st.session_state.pureSignal['signal'], sampleRate=sampleRate)
+
         st.session_state.sampledSignal = {
             'name': 'Sample',
-            'signal': processing.sample_signal(signal=st.session_state.pureSignal['signal'],
-                                               sampleRate=sampleRate)
+            'signal': signal
         }
 
 ################### End Draw Sampled Signal Graph Function #################
