@@ -20,4 +20,6 @@ class uploadWidget:
             st.error(e)
 
     def change_upload_value(self):
+        print("#########33")
         st.session_state.Mode = 1
+        print(st.session_state.Mode)

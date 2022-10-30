@@ -9,7 +9,6 @@ from werkzeug.utils import secure_filename
 
 class stateManagement:
     def __init__(self):
-
         if 'currentSignal' not in st.session_state:
             st.session_state.currentSignal = {
                 'name': '',
@@ -24,6 +23,7 @@ class stateManagement:
                 'name': '',
                 'signal': pd.DataFrame({})
             }
+            self.set_generated_signal(phase = 0, amp=1, freq=1)
 
         if 'sampledSignal' not in st.session_state:
             st.session_state.sampledSignal = {
