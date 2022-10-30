@@ -17,9 +17,7 @@ class addWidget:
 
         st.session_state.selectedSignals = selectedSignals
 
-        if len(selectedSignals) == 0:
-            st.session_state.Mode = 0
-        else:
+        if len(selectedSignals) > 0:
             st.session_state.Mode = 2
 
         if st.session_state.Mode == 2:

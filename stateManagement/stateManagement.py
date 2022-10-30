@@ -38,7 +38,7 @@ class stateManagement:
             }
 
         if 'Mode' not in st.session_state:
-            st.session_state.Mode = 0
+            st.session_state.Mode = -1
 
         if 'signalView' not in st.session_state:
             st.session_state.signalView = True
