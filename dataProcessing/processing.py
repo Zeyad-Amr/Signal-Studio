@@ -119,18 +119,12 @@ class SignalProcessing:
     def add_helper(self, firstSignal, secondSignal):
         try:
             outputSignal = {'t': firstSignal.iloc[:, 0],
-                            'y': firstSignal.iloc[:, 1] + secondSignal.iloc[:, 1]}
+                            'y': firstSignal.iloc[:, 1] + secondSignal.iloc[:, 1]
+                            }
 
             outputDataFrame = pd.DataFrame(outputSignal)
+            outputDataFrame['freq'] = max(firstSignal.iloc[0, 2], secondSignal.iloc[0, 2])
             return(outputDataFrame)
         except:
             raise ValueError(
-                "The Input signals Can't be plotted.")
-
-    def add_signals(self, lstSignals):
-        firstSignal = lstSignals[0]
-        for i in range(1, len(lstSignals)):
-            firstSignal['signal'] = self.add_helper(
-                firstSignal['signal'], lstSignals[i]['signal'])
-
-        return firstSignal
+                "The Input signals Can't be Added.")

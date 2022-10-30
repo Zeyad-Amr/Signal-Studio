@@ -164,10 +164,15 @@ class stateManagement:
     def set_add_signals(self):
         processing = SignalProcessing()
         if len(st.session_state.selectedSignals) != 0:
-            if len(st.session_state.selectedSignals) == 1:
-                st.session_state.pureSignal = st.session_state.selectedSignals[0]
+            if(len(st.session_state.selectedSignals) > 1):
+
+                # Lopping to get the summation for all signals
+                firstSignal = st.session_state.selectedSignals[0]['signal']
+                for i in st.session_state.selectedSignals[1:]:
+                    firstSignal = processing.add_helper(firstSignal, i['signal'])
+                st.session_state.pureSignal['signal'] = firstSignal
+                
             else:
-                st.session_state.pureSignal = processing.add_signals(
-                    st.session_state.selectedSignals)
+                st.session_state.pureSignal['signal'] = st.session_state.selectedSignals[0]['signal']
 
 # END
