@@ -1,7 +1,7 @@
 import streamlit as st
-from ui.widgets.samplingWidget import samplingWidget
-from ui.widgets.snrWidget import snrWidget
-from ui.widgets.graphParams import graphParams
+from UI.widgets.samplingWidget import samplingWidget
+from UI.widgets.snrWidget import snrWidget
+from UI.widgets.graphParams import graphParams
 
 
 class operationsPanel:

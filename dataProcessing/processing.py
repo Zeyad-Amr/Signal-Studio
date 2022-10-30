@@ -31,7 +31,7 @@ class SignalProcessing:
         try:
             t = signal.iloc[:, 0]
             y = signal.iloc[:, 1]
-
+            sampleRate*=20
             freqs = np.fft.fftfreq(len(t))
             maxFrequency = np.max(freqs)
 
@@ -56,7 +56,7 @@ class SignalProcessing:
 
     def generate_signal(self, amplitude, frequency, phase):
         try:
-            sampleRate = 100
+            sampleRate = 100*20
             time = np.arange(0, 20, 1 / sampleRate)
             y = amplitude * np.sin(2 * np.pi * frequency * time + phase)
             d = {'time': time, 'y': y}

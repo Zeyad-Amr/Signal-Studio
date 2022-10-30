@@ -27,7 +27,6 @@ class signalGraph:
         ))
 
         if (not (st.session_state.currentSignal['signal'].empty)) and (st.session_state.signalView):
-            print(st.session_state.Mode)
             self.fig.add_trace(go.Scatter(
                 x=st.session_state.currentSignal['signal'].iloc[:, 0],
                 y=st.session_state.currentSignal['signal'].iloc[:, 1],
