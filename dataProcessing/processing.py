@@ -32,11 +32,7 @@ class SignalProcessing:
             t = signal.iloc[:, 0]
             y = signal.iloc[:, 1]
             sampleRate *= 10
-            freqs = np.fft.fftfreq(len(t))
-            maxFrequency = np.max(freqs)
 
-            if sampleRate < (2 * maxFrequency) or sampleRate > t.shape[0]:
-                raise ValueError('Sample Rate isn''t enough')
 
             step = t.shape[0] // sampleRate
             timeArray = []
@@ -98,7 +94,7 @@ class SignalProcessing:
             time = np.array(time)
             amplitude = np.array(amplitude)
             amplitude_reconstruction = self.reconstruct_helper(
-                time=t_reconstruct, xp=time, fp=amplitude)
+                time=t_reconstruct, tSampled=time, ySampled=amplitude)
             reconstructedData = {'time': t_reconstruct,
                                  'amplitude': amplitude_reconstruction}
             reconstructedSignal = pd.DataFrame(reconstructedData)
@@ -106,12 +102,12 @@ class SignalProcessing:
         except:
             st.error("Can't Reconstruct this signal...")
 
-    def reconstruct_helper(self, time, xp, fp):
-        time_matrix = np.resize(time, (len(xp), len(time)))
-        v = (xp - time_matrix.T)/(xp[1] - xp[0])
-        m = fp * np.sinc(v)
-        fp_at_x = np.sum(m, axis=1)
-        return fp_at_x
+    def reconstruct_helper(self, time, tSampled, ySampled):
+        time_matrix = np.resize(time, (len(tSampled), len(time)))
+        v = (tSampled - time_matrix.T)/(tSampled[1] - tSampled[0])
+        m = ySampled * np.sinc(v)
+        y_At_t = np.sum(m, axis=1)
+        return y_At_t
 
     def add_helper(self, firstSignal, secondSignal):
         try:
