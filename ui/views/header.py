@@ -19,8 +19,6 @@ class headerui:
         with headerCols[4]:
             st.download_button(label='Export', mime='text/csv', file_name=(st.session_state.currentSignal['name'] + '.csv'),
                                data=st.session_state.currentSignal['signal'].to_csv(index=False).encode('utf-8'), key="ExportButton")
-            # TODO: Export
-        # st.write("---")
 
         if saveButton:
             state.save_signal()

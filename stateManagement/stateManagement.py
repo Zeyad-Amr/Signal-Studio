@@ -23,7 +23,7 @@ class stateManagement:
                 'name': '',
                 'signal': pd.DataFrame({})
             }
-            self.set_generated_signal(phase = 0, amp=1, freq=1)
+            self.set_generated_signal(phase=0, amp=1, freq=1)
 
         if 'sampledSignal' not in st.session_state:
             st.session_state.sampledSignal = {
@@ -59,6 +59,12 @@ class stateManagement:
 ################### Start Add Signal Function #################
 
     def save_signal(self):
+        currentSignalName = st.session_state.currentSignal['name']
+        if len(st.session_state.signalsList) != 0:
+            if currentSignalName == st.session_state.signalsList[0]['name']:
+                st.session_state.currentSignal.name = currentSignalName.split(
+                    ' ')[0] + ' ' + len(st.session_state.signalsList)
+
         st.session_state.signalsList.insert(0, st.session_state.currentSignal)
 
 ################### End onChange Function #################
@@ -122,7 +128,7 @@ class stateManagement:
 
 ################### End Upload Signal Function #################
 
-################### Start Draw Noised Signal Graph Function #################
+################### Start Set Noised Signal Graph Function #################
 
     def set_noised_signal(self, snr):
         processing = SignalProcessing()
@@ -132,27 +138,29 @@ class stateManagement:
             'signal': processing.add_noise(signal=st.session_state.pureSignal['signal'], SNR=snr)
         }
 
-################### End Draw Noised Signal Graph Function #################
+################### End Set Noised Signal Graph Function #################
 
-################### Start Draw Sampled Signal Graph Function #################
+################### Start Set Sampled Signal Graph Function #################
 
-    def set_sampled_signal(self, sampleRate, max_freq = False):
+    def set_sampled_signal(self, sampleRate, max_freq=False):
         processing = SignalProcessing()
         try:
             if max_freq:
-                sampleRate = st.session_state.pureSignal['signal'].iloc[0, 2] * st.session_state.sampling_slider_with_fmax
+                sampleRate = st.session_state.pureSignal['signal'].iloc[0,
+                                                                        2] * st.session_state.sampling_slider_with_fmax
         except:
             print('EXCEPTION')
-        signal = processing.sample_signal(signal=st.session_state.pureSignal['signal'], sampleRate=sampleRate)
+        signal = processing.sample_signal(
+            signal=st.session_state.pureSignal['signal'], sampleRate=sampleRate)
 
         st.session_state.sampledSignal = {
             'name': 'Sample',
             'signal': signal
         }
 
-################### End Draw Sampled Signal Graph Function #################
+################### End Set Sampled Signal Graph Function #################
 
-# Start
+################### Start Set Reconstructed Signal Graph Function #################
 
     def set_reconstructed_signal(self):
         processing = SignalProcessing()
@@ -160,6 +168,10 @@ class stateManagement:
             'name': 'Sample',
             'signal': processing.reconstruct_signal(st.session_state.sampledSignal['signal'])
         }
+
+################### End Set Reconstructed Signal Graph Function #################
+
+################### Start Set Added Signal Graph Function #################
 
     def set_add_signals(self):
         processing = SignalProcessing()
@@ -169,10 +181,11 @@ class stateManagement:
                 # Lopping to get the summation for all signals
                 firstSignal = st.session_state.selectedSignals[0]['signal']
                 for i in st.session_state.selectedSignals[1:]:
-                    firstSignal = processing.add_helper(firstSignal, i['signal'])
+                    firstSignal = processing.add_helper(
+                        firstSignal, i['signal'])
                 st.session_state.pureSignal['signal'] = firstSignal
-                
+
             else:
                 st.session_state.pureSignal['signal'] = st.session_state.selectedSignals[0]['signal']
 
-# END
+################### End Set Added Signal Graph Function #################
