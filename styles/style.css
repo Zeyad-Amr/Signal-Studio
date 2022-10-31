@@ -50,7 +50,8 @@ hr{
 .css-nc7boh{
     border: 1px solid var(--color_grey);
     border-radius:10px;
-    background: linear-gradient(90deg, rgba(116,46,146,1) 0%, rgba(15,121,235,1) 100%);
+    /* background: linear-gradient(90deg, rgba(116,46,146,1) 0%, rgba(15,121,235,1) 100%); */
+    background-color: var(--color_cyan);
     color:var(--color_white);
     width: 5rem;
 
