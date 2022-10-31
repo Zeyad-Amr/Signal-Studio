@@ -1,21 +1,22 @@
-from ui.widgets.uploadWidget import uploadWidget
 from ui.widgets.generateWidget import generateWidget
 from ui.widgets.signalsListWidget import signalsListWidget
-from ui.widgets.deleteWidget import deleteWidget
-from ui.widgets.addWidget import addWidget
 import streamlit as st
 
 
 class signalsPanel:
     def __init__(self):
+
+        # Generate Signal Panel Title
+
         st.write("Generate Signal")
         st.write("---")
+
+        # Calling Generate Widget
         generateWidget()
 
-        signalsList, deleteSignals = st.tabs(
-            ["Signals", "Delete"])
+        #  Signal Panel Title
+        st.write("Signals")
+        st.write("---")
 
-        with signalsList:
-            addWidget()
-        with deleteSignals:
-            deleteWidget()
+        # Calling SignalList Widget
+        signalsListWidget()

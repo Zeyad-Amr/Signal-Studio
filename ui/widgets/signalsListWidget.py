@@ -8,11 +8,24 @@ class signalsListWidget:
         # stateManagement
         state = stateManagement()
 
-        signalsList = []
+        selectedSignals = []
         for signal in st.session_state.signalsList:
-            signalsList.append(signal['name'])
+            checkboxVal = st.checkbox(
+                signal['name'], key=signal['name'])
+            if checkboxVal:
+                selectedSignals.append(signal)
 
-        # st.radio("Signalls", signalsList)
+        st.session_state.selectedSignals = selectedSignals
 
-        # if st.session_state.selectedSignal:
-        #     state.on_change()
+        if len(selectedSignals) > 0:
+            st.session_state.Mode = 2
+            print('mode 2 in add')
+
+        if st.session_state.Mode == 2:
+            state.set_add_signals()
+
+        if len(st.session_state.signalsList):
+            deleteBtn = st.button("Delete")
+            if deleteBtn:
+                st.session_state.Mode = 0
+                state.delete_signals(selectedSignals)

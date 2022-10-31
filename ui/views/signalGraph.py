@@ -4,6 +4,9 @@ import plotly.graph_objects as go
 
 class signalGraph:
     def __init__(self):
+
+        ##################################### Init Graph params #####################################
+
         self.fig = go.Figure()
         self.fig.update_layout(xaxis_title="time", yaxis_title="Amplitude")
         self.fig.update_xaxes(showgrid=False, automargin=True)
@@ -26,6 +29,7 @@ class signalGraph:
             x=1
         ))
 
+        ##################################### Draw signal #####################################
         if (not (st.session_state.currentSignal['signal'].empty)) and (st.session_state.signalView):
             self.fig.add_trace(go.Scatter(
                 x=st.session_state.currentSignal['signal'].iloc[:, 0],
@@ -33,12 +37,16 @@ class signalGraph:
                 mode='lines',
                 name='signal'))
 
+        ##################################### Draw Sampling signal #####################################
+
         if (not (st.session_state.sampledSignal['signal'].empty)) and (st.session_state.sampleView):
             self.fig.add_trace(go.Scatter(
                 x=st.session_state.sampledSignal['signal'].iloc[:, 0],
                 y=st.session_state.sampledSignal['signal'].iloc[:, 1],
                 mode='markers',
                 name='sample'))
+
+        ##################################### Draw Reconstructed Signal #####################################
 
         if (not (st.session_state.reconstructedSignal['signal'].empty)) and (st.session_state.reconstructedview):
             self.fig.add_trace(go.Scatter(

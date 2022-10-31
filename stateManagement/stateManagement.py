@@ -70,6 +70,7 @@ class stateManagement:
         st.session_state.signalsList.insert(0, st.session_state.currentSignal)
         st.experimental_rerun()
 
+
 ################### End onChange Function #################
 
 ################### Start Save File Function #################
@@ -102,6 +103,7 @@ class stateManagement:
                 remaningSignals.append(signal)
 
         st.session_state.signalsList = remaningSignals
+        st.session_state.selectedSignals = []
         st.experimental_rerun()
 
 
