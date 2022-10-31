@@ -60,12 +60,15 @@ class stateManagement:
 
     def save_signal(self):
         currentSignalName = st.session_state.currentSignal['name']
+
         if len(st.session_state.signalsList) != 0:
-            if currentSignalName == st.session_state.signalsList[0]['name']:
-                st.session_state.currentSignal.name = currentSignalName.split(
-                    ' ')[0] + ' ' + len(st.session_state.signalsList)
+            for signal in range(len(st.session_state.signalsList)):
+                if currentSignalName == st.session_state.signalsList[signal]['name']:
+                    st.session_state.currentSignal['name'] = currentSignalName.split(
+                        ' ')[0] + ' {}'.format(len(st.session_state.signalsList)+1)
 
         st.session_state.signalsList.insert(0, st.session_state.currentSignal)
+        st.experimental_rerun()
 
 ################### End onChange Function #################
 
