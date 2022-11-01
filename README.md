@@ -15,28 +15,45 @@
 #### Scenario #1:
 >- Viewing signal
 
-![Screenshot (717)](https://user-images.githubusercontent.com/77173710/198733639-7fb8af1e-749f-4ade-890a-631ab2c1e343.png)
+![Screenshot (733)](https://user-images.githubusercontent.com/77173710/199280629-d3881a41-36d1-4aff-91c1-bc63b097e265.png)
 
 >- Adding 2 signals (2HZ and 6HZ)
 
-![Screenshot (719)](https://user-images.githubusercontent.com/77173710/198734246-6e48eba1-45ab-4ab6-b97c-b5ad17fab74b.png)
+![Screenshot (735)](https://user-images.githubusercontent.com/77173710/199281511-eb36c5b9-b0b3-456b-a70e-0f3400eef238.png)
 
 >- Sampling the 2 added signals with 16 sample rate
 
-![Screenshot (720)](https://user-images.githubusercontent.com/77173710/198734367-dfb75b36-ae02-44d8-965b-7c5eb46b77b0.png)
+![Screenshot (737)](https://user-images.githubusercontent.com/77173710/199281888-6469926c-ebb1-4656-a594-d427508df5d0.png)
 
 >- Reconstructing the 2 added signals with sample rate 16
 
-![Screenshot (721)](https://user-images.githubusercontent.com/77173710/198734500-478a4785-ebe5-45c1-859c-b9c37ae64a56.png)
+![Screenshot (736)](https://user-images.githubusercontent.com/77173710/199281751-230bdec2-358b-4652-88db-3187cd146b26.png)
 
 >- Recostructing with 8 sample rate
 
-![Screenshot (722)](https://user-images.githubusercontent.com/77173710/198734600-c5c9b1ad-3cb7-466b-8d3c-325036e39dad.png)
+![Screenshot (738)](https://user-images.githubusercontent.com/77173710/199282149-6bf47965-1f7e-4563-9336-388f9cbe61dd.png)
 
 >- Reconstructing with 4 sample rate
 
-![Screenshot (731)](https://user-images.githubusercontent.com/77173710/198735201-c8308ad0-dffb-41d2-b8b2-8a43ae165efc.png)
-#### Scenario #2:
+![Screenshot (739)](https://user-images.githubusercontent.com/77173710/199282229-fced19a9-0cc0-4696-bae7-b1e6fb2f8192.png)
+
+#### Scenario #4:
+>- Adding 2 signals ( 1Hz and 3Hz)
+
+![Screenshot (740)](https://user-images.githubusercontent.com/77173710/199282704-454a55bc-b15f-4dfd-b0d9-eebeecd8adf2.png)
+>- Sampling with 2Hz will generate signal with 1Hz
+
+![Screenshot (741)](https://user-images.githubusercontent.com/77173710/199283101-1b508509-ee4d-45ac-8220-e108abd999bb.png)
+
+>- Sampling with max frequency slider
+
+![Screenshot (742)](https://user-images.githubusercontent.com/77173710/199283729-9460145f-adce-4190-b114-04159dddc720.png)
+
+>- Adding Noise
+
+![Screenshot (743)](https://user-images.githubusercontent.com/77173710/199283920-9a50f58a-9682-4030-a088-3d6615890c7d.png)
+
+#### Scenario #3:
 >- Viewing uploaded signal
 
 ![image](https://user-images.githubusercontent.com/93046966/198839765-f6bbd233-7b9d-4a55-b815-651d2669cb0c.png)
