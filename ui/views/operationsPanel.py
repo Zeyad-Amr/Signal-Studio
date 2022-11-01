@@ -1,8 +1,8 @@
 import streamlit as st
-from ui.widgets.snrWidget import snrWidget
-from ui.widgets.graphParams import graphParams
-from ui.widgets.uploadWidget import uploadWidget
-from ui.widgets.samplingSelectBox import samplingSelectBox
+from UI.widgets.snrWidget import snrWidget
+from UI.widgets.graphParams import graphParams
+from UI.widgets.uploadWidget import uploadWidget
+from UI.widgets.samplingSelectBox import samplingSelectBox
 
 
 class operationsPanel:

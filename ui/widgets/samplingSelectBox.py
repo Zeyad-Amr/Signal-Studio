@@ -1,7 +1,7 @@
 from ast import arg
 import streamlit as st
-from ui.widgets.samplingWidget import samplingWidget
-from ui.widgets.sampling_with_fmax_widget import sampling_with_fmax_widget
+from UI.widgets.samplingWidget import samplingWidget
+from UI.widgets.sampling_with_fmax_widget import sampling_with_fmax_widget
 
 
 class samplingSelectBox:

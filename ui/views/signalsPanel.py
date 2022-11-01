@@ -1,5 +1,5 @@
-from ui.widgets.generateWidget import generateWidget
-from ui.widgets.signalsListWidget import signalsListWidget
+from UI.widgets.generateWidget import generateWidget
+from UI.widgets.signalsListWidget import signalsListWidget
 import streamlit as st
 
 
