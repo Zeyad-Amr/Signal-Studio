@@ -2,7 +2,7 @@
 
 # Team Members
     Name                  sec      B.N
-    Diaa Badr               1        52
+    Diaa Badr              1        52
     Kamel Mahmoud
     Zeyad Amr 
     Arwa Essam
