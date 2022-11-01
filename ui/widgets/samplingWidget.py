@@ -1,4 +1,3 @@
-from os import stat
 import streamlit as st
 from stateManagement.stateManagement import stateManagement
 
@@ -11,7 +10,7 @@ class samplingWidget:
 
         # get sampling value
         sampling_val = st.slider(
-            "Sampling", key="sampling_slider", min_value=1, max_value=20, value=5, on_change=self.change_value)
+            "Sampling Rate", key="sampling_slider", min_value=1, max_value=20, value=5, on_change=self.change_value)
 
         # set sampling value to state
         if st.session_state.SamplingMode == 0:

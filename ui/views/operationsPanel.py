@@ -1,9 +1,8 @@
 import streamlit as st
-from ui.widgets.samplingWidget import samplingWidget
 from ui.widgets.snrWidget import snrWidget
 from ui.widgets.graphParams import graphParams
 from ui.widgets.uploadWidget import uploadWidget
-from ui.widgets.sampling_with_fmax_widget import sampling_with_fmax_widget
+from ui.widgets.samplingSelectBox import samplingSelectBox
 
 
 class operationsPanel:
@@ -21,13 +20,9 @@ class operationsPanel:
 
         st.write("---")
 
-        # Calling Sanpling Widget
+        samplingSelectBox()
 
-        samplingWidget()
-
-        # Calling Sanpling with Fmax Widget
-
-        sampling_with_fmax_widget()
+        st.write("---")
 
         # Calling SNR Widget
 

@@ -1,7 +1,6 @@
 import streamlit as st
 from dataProcessing.processing import SignalProcessing
 import pandas as pd
-import plotly.graph_objects as go
 import os
 from pathlib import Path
 from werkzeug.utils import secure_filename
@@ -54,6 +53,7 @@ class stateManagement:
 
         if 'selectedSignals' not in st.session_state:
             st.session_state.selectedSignals = []
+
 
 
 ################### Start Add Signal Function #################
@@ -151,8 +151,7 @@ class stateManagement:
         processing = SignalProcessing()
         try:
             if max_freq:
-                sampleRate = st.session_state.pureSignal['signal'].iloc[0,
-                                                                        2] * st.session_state.sampling_slider_with_fmax
+                sampleRate = st.session_state.pureSignal['signal'].iloc[0, 2] * st.session_state.sampling_slider_with_fmax
         except:
             print('EXCEPTION')
         signal = processing.sample_signal(

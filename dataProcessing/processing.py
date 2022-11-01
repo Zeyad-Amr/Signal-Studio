@@ -1,3 +1,4 @@
+from math import ceil
 import os
 import streamlit as st
 import numpy as np
@@ -31,7 +32,7 @@ class SignalProcessing:
         try:
             t = signal.iloc[:, 0]
             y = signal.iloc[:, 1]
-            sampleRate *= 10
+            sampleRate = sampleRate* 10
 
 
             step = t.shape[0] // sampleRate
@@ -44,6 +45,8 @@ class SignalProcessing:
                 amplitudeArray.append(y[i])
                 i += step
                 i = int(i)
+            timeArray.append(t[t.shape[0]-1])
+            amplitudeArray.append(0)
             d = {'t': timeArray, 'y': amplitudeArray}
             signal = pd.DataFrame(data=d)
             return (signal)
@@ -95,7 +98,7 @@ class SignalProcessing:
                 if time[i] < 0:
                     amplitude[i] = 0
 
-            t_reconstruct = np.linspace(time[0], time[time.shape[0]-1], 10000)
+            t_reconstruct = np.linspace(time[0], ceil(1.0*time[time.shape[0]-1]), 10000)
             time = np.array(time)
             amplitude = np.array(amplitude)
             amplitude_reconstruction = self.reconstruct_helper(
@@ -111,9 +114,9 @@ class SignalProcessing:
 
     def reconstruct_helper(self, time, tSampled, ySampled):
         time_matrix = np.resize(time, (len(tSampled), len(time)))
-        v = (tSampled - time_matrix.T)/(tSampled[1] - tSampled[0])
-        m = ySampled * np.sinc(v)
-        y_At_t = np.sum(m, axis=1)
+        resizedTime = (tSampled - time_matrix.T)/(tSampled[1] - tSampled[0])
+        resizedAmp = ySampled * np.sinc(resizedTime)
+        y_At_t = np.sum(resizedAmp, axis=1)
         return y_At_t
 
     def add_helper(self, firstSignal, secondSignal):
