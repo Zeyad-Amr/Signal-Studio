@@ -1,6 +1,7 @@
 # Sampling-Studio
 
-# Names                   sec      B.N
+# Team Members
+    Name                  sec      B.N
 1. Diaa Badr               1        52
 2. Kamel Mahmoud
 3. Zeyad Amr 
