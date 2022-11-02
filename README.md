@@ -3,9 +3,9 @@
 # Team Members
     Name                  sec      B.N
     Diaa Badr              1        52
-    Kamel Mahmoud
-    Zeyad Amr 
-    Arwa Essam
+    Kamel Mahmoud          2        10
+    Zeyad Amr              1        37
+    Arwa Essam             1        10
 
 ## A Digital Signal Processing Project signals:
 ### It has 2 Modes:
