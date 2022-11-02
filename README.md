@@ -60,7 +60,7 @@
 
 ![Screenshot (743)](https://user-images.githubusercontent.com/77173710/199283920-9a50f58a-9682-4030-a088-3d6615890c7d.png)
 
-#### Scenario #3:
+<!-- #### Scenario #3:
 >- Viewing uploaded signal
 
 ![image](https://user-images.githubusercontent.com/93046966/198839765-f6bbd233-7b9d-4a55-b815-651d2669cb0c.png)
@@ -72,4 +72,4 @@
 >- Adding  noise with (SNR=40) to an uploaded signal
 
 ![image](https://user-images.githubusercontent.com/93046966/198840077-10002f15-4b4a-4021-900c-0cc0082b3b4d.png)
-
+ -->
