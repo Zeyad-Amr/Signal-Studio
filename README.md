@@ -1,11 +1,6 @@
 # Sampling-Studio
 
-# Team Members
-    Name                  sec      B.N
-    Diaa Badr              1        52
-    Kamel Mahmoud          2        10
-    Zeyad Amr              1        37
-    Arwa Essam             1        10
+
 
 ## A Digital Signal Processing Project signals:
 ### It has 2 Modes:
@@ -73,3 +68,13 @@
 
 ![image](https://user-images.githubusercontent.com/93046966/198840077-10002f15-4b4a-4021-900c-0cc0082b3b4d.png)
  -->
+ 
+ # Team Members
+    Name                  sec      B.N
+    Diaa Badr              1        52
+    Kamel Mahmoud          2        10
+    Zeyad Amr              1        37
+    Arwa Essam             1        10
+    
+- Submited to **Dr.Tamer Basha** | Digital Signal Processing Course
+- Systems & Biomedical Engineering, Cairo University (Class 2024)
